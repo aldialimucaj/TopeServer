@@ -18,6 +18,11 @@ namespace TopeServer.al.aldi.topeServer.control.executors
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern bool LockWorkStation();
 
+        [System.Runtime.InteropServices.DllImportAttribute("user32.dll", EntryPoint = "BlockInput")]
+        [return: System.Runtime.InteropServices.MarshalAsAttribute(System.Runtime.InteropServices.UnmanagedType.Bool)]
+        public static extern bool BlockInput([System.Runtime.InteropServices.MarshalAsAttribute(System.Runtime.InteropServices.UnmanagedType.Bool)] bool fBlockIt);
+
+
         public static bool hibernatePC() 
         {
             SetSuspendState(true, true, false);
@@ -52,5 +57,12 @@ namespace TopeServer.al.aldi.topeServer.control.executors
             ExitWindowsEx(2, 0); // 2 = restart
             return true;
         }
+
+        /* ************ INPUT ************ */
+        public static bool lockInput(bool input)
+        {
+            return BlockInput(input);
+        }
+
     }
 }

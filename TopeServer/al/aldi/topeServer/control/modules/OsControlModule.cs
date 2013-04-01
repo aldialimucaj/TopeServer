@@ -22,9 +22,12 @@ namespace TopeServer
         {
             Get["/"] = _ => "Please specify a command!"; // default route
 
+            /* ************ POWER ************ */
+
             Get["/hibernate"] = _ => // hibernating pc
             {
-                bool retValue = OsCommandExecutor.hibernatePC();
+                Console.WriteLine("OsCommandExecutor.hibernatePC();");
+                bool retValue = true;// OsCommandExecutor.hibernatePC();
                 return "PC hibernated: " + retValue;
             };
 
@@ -40,6 +43,12 @@ namespace TopeServer
                 return "PC poweroff: " + retValue;
             };
 
+            Get["/restart"] = _ => // restart pc
+            {
+                bool retValue = OsCommandExecutor.restartPC();
+                return "PC restart: " + retValue;
+            };
+
             Get["/logoff"] = _ => // logoff pc
             {
                 bool retValue = OsCommandExecutor.logOffPC();
@@ -50,6 +59,24 @@ namespace TopeServer
             {
                 bool retValue = OsCommandExecutor.lockScreen();
                 return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("Lock Screen: " + retValue);
+
+            };
+
+            /* ************ INPUT ************ */
+
+            Get["/input_lock"] = _ => // lock screen
+            {
+                Console.WriteLine("OsCommandExecutor.lockInput(true);");
+                bool retValue = OsCommandExecutor.lockInput(true);
+                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("OsCommandExecutor.lockInput(true): " + retValue);
+
+            };
+
+            Get["/input_unlock"] = _ => // lock screen
+            {
+                Console.WriteLine("OsCommandExecutor.lockInput(false);");
+                bool retValue = OsCommandExecutor.lockInput(false);
+                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("OsCommandExecutor.lockInput(false): " + retValue);
 
             };
 
