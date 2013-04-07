@@ -7,6 +7,7 @@ using Nancy;
 using Nancy.Hosting.Self;
 using TopeServer.al.aldi.utils.network;
 using NetFwTypeLib;
+using System.Windows.Forms;
 
 namespace TopeServer
 {
@@ -14,29 +15,24 @@ namespace TopeServer
     {
         public const String FIREWALL_RULE_NAME = "TopeClient Firewall Rule";
         public const String FIREWALL_RULE_DESC = "TopeClient Firewall Rule";
-        public const int    FIREWALL_RULE_PORT = 8080;
+        public const int FIREWALL_RULE_PORT = 8080;
 
+        private static bool WIDNOWS_FORM = true;
+
+        [STAThread]
         static void Main(string[] args)
         {
-            String path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            String programName = System.IO.Path.GetFileNameWithoutExtension(path);
+            //String path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            //String programName = System.IO.Path.GetFileNameWithoutExtension(path);
 
-            if (!FirewallUtils.checkPort(FIREWALL_RULE_NAME, FIREWALL_RULE_PORT))
+            if (WIDNOWS_FORM)
             {
-                Console.WriteLine("Opening PORT");
-                FirewallUtils.openPort(FIREWALL_RULE_NAME, FIREWALL_RULE_DESC, FIREWALL_RULE_PORT);
-            }
-            else
-            {
-                Console.WriteLine("Rule Exists");
-            }
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new TopeServer());
 
-            
-            var url = "http://localhost:" + FIREWALL_RULE_PORT + "/";
-            Console.WriteLine(url);
-            var nancy = new NancyHost(new Uri(url));
-            nancy.Start();
-            Console.ReadKey();
+              
+            }
 
         }
     }

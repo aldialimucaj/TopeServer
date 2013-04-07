@@ -9,18 +9,29 @@ namespace TopeServer.al.aldi.topeServer.control.executors
 {
     class OsCommandExecutor
     {
+        /* Hibernate Standby */
         [DllImport("Powrprof.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern bool SetSuspendState(bool hiberate, bool forceCritical, bool disableWakeEvent);
 
+        /* Shutdown Restart*/
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern bool ExitWindowsEx(int flag, int reason);
 
+        /* Locking the workstatio n*/
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern bool LockWorkStation();
 
+        /* For input block/unblock */
         [System.Runtime.InteropServices.DllImportAttribute("user32.dll", EntryPoint = "BlockInput")]
         [return: System.Runtime.InteropServices.MarshalAsAttribute(System.Runtime.InteropServices.UnmanagedType.Bool)]
         public static extern bool BlockInput([System.Runtime.InteropServices.MarshalAsAttribute(System.Runtime.InteropServices.UnmanagedType.Bool)] bool fBlockIt);
+
+        /* For the monitor interaction */
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern int SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetDesktopWindow();
+
 
 
         public static bool hibernatePC() 
@@ -56,6 +67,19 @@ namespace TopeServer.al.aldi.topeServer.control.executors
         {
             ExitWindowsEx(2, 0); // 2 = restart
             return true;
+        }
+
+        public static bool turnMonitorOn(bool turnOn)
+        {
+            int WM_SYSCOMMAND = 0x112;
+            int SC_MONITORPOWER = 0xF170;
+            const int MONITOR_ON = -1;
+            const int MONITOR_OFF = 2;
+            const int MONITOR_STANBY = 1;
+
+            int retValue = SendMessage(new IntPtr(0xFFFF), WM_SYSCOMMAND, SC_MONITORPOWER, turnOn ? MONITOR_ON : MONITOR_OFF);
+
+            return retValue == 0;
         }
 
         /* ************ INPUT ************ */

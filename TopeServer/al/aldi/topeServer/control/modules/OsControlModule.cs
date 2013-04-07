@@ -62,6 +62,22 @@ namespace TopeServer
 
             };
 
+            Get["/monitor_on"] = _ => // monitor on
+            {
+                Console.WriteLine("OsCommandExecutor.turnMonitorOn(true);");
+                bool retValue = OsCommandExecutor.turnMonitorOn(true);
+                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("Monitor On: " + retValue);
+
+            };
+
+            Get["/monitor_off"] = _ => // monitor off
+            {
+                Console.WriteLine("OsCommandExecutor.turnMonitorOn(false);");
+                bool retValue = OsCommandExecutor.turnMonitorOn(false);
+                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("Monitor Off: " + retValue);
+
+            };
+
             /* ************ INPUT ************ */
 
             Get["/input_lock"] = _ => // lock screen
