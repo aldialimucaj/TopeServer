@@ -20,6 +20,7 @@ namespace TopeServer
         NotifyIcon notifyIcon1;
         ContextMenu contextMenu1;
         MenuItem exit;
+        MenuItem ipAddress;
 
         public TopeServer()
         {
@@ -29,7 +30,7 @@ namespace TopeServer
 
             try
             {
-                notifyIcon1.Icon = new Icon("system_log_out.ico");
+                notifyIcon1.Icon = Properties.Resources.system_log_out;
             }
             catch (Exception e)
             {
@@ -39,16 +40,21 @@ namespace TopeServer
             contextMenu1 = new ContextMenu();
             notifyIcon1.ContextMenu = this.contextMenu1;
             exit = new MenuItem();
+            ipAddress = new MenuItem();
 
-            notifyIcon1.Text = "Form1 (NotifyIcon example)";
+            notifyIcon1.Text = "TopeServer (Running)";
             notifyIcon1.Visible = true;
             
 
-            contextMenu1.MenuItems.AddRange(new MenuItem[] { exit });
+            contextMenu1.MenuItems.AddRange(new MenuItem[] { ipAddress, exit });
 
-            this.exit.Index = 0;
-            this.exit.Text = "E&xit";
-            this.exit.Click += new System.EventHandler(this.exit_Click);
+            exit.Index = 0;
+            exit.Text = "E&xit"; // ------- EXIT MENU
+            exit.Click += new System.EventHandler(this.exit_Click);
+
+            
+            ipAddress.Text = "IP: " + NetworkUtils.getIpAddress(); // ------- IP ADDRESS MENU
+            ipAddress.Enabled = false;
 
             notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
         }
@@ -92,9 +98,9 @@ namespace TopeServer
 
         private void TopeServer_Load(object sender, EventArgs e)
         {
-            if (!FirewallUtils.checkPort(Program.FIREWALL_RULE_NAME, Program.FIREWALL_RULE_PORT))
+            if (!NetworkUtils.checkPort(Program.FIREWALL_RULE_NAME, Program.FIREWALL_RULE_PORT))
             {
-                FirewallUtils.openPort(Program.FIREWALL_RULE_NAME, Program.FIREWALL_RULE_DESC, Program.FIREWALL_RULE_PORT);
+                NetworkUtils.openPort(Program.FIREWALL_RULE_NAME, Program.FIREWALL_RULE_DESC, Program.FIREWALL_RULE_PORT);
             }
 
             this.WindowState = FormWindowState.Minimized;
@@ -102,7 +108,14 @@ namespace TopeServer
 
             var url = "http://localhost:" + Program.FIREWALL_RULE_PORT + "/";
             var nancy = new NancyHost(new Uri(url));
-            nancy.Start();
+            try
+            {
+                nancy.Start();
+            }
+            catch (System.Net.HttpListenerException excp1)
+            {
+                MessageBox.Show("Server cound not be started. Port in use!");
+            }
         }
 
     }
