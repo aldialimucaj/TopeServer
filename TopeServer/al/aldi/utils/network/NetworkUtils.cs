@@ -99,6 +99,7 @@ namespace TopeServer.al.aldi.utils.network
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     return false;
                 }
             }

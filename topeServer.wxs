@@ -58,7 +58,7 @@
             Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
 		</UI>
 		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Tope Server" />
-        <PropertyRef Id="NETFRAMEWORK40CLIENT" />
+        <PropertyRef Id="NETFRAMEWORK35" />
         <Condition Message="This application requires .NET Framework 4.0.">Installed OR NETFRAMEWORK35</Condition>
         <Icon Id="StartMenuIcon.exe" SourceFile="H:\Dropbox\te_ndryshme\Programming\C#\TopeServer\TopeServer\bin\Release\TopeServer.exe" />
         <Property Id="ASSISTANCE_START_VIA_REGISTRY">1</Property>

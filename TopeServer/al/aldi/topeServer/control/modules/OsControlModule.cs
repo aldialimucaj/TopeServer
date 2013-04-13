@@ -6,16 +6,35 @@ using System.Threading.Tasks;
 using Nancy;
 using Nancy.Hosting.Self;
 using TopeServer.al.aldi.topeServer.control.executors;
+using TopeServer.al.aldi.topeServer.view;
+using System.Windows.Forms;
 
 namespace TopeServer
 {
     public class OsControlModule : NancyModule
     {
-        
+        public const String MODULE_NAME = "OsControlModule";
+        public IMessageDeliverer deliverer;
+               
         public OsControlModule()
             : base("/os") 
         {
             initCommands();
+            initControllers();
+        }
+
+        public OsControlModule(IMessageDeliverer del)
+            : base("/os")
+        {
+            this.deliverer = del;
+
+            initCommands();
+            initControllers();
+        }
+
+        private void initControllers()
+        {
+            
         }
 
         private void initCommands()
@@ -33,8 +52,9 @@ namespace TopeServer
 
             Get["/standby"] = _ => // standby
             {
+                showMsg("Stand By");
                 bool retValue = OsCommandExecutor.standbyPC();
-                return "PC standby: " + retValue;
+                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("{ sucess: " + retValue + " }");
             };
 
             Get["/poweroff"] = _ => // suspend pc
@@ -57,8 +77,9 @@ namespace TopeServer
 
             Get["/lock_screen"] = _ => // lock screen
             {
-                bool retValue = OsCommandExecutor.lockScreen();
-                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("Lock Screen: " + retValue);
+                showMsg("Lock Screen");
+                bool retValue = true;// OsCommandExecutor.lockScreen();
+                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("{ sucess: " + retValue+ " }");
 
             };
 
@@ -82,7 +103,7 @@ namespace TopeServer
 
             Get["/input_lock"] = _ => // lock screen
             {
-                Console.WriteLine("OsCommandExecutor.lockInput(true);");
+                showMsg("Lock Input");
                 bool retValue = OsCommandExecutor.lockInput(true);
                 return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("OsCommandExecutor.lockInput(true): " + retValue);
 
@@ -90,12 +111,25 @@ namespace TopeServer
 
             Get["/input_unlock"] = _ => // lock screen
             {
-                Console.WriteLine("OsCommandExecutor.lockInput(false);");
+                showMsg("Unlock Input");
                 bool retValue = OsCommandExecutor.lockInput(false);
                 return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("OsCommandExecutor.lockInput(false): " + retValue);
 
             };
 
+        }
+
+        public void setDeliverer(IMessageDeliverer d)
+        {
+            this.deliverer = d;
+        }
+
+        public void showMsg(String msg)
+        {
+            if (null != deliverer)
+            {
+                deliverer.showMsg(MODULE_NAME, msg);
+            }
         }
     }
 }

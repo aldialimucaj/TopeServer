@@ -92,6 +92,7 @@
   <ItemGroup>
     <Compile Include="al\aldi\topeServer\control\executors\OsCommandExecutor.cs" />
     <Compile Include="al\aldi\topeServer\control\modules\OsControlModule.cs" />
+    <Compile Include="al\aldi\topeServer\view\IMessageDeliverer.cs" />
     <Compile Include="al\aldi\utils\network\NetworkUtils.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

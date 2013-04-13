@@ -75,7 +75,7 @@ namespace TopeServer.al.aldi.topeServer.control.executors
             int SC_MONITORPOWER = 0xF170;
             const int MONITOR_ON = -1;
             const int MONITOR_OFF = 2;
-            const int MONITOR_STANBY = 1;
+            //const int MONITOR_STANBY = 1;
 
             int retValue = SendMessage(new IntPtr(0xFFFF), WM_SYSCOMMAND, SC_MONITORPOWER, turnOn ? MONITOR_ON : MONITOR_OFF);
 

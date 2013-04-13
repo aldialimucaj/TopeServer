@@ -10,11 +10,12 @@ using System.Windows.Forms;
 using TopeServer.al.aldi.utils.network;
 using Nancy;
 using Nancy.Hosting.Self;
-using TopeServer.al.aldi.utils.network;
+using TopeServer.al.aldi.topeServer.view;
+using Nancy.TinyIoc;
 
 namespace TopeServer
 {
-    public partial class TopeServer : Form
+    public partial class TopeServer : Form, IMessageDeliverer
     {
         
         NotifyIcon notifyIcon1;
@@ -28,14 +29,7 @@ namespace TopeServer
             components = new Container();
             notifyIcon1 = new NotifyIcon(components);
 
-            try
-            {
-                notifyIcon1.Icon = Properties.Resources.system_log_out;
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Icon not found");
-            }
+            notifyIcon1.Icon = Properties.Resources.system_log_out;
             
             contextMenu1 = new ContextMenu();
             notifyIcon1.ContextMenu = this.contextMenu1;
@@ -49,11 +43,11 @@ namespace TopeServer
             contextMenu1.MenuItems.AddRange(new MenuItem[] { ipAddress, exit });
 
             exit.Index = 0;
-            exit.Text = "E&xit"; // ------- EXIT MENU
+            exit.Text = "E&xit"; 
             exit.Click += new System.EventHandler(this.exit_Click);
 
             
-            ipAddress.Text = "IP: " + NetworkUtils.getIpAddress(); // ------- IP ADDRESS MENU
+            ipAddress.Text = "IP: " + NetworkUtils.getIpAddress(); 
             ipAddress.Enabled = false;
 
             notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
@@ -63,6 +57,8 @@ namespace TopeServer
         {
             MessageBox.Show("Double Click");
         }
+
+        
 
         private void exit_Click(object sender, EventArgs e)
         {
@@ -111,12 +107,33 @@ namespace TopeServer
             try
             {
                 nancy.Start();
+                showPopup("Tope Server started", NetworkUtils.getIpAddress() + ":" + Program.FIREWALL_RULE_PORT);
+                /* init the messangers */
             }
             catch (System.Net.HttpListenerException excp1)
             {
-                MessageBox.Show("Server cound not be started. Port in use!");
+                MessageBox.Show("Server cound not be started. Port in use!\n"+excp1.Message);
             }
         }
 
+        public void showPopup(String title, String msg)
+        {
+            this.notifyIcon1.BalloonTipText = msg;
+            this.notifyIcon1.BalloonTipTitle = title;
+            this.notifyIcon1.Icon = Properties.Resources.system_log_out;
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.ShowBalloonTip(3);
+        }
+
+
+        public void showMsg(string title, string msg)
+        {
+            showPopup(title, msg);
+        }
+
+        public void showMsg(string msg)
+        {
+            showPopup("TopeServer", msg);
+        }
     }
 }
