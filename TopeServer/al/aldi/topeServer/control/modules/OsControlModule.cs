@@ -8,6 +8,8 @@ using Nancy.Hosting.Self;
 using TopeServer.al.aldi.topeServer.control.executors;
 using TopeServer.al.aldi.topeServer.view;
 using System.Windows.Forms;
+using TopeServer.al.aldi.topeServer.model;
+using TopeServer.al.aldi.topeServer.control;
 
 namespace TopeServer
 {
@@ -39,14 +41,15 @@ namespace TopeServer
 
         private void initCommands()
         {
-            Get["/"] = _ => "Please specify a command!"; // default route
+            Get["/"] = _ => "TopeServer running..."; // default route
 
             /* ************ POWER ************ */
 
             Get["/hibernate"] = _ => // hibernating pc
             {
+                showMsg("Hibernate");
                 Console.WriteLine("OsCommandExecutor.hibernatePC();");
-                bool retValue = true;// OsCommandExecutor.hibernatePC();
+                bool retValue = OsCommandExecutor.hibernatePC();
                 return "PC hibernated: " + retValue;
             };
 
@@ -59,18 +62,24 @@ namespace TopeServer
 
             Get["/poweroff"] = _ => // suspend pc
             {
+                showMsg("Power Off");
+                TopeResponse topeRes = new TopeResponse(true);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+
                 bool retValue = OsCommandExecutor.powerOffPC();
-                return "PC poweroff: " + retValue;
+                return nego.Response;
             };
 
             Get["/restart"] = _ => // restart pc
             {
+                showMsg("Restart");
                 bool retValue = OsCommandExecutor.restartPC();
                 return "PC restart: " + retValue;
             };
 
             Get["/logoff"] = _ => // logoff pc
             {
+                showMsg("Log off");
                 bool retValue = OsCommandExecutor.logOffPC();
                 return "PC logoff: " + retValue;
             };
@@ -78,7 +87,7 @@ namespace TopeServer
             Get["/lock_screen"] = _ => // lock screen
             {
                 showMsg("Lock Screen");
-                bool retValue = true;// OsCommandExecutor.lockScreen();
+                bool retValue = OsCommandExecutor.lockScreen();
                 return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("{ sucess: " + retValue+ " }");
 
             };

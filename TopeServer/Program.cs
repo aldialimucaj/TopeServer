@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Nancy;
 using Nancy.Hosting.Self;
-using TopeServer.al.aldi.utils.network;
+using TopeServer.al.aldi.utils.security;
 using NetFwTypeLib;
 using System.Windows.Forms;
 
@@ -22,16 +22,16 @@ namespace TopeServer
         [STAThread]
         static void Main(string[] args)
         {
-            //String path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            //String programName = System.IO.Path.GetFileNameWithoutExtension(path);
 
             if (WIDNOWS_FORM)
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new TopeServer());
-
-              
+            }
+            else
+            {
+                /* WINDOWS SERVICE */
             }
 
         }

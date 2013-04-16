@@ -31,8 +31,6 @@
                     </Component>
                 </Directory>
             </Directory>
-			
-
             <Directory Id="ProgramMenuFolder">
                 <Directory Id="ProgramMenuDir" Name="Tope">
                     <Component Id="StartMenuShortcuts" Guid="64B7907D-72AC-43B1-A372-E1CE30F4540E">
@@ -51,23 +49,15 @@
             <ComponentRef Id="AutoStartTope" />
         </Feature>
         <UI>
-        <UIRef Id="WixUI_Minimal" />
-        <Publish Dialog="ExitDialog" 
-            Control="Finish" 
-            Event="DoAction" 
-            Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
-		</UI>
-		<Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Tope Server" />
-        <PropertyRef Id="NETFRAMEWORK35" />
-        <Condition Message="This application requires .NET Framework 4.0.">Installed OR NETFRAMEWORK35</Condition>
+            <UIRef Id="WixUI_Minimal" />
+            <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+        </UI>
+        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Tope Server" />
+        <PropertyRef Id="NETFRAMEWORK40FULL" />
+        <Condition Message="This application requires .NET Framework 4.0.">Installed OR NETFRAMEWORK40FULL</Condition>
         <Icon Id="StartMenuIcon.exe" SourceFile="H:\Dropbox\te_ndryshme\Programming\C#\TopeServer\TopeServer\bin\Release\TopeServer.exe" />
         <Property Id="ASSISTANCE_START_VIA_REGISTRY">1</Property>
-        
-		<Property Id="WixShellExecTarget" Value="[RELEASE]TopeServer.exe" />
-			<CustomAction Id="LaunchApplication" 
-			BinaryKey="WixCA" 
-			DllEntry="WixShellExec"
-			Impersonate="yes" />
-		
+        <Property Id="WixShellExecTarget" Value="[RELEASE]TopeServer.exe" />
+        <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
     </Product>
 </Wix>

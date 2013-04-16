@@ -79,6 +79,9 @@
     <Reference Include="Nancy.Hosting.Self">
       <HintPath>..\packages\Nancy.Hosting.Self.0.16.1\lib\net40\Nancy.Hosting.Self.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -92,8 +95,12 @@
   <ItemGroup>
     <Compile Include="al\aldi\topeServer\control\executors\OsCommandExecutor.cs" />
     <Compile Include="al\aldi\topeServer\control\modules\OsControlModule.cs" />
+    <Compile Include="al\aldi\topeServer\control\TopeResponseNegotiator.cs" />
+    <Compile Include="al\aldi\topeServer\model\TopeResponse.cs" />
     <Compile Include="al\aldi\topeServer\view\IMessageDeliverer.cs" />
-    <Compile Include="al\aldi\utils\network\NetworkUtils.cs" />
+    <Compile Include="al\aldi\utils\general\ProgramAdministration.cs" />
+    <Compile Include="al\aldi\utils\security\NetworkUtils.cs" />
+    <Compile Include="al\aldi\utils\security\PrivilegesUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="al\aldi\topeServer\view\TopeServer.cs">
@@ -115,7 +122,6 @@
     <None Include="TopeServer_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="al\aldi\topeServer\model\" />
     <Folder Include="images\" />
   </ItemGroup>
   <ItemGroup>
