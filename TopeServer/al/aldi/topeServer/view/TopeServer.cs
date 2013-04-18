@@ -36,10 +36,6 @@ namespace TopeServer
             exit = new MenuItem();
             ipAddress = new MenuItem();
 
-            notifyIcon1.Text = "TopeServer (Running)";
-            notifyIcon1.Visible = true;
-            
-
             contextMenu1.MenuItems.AddRange(new MenuItem[] { ipAddress, exit });
 
             exit.Index = 0;
@@ -47,10 +43,19 @@ namespace TopeServer
             exit.Click += new System.EventHandler(this.exit_Click);
 
             
-            ipAddress.Text = "IP: " + NetworkUtils.getIpAddress(); 
+            ipAddress.Text = "IP: " + NetworkUtils.getIpAddress() + ":"+Program.FIREWALL_RULE_PORT; 
             ipAddress.Enabled = false;
 
             notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
+        }
+
+        public void showIcon(String msg = "")
+        {
+            if (null != notifyIcon1)
+            {
+                notifyIcon1.Text = "TopeServer (Running)";
+                notifyIcon1.Visible = true;
+            }
         }
 
         private void notifyIcon1_DoubleClick(object sender, EventArgs e)
@@ -89,7 +94,7 @@ namespace TopeServer
             // Activate the form.
             this.Activate();
 
-            MessageBox.Show("Test");
+            MessageBox.Show("Dobule Click - Still to be implemented");
         }
 
         private void TopeServer_Load(object sender, EventArgs e)

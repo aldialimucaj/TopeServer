@@ -11,13 +11,18 @@ namespace TopeServer.al.aldi.topeServer.model
     {
         [JsonProperty()]
         public bool success { get; set; }
+        [JsonProperty()]
+        public String command { get; set; }
+        [JsonProperty()]
         public String requestId { get; set; }
+        [JsonProperty()]
         public String responseId { get; set; }
+        [JsonProperty()]
         public DateTime date { get; set; }
 
         public TopeResponse()
         {
-            date = new DateTime();
+            date = DateTime.Now;
             requestId = "DUMMY_HASH";
             responseId = "DUMMY_HASH";
         }

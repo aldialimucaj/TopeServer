@@ -27,7 +27,9 @@ namespace TopeServer
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new TopeServer());
+                TopeServer ts = new TopeServer();
+                Application.Run(ts);
+                ts.showIcon();
             }
             else
             {

@@ -57,7 +57,7 @@ namespace TopeServer
             {
                 showMsg("Stand By");
                 bool retValue = OsCommandExecutor.standbyPC();
-                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("{ sucess: " + retValue + " }");
+                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("{ success: " + retValue + " }");
             };
 
             Get["/poweroff"] = _ => // suspend pc
@@ -74,7 +74,7 @@ namespace TopeServer
             {
                 showMsg("Restart");
                 bool retValue = OsCommandExecutor.restartPC();
-                return "PC restart: " + retValue;
+                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("{ \"success\": " + retValue + " }");
             };
 
             Get["/logoff"] = _ => // logoff pc

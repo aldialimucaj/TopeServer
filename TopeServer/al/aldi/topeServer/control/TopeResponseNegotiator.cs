@@ -31,7 +31,8 @@ namespace TopeServer.al.aldi.topeServer.control
         {
             /* generation the json object out of the response*/
             /* putting the json model */
-            response.WithModel(JsonConvert.SerializeObject(model)); 
+            String json = JsonConvert.SerializeObject(model);
+            response.WithModel(json); 
             return response;
         }
 
