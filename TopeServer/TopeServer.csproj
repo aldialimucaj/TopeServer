@@ -94,8 +94,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="al\aldi\topeServer\control\executors\OsCommandExecutor.cs" />
+    <Compile Include="al\aldi\topeServer\control\modules\ModuleUtils.cs" />
     <Compile Include="al\aldi\topeServer\control\modules\OsControlModule.cs" />
+    <Compile Include="al\aldi\topeServer\control\TaskExecutor.cs" />
     <Compile Include="al\aldi\topeServer\control\TopeResponseNegotiator.cs" />
+    <Compile Include="al\aldi\topeServer\model\TopeRequest.cs" />
     <Compile Include="al\aldi\topeServer\model\TopeResponse.cs" />
     <Compile Include="al\aldi\topeServer\view\IMessageDeliverer.cs" />
     <Compile Include="al\aldi\utils\general\ProgramAdministration.cs" />

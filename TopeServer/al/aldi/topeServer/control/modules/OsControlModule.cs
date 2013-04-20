@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Nancy;
+using Nancy.ModelBinding;
 using Nancy.Hosting.Self;
+using Nancy.TinyIoc;
 using TopeServer.al.aldi.topeServer.control.executors;
 using TopeServer.al.aldi.topeServer.view;
-using System.Windows.Forms;
 using TopeServer.al.aldi.topeServer.model;
 using TopeServer.al.aldi.topeServer.control;
-using Nancy.TinyIoc;
+using TopeServer.al.aldi.topeServer.control.modules;
 
 namespace TopeServer
 {
@@ -85,10 +87,13 @@ namespace TopeServer
                 return nego.Response;
             };
 
-            Get["/lock_screen"] = _ => // lock screen
+            Get["/lock_screen"] = Post["/lock_screen"] = _ => // lock screen
             {
                 showMsg("Lock Screen");
-                bool retValue = OsCommandExecutor.lockScreen();
+                TopeRequest request = this.Bind<TopeRequest>();
+                TaskExecutor te = new TaskExecutor();
+                bool retValue = te.Execute(OsCommandExecutor.lockScreen, request.timeToExecute);
+
                 TopeResponse topeRes = new TopeResponse(retValue);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
@@ -137,6 +142,24 @@ namespace TopeServer
 
             };
 
+            /* ************ TEST ************ */
+            Get["/test"] = Post["/test"] = _ => // lock screen
+            {
+                showMsg("Test");
+                TopeRequest request = this.Bind<TopeRequest>();
+                TaskExecutor te = new TaskExecutor();
+                bool retValue = te.Execute(returnTrue, request.timeToExecute);
+
+                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
+
+            };
+        }
+
+        public bool returnTrue()
+        {
+            return true;
         }
 
         public void setDeliverer(IMessageDeliverer d)
