@@ -43,25 +43,27 @@ namespace TopeServer
             Get["/hibernate"] = _ => // hibernating pc
             {
                 showMsg("Hibernate");
-                Console.WriteLine("OsCommandExecutor.hibernatePC();");
                 bool retValue = OsCommandExecutor.hibernatePC();
-                return "PC hibernated: " + retValue;
+                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
             };
 
             Get["/standby"] = _ => // standby
             {
                 showMsg("Stand By");
                 bool retValue = OsCommandExecutor.standbyPC();
-                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("{ success: " + retValue + " }");
+                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
             };
 
             Get["/poweroff"] = _ => // suspend pc
             {
                 showMsg("Power Off");
-                TopeResponse topeRes = new TopeResponse(true);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-
                 bool retValue = OsCommandExecutor.powerOffPC();
+                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
             };
 
@@ -69,21 +71,27 @@ namespace TopeServer
             {
                 showMsg("Restart");
                 bool retValue = OsCommandExecutor.restartPC();
-                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("{ \"success\": " + retValue + " }");
+                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
             };
 
             Get["/logoff"] = _ => // logoff pc
             {
                 showMsg("Log off");
                 bool retValue = OsCommandExecutor.logOffPC();
-                return "PC logoff: " + retValue;
+                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
             };
 
             Get["/lock_screen"] = _ => // lock screen
             {
                 showMsg("Lock Screen");
                 bool retValue = OsCommandExecutor.lockScreen();
-                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("{ sucess: " + retValue+ " }");
+                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
 
             };
 
@@ -91,7 +99,9 @@ namespace TopeServer
             {
                 Console.WriteLine("OsCommandExecutor.turnMonitorOn(true);");
                 bool retValue = OsCommandExecutor.turnMonitorOn(true);
-                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("Monitor On: " + retValue);
+                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
 
             };
 
@@ -99,7 +109,9 @@ namespace TopeServer
             {
                 Console.WriteLine("OsCommandExecutor.turnMonitorOn(false);");
                 bool retValue = OsCommandExecutor.turnMonitorOn(false);
-                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("Monitor Off: " + retValue);
+                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
 
             };
 
@@ -109,7 +121,9 @@ namespace TopeServer
             {
                 showMsg("Lock Input");
                 bool retValue = OsCommandExecutor.lockInput(true);
-                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("OsCommandExecutor.lockInput(true): " + retValue);
+                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
 
             };
 
@@ -117,7 +131,9 @@ namespace TopeServer
             {
                 showMsg("Unlock Input");
                 bool retValue = OsCommandExecutor.lockInput(false);
-                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("OsCommandExecutor.lockInput(false): " + retValue);
+                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
 
             };
 
