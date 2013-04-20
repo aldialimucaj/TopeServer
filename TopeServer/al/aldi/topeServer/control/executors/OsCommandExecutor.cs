@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -49,6 +50,7 @@ namespace TopeServer.al.aldi.topeServer.control.executors
         public static bool powerOffPC()
         {
             ExitWindowsEx(1, 0); // 1 = poweroff
+            Process.Start("shutdown.exe", "-s -t 00");
             return true;
         }
 
@@ -66,6 +68,7 @@ namespace TopeServer.al.aldi.topeServer.control.executors
         public static bool restartPC()
         {
             ExitWindowsEx(2, 0); // 2 = restart
+            Process.Start("shutdown.exe", "-r -t 00");
             return true;
         }
 
