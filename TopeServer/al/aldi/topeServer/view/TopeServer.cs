@@ -25,12 +25,20 @@ namespace TopeServer
 
         public TopeServer()
         {
+            InitViews();
+
+            var container = TinyIoCContainer.Current;
+            container.Register<IMessageDeliverer>(this);
+        }
+
+        private void InitViews()
+        {
             InitializeComponent();
             components = new Container();
             notifyIcon1 = new NotifyIcon(components);
 
             notifyIcon1.Icon = Properties.Resources.system_log_out;
-            
+
             contextMenu1 = new ContextMenu();
             notifyIcon1.ContextMenu = this.contextMenu1;
             exit = new MenuItem();
@@ -39,11 +47,11 @@ namespace TopeServer
             contextMenu1.MenuItems.AddRange(new MenuItem[] { ipAddress, exit });
 
             exit.Index = 0;
-            exit.Text = "E&xit"; 
+            exit.Text = "E&xit";
             exit.Click += new System.EventHandler(this.exit_Click);
 
-            
-            ipAddress.Text = "IP: " + NetworkUtils.getIpAddress() + ":"+Program.FIREWALL_RULE_PORT; 
+
+            ipAddress.Text = "IP: " + NetworkUtils.getIpAddress() + ":" + Program.FIREWALL_RULE_PORT;
             ipAddress.Enabled = false;
 
             notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);

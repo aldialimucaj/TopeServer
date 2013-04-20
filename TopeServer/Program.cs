@@ -19,6 +19,21 @@ namespace TopeServer
 
         private static bool WIDNOWS_FORM = true;
 
+        TopeServer ts = new TopeServer();
+
+        private void startServer()
+        {
+            if (WIDNOWS_FORM)
+            {
+                Application.Run(ts);
+                ts.showIcon();
+            }
+            else
+            {
+                /* WINDOWS SERVICE */
+            }
+        }
+
         [STAThread]
         static void Main(string[] args)
         {
@@ -27,9 +42,9 @@ namespace TopeServer
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                TopeServer ts = new TopeServer();
-                Application.Run(ts);
-                ts.showIcon();
+
+                Program p = new Program();
+                p.startServer();
             }
             else
             {

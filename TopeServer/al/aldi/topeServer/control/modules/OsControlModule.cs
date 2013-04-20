@@ -10,6 +10,7 @@ using TopeServer.al.aldi.topeServer.view;
 using System.Windows.Forms;
 using TopeServer.al.aldi.topeServer.model;
 using TopeServer.al.aldi.topeServer.control;
+using Nancy.TinyIoc;
 
 namespace TopeServer
 {
@@ -23,15 +24,9 @@ namespace TopeServer
         {
             initCommands();
             initControllers();
-        }
-
-        public OsControlModule(IMessageDeliverer del)
-            : base("/os")
-        {
-            this.deliverer = del;
-
-            initCommands();
-            initControllers();
+            var container = TinyIoCContainer.Current;
+            IMessageDeliverer mdl = container.Resolve<IMessageDeliverer>();
+            setDeliverer(mdl);
         }
 
         private void initControllers()
