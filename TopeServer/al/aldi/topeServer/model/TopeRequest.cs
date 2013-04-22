@@ -22,6 +22,8 @@ namespace TopeServer.al.aldi.topeServer.model
         public DateTime date { get; set; }
         [JsonProperty()]
         public int timeToExecute { get; set; }
+        [JsonProperty()]
+        public int timeToWait { get; set; }
 
 
         public TopeRequest()

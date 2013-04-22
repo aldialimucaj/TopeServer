@@ -148,7 +148,20 @@ namespace TopeServer
                 showMsg("Test");
                 TopeRequest request = this.Bind<TopeRequest>();
                 TaskExecutor te = new TaskExecutor();
-                bool retValue = te.Execute(returnTrue, request.timeToExecute);
+                bool retValue = te.Execute(returnTrue, request.timeToWait);
+
+                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
+
+            };
+
+            Get["/test.php"] = Post["/test.php"] = _ => // lock screen
+            {
+                showMsg("Test");
+                TopeRequest request = this.Bind<TopeRequest>();
+                TaskExecutor te = new TaskExecutor();
+                bool retValue = te.Execute(returnTrue, request.timeToWait);
 
                 TopeResponse topeRes = new TopeResponse(retValue);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
