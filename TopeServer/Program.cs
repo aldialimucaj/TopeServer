@@ -15,7 +15,13 @@ namespace TopeServer
     {
         public const String FIREWALL_RULE_NAME = "TopeClient Firewall Rule";
         public const String FIREWALL_RULE_DESC = "TopeClient Firewall Rule";
+        
+        /* Port switching for debugging purposes */
+#if DEBUG 
         public const int FIREWALL_RULE_PORT = 8081;
+#else
+        public const int FIREWALL_RULE_PORT = 8080;
+#endif
 
         private static bool WIDNOWS_FORM = true;
 
