@@ -14,15 +14,17 @@ namespace TopeServer.al.aldi.topeServer.model
         [JsonProperty()]
         public String command { get; set; }
         [JsonProperty()]
+        public String message { get; set; }
+        [JsonProperty()]
         public String requestId { get; set; }
         [JsonProperty()]
         public String responseId { get; set; }
         [JsonProperty()]
-        public DateTime date { get; set; }
+        public String date { get; set; }
 
         public TopeResponse()
         {
-            date = DateTime.Now;
+            date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             requestId = "DUMMY_HASH";
             responseId = "DUMMY_HASH";
         }

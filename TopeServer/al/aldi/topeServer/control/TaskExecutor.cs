@@ -10,9 +10,11 @@ namespace TopeServer.al.aldi.topeServer.control
     class TaskExecutor
     {
         TopeRequest request = null;
+        TopeResponse response = new TopeResponse();
+
         int timeToWait = 0;
         int timeToExecute = 0;
-        bool value = true;
+        
 
 
         /// <summary>
@@ -29,7 +31,7 @@ namespace TopeServer.al.aldi.topeServer.control
         /// <param name="d">Function to be executed</param>
         /// <param name="timeToWait">Time in milliseconds to wait before execution</param>
         /// <returns></returns>
-        public bool Execute(Func<bool> d, TopeRequest request = null)
+        public TopeResponse Execute(Func<bool> d, TopeRequest request = null)
         {
             if (null != request)
             {
@@ -42,7 +44,19 @@ namespace TopeServer.al.aldi.topeServer.control
             () =>
             {
                 Thread.Sleep(timeToWait);
-                value = d();
+                try
+                {
+                    var exeSuccess = d();
+                    response.success = exeSuccess;
+                    if (exeSuccess)
+                    {
+                        response.message = "Task executed successfully";
+                    }
+                }
+                catch (Exception e)
+                {
+                    response.message = "[ERROR]: " + e.GetBaseException().Message;
+                }
             });
 
             /* Starting the thread */
@@ -55,9 +69,12 @@ namespace TopeServer.al.aldi.topeServer.control
             {
                 thread.Join();
             }
-            Console.WriteLine(value);
+            else
+            {
+                response.success = true;
+            }
 
-            return value;
+            return response;
         }
 
         private bool isItWorthWaiting()

@@ -92,9 +92,7 @@ namespace TopeServer
                 showMsg("Lock Screen");
                 TopeRequest request = this.Bind<TopeRequest>();
                 TaskExecutor te = new TaskExecutor();
-                bool retValue = te.Execute(OsCommandExecutor.lockScreen, request);
-
-                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponse topeRes = te.Execute(OsCommandExecutor.lockScreen, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -147,9 +145,7 @@ namespace TopeServer
             {
                 TopeRequest request = this.Bind<TopeRequest>();
                 TaskExecutor te = new TaskExecutor();
-                bool retValue = te.Execute(returnTrue, request);
-
-                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponse topeRes = te.Execute(returnTrue, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -160,9 +156,7 @@ namespace TopeServer
                 
                 TopeRequest request = this.Bind<TopeRequest>();
                 TaskExecutor te = new TaskExecutor();
-                bool retValue = te.Execute(returnTrue, request);
-
-                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeResponse topeRes = te.Execute(returnTrue, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
