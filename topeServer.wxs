@@ -24,11 +24,17 @@
                     <Component Id="NANCY.HOSTING.SELF.DLL" DiskId="1" Guid="3696268D-788A-4328-8088-BD225BD63DA5">
                         <File Id="NANCY.HOSTING.SELF.DLL" Name="Nancy.Hosting.Self.dll" Source="H:\Dropbox\te_ndryshme\Programming\C#\TopeServer\TopeServer\bin\Release\Nancy.Hosting.Self.dll" />
                     </Component>
-                    <Component Id="TOPESERVER.EXE" DiskId="1" Guid="175581EC-D629-4AAC-AF47-F73AD1ED1D13">
+                    <Component Id="NEWTONSOFT.JSON.DLL" DiskId="1" Guid="D4946DB5-DA83-47BF-9215-2EB6E4955D4B">
+						<File Id="NEWTONSOFT.JSON.DLL" Name="Newtonsoft.Json.dll" Source="TopeServer\bin\Release\Newtonsoft.Json.dll" />
+                    </Component>
+                    <Component Id="NEWTONSOFT.JSON.XML" DiskId="1" Guid="1BEC5488-56D2-472B-9A21-59D4B2BEC8BC">
+						<File Id="NEWTONSOFT.JSON.XML" Name="Newtonsoft.Json.xml" Source="TopeServer\bin\Release\Newtonsoft.Json.xml" />
+                    </Component>
+					<Component Id="TOPESERVER.EXE" DiskId="1" Guid="175581EC-D629-4AAC-AF47-F73AD1ED1D13">
                         <File Id="TOPESERVER.EXE" Name="TopeServer.exe" Source="H:\Dropbox\te_ndryshme\Programming\C#\TopeServer\TopeServer\bin\Release\TopeServer.exe">
                             <Shortcut Id="ExeShortcut" Directory="ProgramMenuDir" Name="TopeServer" Advertise="yes" Icon="StartMenuIcon.exe" IconIndex="0" />
                         </File>
-                    </Component>
+                    </Component>	
                 </Directory>
             </Directory>
             <Directory Id="ProgramMenuFolder">
@@ -44,6 +50,8 @@
         <Feature Id="DefaultFeature" Title="Main Feature" Level="1">
             <ComponentRef Id="NANCY.DLL" />
             <ComponentRef Id="NANCY.HOSTING.SELF.DLL" />
+			<ComponentRef Id="NEWTONSOFT.JSON.DLL" />
+			<ComponentRef Id="NEWTONSOFT.JSON.XML" />
             <ComponentRef Id="TOPESERVER.EXE" />
             <ComponentRef Id="StartMenuShortcuts" />
             <ComponentRef Id="AutoStartTope" />

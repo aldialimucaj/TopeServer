@@ -31,6 +31,7 @@ namespace TopeServer
         {
             if (WIDNOWS_FORM)
             {
+                StaticConfiguration.DisableErrorTraces = false;
                 Application.Run(ts);
                 ts.showIcon();
             }
