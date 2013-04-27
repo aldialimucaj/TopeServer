@@ -24,6 +24,10 @@ namespace TopeServer.al.aldi.topeServer.model
         public int timeToExecute { get; set; }
         [JsonProperty()]
         public int timeToWait { get; set; }
+        [JsonProperty()]
+        public String user { get; set; }
+        [JsonProperty()]
+        public String password { get; set; }
 
 
         public TopeRequest()

@@ -31,7 +31,6 @@ namespace TopeServer
         {
             if (WIDNOWS_FORM)
             {
-                StaticConfiguration.DisableErrorTraces = false;
                 Application.Run(ts);
                 ts.showIcon();
             }
@@ -39,6 +38,9 @@ namespace TopeServer
             {
                 /* WINDOWS SERVICE */
             }
+#if DEBUG 
+        StaticConfiguration.DisableErrorTraces = false;
+#endif
         }
 
         [STAThread]

@@ -13,6 +13,7 @@ using TopeServer.al.aldi.topeServer.view;
 using TopeServer.al.aldi.topeServer.model;
 using TopeServer.al.aldi.topeServer.control;
 using TopeServer.al.aldi.topeServer.control.modules;
+using TopeServer.al.aldi.utils.security;
 
 namespace TopeServer
 {
@@ -140,10 +141,17 @@ namespace TopeServer
 
             };
 
+            /* ****************************** */
             /* ************ TEST ************ */
+            /* ****************************** */
+            
             Get["/test"] = Post["/test"] = _ => // lock screen
             {
                 TopeRequest request = this.Bind<TopeRequest>();
+                String user = request.user;
+                String pass = request.password;
+                bool isAuth = PrivilegesUtil.isAuthentic(user, pass);
+                showMsg(isAuth?"authenticated":"authentication failed");
                 TaskExecutor te = new TaskExecutor();
                 TopeResponse topeRes = te.Execute(returnTrue, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);

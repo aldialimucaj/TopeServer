@@ -18,7 +18,13 @@ namespace TopeServer.al.aldi.topeServer.control
 
         public void Handle(HttpStatusCode statusCode, NancyContext context)
         {
+            
+#if DEBUG
+            var response = new GenericFileResponse("404.html", "text/html");
+#else
             var response = new JsonResponse(new { success = false, status = 500, messsage = "internal server error" }, new DefaultJsonSerializer());
+#endif
+
             response.StatusCode = statusCode;
             context.Response = response;
         }
