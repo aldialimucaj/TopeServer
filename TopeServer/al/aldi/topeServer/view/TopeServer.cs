@@ -115,7 +115,7 @@ namespace TopeServer
             this.WindowState = FormWindowState.Minimized;
 
 
-            var url = "http://localhost:" + Program.FIREWALL_RULE_PORT + "/";
+            var url = "https://localhost:" + Program.FIREWALL_RULE_PORT + "/";
             var nancy = new NancyHost(new Uri(url));
             try
             {
