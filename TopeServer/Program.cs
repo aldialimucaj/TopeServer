@@ -43,6 +43,13 @@ namespace TopeServer
 #endif
         }
 
+        public void initSecurity()
+        {
+            String cert = "TopeServer_01.pfx";
+            String passwd = "";
+            NetworkUtils.InstallCertificate(cert, passwd);
+        }
+
         [STAThread]
         static void Main(string[] args)
         {
@@ -53,6 +60,7 @@ namespace TopeServer
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 Program p = new Program();
+                //p.initSecurity();
                 p.startServer();
             }
             else

@@ -7,6 +7,7 @@ using System.Reflection;
 using Microsoft.Win32;
 using NetFwTypeLib;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 
 namespace TopeServer.al.aldi.utils.security
 {
@@ -132,6 +133,21 @@ namespace TopeServer.al.aldi.utils.security
                        select addr.ToString()
                 ).FirstOrDefault();
             return ip;
+        }
+
+        /// <summary>
+        /// Install certificate into the local machine
+        /// </summary>
+        /// <param name="cerFileName">path of certificate</param>
+        public static void InstallCertificate(string cerFileName, string password)
+        {
+            X509Certificate2 certificate = new X509Certificate2(cerFileName, password);
+            //X509Store store = new X509Store(StoreName.TrustedPublisher, StoreLocation.LocalMachine);
+            X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+
+            store.Open(OpenFlags.ReadWrite);
+            store.Add(certificate);
+            store.Close();
         }
 
     }
