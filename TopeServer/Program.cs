@@ -18,7 +18,7 @@ namespace TopeServer
         
         /* Port switching for debugging purposes */
 #if DEBUG 
-        public const int FIREWALL_RULE_PORT = 8081;
+        public const int FIREWALL_RULE_PORT = 8181;
 #else
         public const int FIREWALL_RULE_PORT = 8080;
 #endif

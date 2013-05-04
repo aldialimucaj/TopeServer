@@ -159,10 +159,18 @@ namespace TopeServer
 
             };
 
+            Get["/test.aspx"] = Post["/test.aspx"] = _ => // apsx
+            {
+                returnTrue();
+                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("<h1>OK</h1>");
+
+            };
+
             Get["/test.php"] = Post["/test.php"] = _ => // lock screen
             {
-                
-                TopeRequest request = this.Bind<TopeRequest>();
+
+                TopeRequest request = new TopeRequest();//this.Bind<TopeRequest>();
+                request.success = true;
                 TaskExecutor te = new TaskExecutor();
                 TopeResponse topeRes = te.Execute(returnTrue, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
