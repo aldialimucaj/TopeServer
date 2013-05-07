@@ -13,6 +13,8 @@ namespace TopeServer.al.aldi.topeServer.model
         [JsonProperty()]
         public bool success { get; set; }
         [JsonProperty()]
+        public bool authenticated { get; set; }
+        [JsonProperty()]
         public String command { get; set; }
         [JsonProperty()]
         public String requestId { get; set; }

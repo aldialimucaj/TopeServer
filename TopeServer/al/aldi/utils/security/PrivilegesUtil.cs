@@ -22,6 +22,10 @@ namespace TopeServer.al.aldi.utils.security
         public static bool isAuthentic(String user, String password)
         {
             bool isAuthentic = false;
+            if (user == null)
+            {
+                return false;
+            }
             using (PrincipalContext pc = new PrincipalContext(ContextType.Machine))
             {
                 // validate the credentials

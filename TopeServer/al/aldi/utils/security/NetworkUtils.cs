@@ -8,6 +8,9 @@ using Microsoft.Win32;
 using NetFwTypeLib;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using TopeServer.al.aldi.utils.general;
 
 namespace TopeServer.al.aldi.utils.security
 {
@@ -135,19 +138,24 @@ namespace TopeServer.al.aldi.utils.security
             return ip;
         }
 
-        /// <summary>
-        /// Install certificate into the local machine
-        /// </summary>
-        /// <param name="cerFileName">path of certificate</param>
-        public static void InstallCertificate(string cerFileName, string password)
+        public static string BindCertificateCmd(X509Certificate2 cert, int port)
         {
-            X509Certificate2 certificate = new X509Certificate2(cerFileName, password);
-            //X509Store store = new X509Store(StoreName.TrustedPublisher, StoreLocation.LocalMachine);
-            X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+            
+            
+            var assembly = typeof(Program).Assembly;
+            var attribute = (GuidAttribute)assembly.GetCustomAttributes(typeof(GuidAttribute), true)[0];
+            var id = attribute.Value;
 
-            store.Open(OpenFlags.ReadWrite);
-            store.Add(certificate);
-            store.Close();
+            String args = string.Format("http add sslcert ipport=0.0.0.0:{0} certhash={1} appid={{{2}}}", port, cert.GetCertHashString().ToLower(), id);
+            Process p = new Process();
+            p.StartInfo.FileName = "netsh.exe";
+            p.StartInfo.Arguments = args;
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.Start();
+
+            string output = p.StandardOutput.ReadToEnd();
+            return output;
         }
 
     }

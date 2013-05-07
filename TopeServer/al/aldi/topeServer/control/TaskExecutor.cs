@@ -33,11 +33,17 @@ namespace TopeServer.al.aldi.topeServer.control
         /// <returns></returns>
         public TopeResponse Execute(Func<bool> d, TopeRequest request = null)
         {
-            if (null != request)
+            // This was ment for acception GET requests
+            if (null != request && request.authenticated)
             {
                 this.request = request;
                 this.timeToWait = request.timeToWait;
                 this.timeToExecute = request.timeToExecute;
+            }
+            else
+            {
+                response.success = false;
+                return response;
             }
 
             var thread = new Thread(

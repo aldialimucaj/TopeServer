@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>BouncyCastle-Ext</id>
+    <version>1.7.0</version>
+    <title>Bouncy Castle C# API - Extension</title>
+    <authors>Sean Gough</authors>
+    <owners>Sean Gough</owners>
+    <licenseUrl>http://www.bouncycastle.org/csharp/licence.html</licenseUrl>
+    <projectUrl>http://www.bouncycastle.org/csharp/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Release includes the full lightweight API, as well as APIs for OpenPGP, CMS, TLS, X.509, PKCS#12, TSP, and Certificate Path validation.</description>
+    <summary>A lightweight cryptography API for C#.</summary>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <tags>bouncycastle, crypto, cryptography, encryption, security</tags>
+    <references>
+      <reference file="BouncyCastle.CryptoExt.dll" />
+    </references>
+  </metadata>
+</package>

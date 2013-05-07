@@ -147,11 +147,8 @@ namespace TopeServer
             
             Get["/test"] = Post["/test"] = _ => // lock screen
             {
-                TopeRequest request = this.Bind<TopeRequest>();
-                String user = request.user;
-                String pass = request.password;
-                bool isAuth = PrivilegesUtil.isAuthentic(user, pass);
-                showMsg(isAuth?"authenticated":"authentication failed");
+                TopeRequest request = ModuleUtils.validate(this);
+                
                 TaskExecutor te = new TaskExecutor();
                 TopeResponse topeRes = te.Execute(returnTrue, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);

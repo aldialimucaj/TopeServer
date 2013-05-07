@@ -8,6 +8,7 @@ using Nancy.Hosting.Self;
 using TopeServer.al.aldi.utils.security;
 using NetFwTypeLib;
 using System.Windows.Forms;
+using System.Security.Cryptography.X509Certificates;
 
 namespace TopeServer
 {
@@ -43,11 +44,14 @@ namespace TopeServer
 #endif
         }
 
-        public void initSecurity()
+        public static String initSecurity()
         {
-            String cert = "TopeServer_01.pfx";
-            String passwd = "";
-            NetworkUtils.InstallCertificate(cert, passwd);
+            X509Certificate2 certificate = EncryptionUtils.GenerateCertificate("TestTopeCert");
+            EncryptionUtils.InstallCertificate(certificate, StoreName.Root);
+            EncryptionUtils.InstallCertificate(certificate, StoreName.TrustedPublisher);
+            EncryptionUtils.InstallCertificate(certificate, StoreName.My);
+
+            return NetworkUtils.BindCertificateCmd(certificate, FIREWALL_RULE_PORT);
         }
 
         [STAThread]
@@ -60,7 +64,7 @@ namespace TopeServer
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 Program p = new Program();
-                //p.initSecurity();
+                
                 p.startServer();
             }
             else
