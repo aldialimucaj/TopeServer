@@ -39,51 +39,61 @@ namespace TopeServer
 
         private void initCommands()
         {
-            Get["/"] = _ => "TopeServer running..."; // default route
+            Get["/"] = Post["/"] = _ => "TopeServer running..."; // default route
 
             /* ************ POWER ************ */
 
-            Get["/hibernate"] = _ => // hibernating pc
+            Get["/hibernate"] = Post["/hibernate"] = _ => // hibernating pc
             {
                 showMsg("Hibernate");
-                bool retValue = OsCommandExecutor.hibernatePC();
-                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeRequest request = ModuleUtils.validate(this);
+
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(OsCommandExecutor.hibernatePC, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
             };
 
-            Get["/standby"] = _ => // standby
+            Get["/standby"] = Post["/standby"] = _ => // standby
             {
                 showMsg("Stand By");
-                bool retValue = OsCommandExecutor.standbyPC();
-                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeRequest request = ModuleUtils.validate(this);
+
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(OsCommandExecutor.standbyPC, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
             };
 
-            Get["/poweroff"] = _ => // suspend pc
+            Get["/poweroff"] = Post["/poweroff"] = _ => // suspend pc
             {
                 showMsg("Power Off");
-                bool retValue = OsCommandExecutor.powerOffPC();
-                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeRequest request = ModuleUtils.validate(this);
+
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(OsCommandExecutor.powerOffPC, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
             };
 
-            Get["/restart"] = _ => // restart pc
+            Get["/restart"] = Post["/restart"] = _ => // restart pc
             {
                 showMsg("Restart");
-                bool retValue = OsCommandExecutor.restartPC();
-                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeRequest request = ModuleUtils.validate(this);
+
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(OsCommandExecutor.restartPC, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
             };
 
-            Get["/logoff"] = _ => // logoff pc
+            Get["/logoff"] = Post["/logoff"] = _ => // logoff pc
             {
                 showMsg("Log off");
-                bool retValue = OsCommandExecutor.logOffPC();
-                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeRequest request = ModuleUtils.validate(this);
+
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(OsCommandExecutor.logOffPC, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
             };
@@ -91,7 +101,8 @@ namespace TopeServer
             Get["/lock_screen"] = Post["/lock_screen"] = _ => // lock screen
             {
                 showMsg("Lock Screen");
-                TopeRequest request = this.Bind<TopeRequest>();
+                TopeRequest request = ModuleUtils.validate(this);
+
                 TaskExecutor te = new TaskExecutor();
                 TopeResponse topeRes = te.Execute(OsCommandExecutor.lockScreen, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
@@ -99,21 +110,25 @@ namespace TopeServer
 
             };
 
-            Get["/monitor_on"] = _ => // monitor on
+            Get["/monitor_on"] = Post["/monitor_on"] = _ => // monitor on
             {
-                Console.WriteLine("OsCommandExecutor.turnMonitorOn(true);");
-                bool retValue = OsCommandExecutor.turnMonitorOn(true);
-                TopeResponse topeRes = new TopeResponse(retValue);
+                showMsg("Monitor On");
+                TopeRequest request = ModuleUtils.validate(this);
+
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(OsCommandExecutor.turnMonitorOn, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
             };
 
-            Get["/monitor_off"] = _ => // monitor off
+            Get["/monitor_off"] = Post["/monitor_off"] = _ => // monitor off
             {
-                Console.WriteLine("OsCommandExecutor.turnMonitorOn(false);");
-                bool retValue = OsCommandExecutor.turnMonitorOn(false);
-                TopeResponse topeRes = new TopeResponse(retValue);
+                showMsg("Monitor Off");
+                TopeRequest request = ModuleUtils.validate(this);
+
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(OsCommandExecutor.turnMonitorOff, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -121,21 +136,25 @@ namespace TopeServer
 
             /* ************ INPUT ************ */
 
-            Get["/input_lock"] = _ => // lock screen
+            Get["/input_lock"] = Post["/input_lock"] = _ => // lock screen
             {
                 showMsg("Lock Input");
-                bool retValue = OsCommandExecutor.lockInput(true);
-                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeRequest request = ModuleUtils.validate(this);
+
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(OsCommandExecutor.lockInput, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
             };
 
-            Get["/input_unlock"] = _ => // lock screen
+            Get["/input_unlock"] = Post["/input_unlock"] = _ => // lock screen
             {
                 showMsg("Unlock Input");
-                bool retValue = OsCommandExecutor.lockInput(false);
-                TopeResponse topeRes = new TopeResponse(retValue);
+                TopeRequest request = ModuleUtils.validate(this);
+
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(OsCommandExecutor.unlockInput, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 

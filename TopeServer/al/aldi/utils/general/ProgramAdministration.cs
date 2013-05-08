@@ -10,6 +10,13 @@ namespace TopeServer.al.aldi.utils.general
         public static String getProgramPath()
         {
             String path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            String programName = System.IO.Path.GetDirectoryName(path);
+            return programName;
+        }
+
+        public static String getProgramNameWithoutExtention()
+        {
+            String path = System.Reflection.Assembly.GetExecutingAssembly().Location;
             String programName = System.IO.Path.GetFileNameWithoutExtension(path);
             return programName;
         }

@@ -82,13 +82,33 @@ namespace TopeServer.al.aldi.topeServer.control.executors
 
             int retValue = SendMessage(new IntPtr(0xFFFF), WM_SYSCOMMAND, SC_MONITORPOWER, turnOn ? MONITOR_ON : MONITOR_OFF);
 
-            return retValue == 0;
+            return true;
+        }
+
+        public static bool turnMonitorOn()
+        {
+            return turnMonitorOn(true);
+        }
+
+        public static bool turnMonitorOff()
+        {
+            return turnMonitorOn(false);
         }
 
         /* ************ INPUT ************ */
         public static bool lockInput(bool input)
         {
             return BlockInput(input);
+        }
+
+        public static bool lockInput()
+        {
+            return lockInput(true);
+        }
+
+        public static bool unlockInput()
+        {
+            return lockInput(false);
         }
 
     }

@@ -22,6 +22,8 @@ namespace TopeServer
         ContextMenu contextMenu1;
         MenuItem exit;
         MenuItem ipAddress;
+
+        MenuItem security;
         MenuItem initSecurity;
 
 
@@ -45,19 +47,24 @@ namespace TopeServer
             notifyIcon1.ContextMenu = this.contextMenu1;
             exit = new MenuItem();
             ipAddress = new MenuItem();
+            security = new MenuItem();
             initSecurity = new MenuItem();
 
-            contextMenu1.MenuItems.AddRange(new MenuItem[] { exit, ipAddress, initSecurity });
+            contextMenu1.MenuItems.AddRange(new MenuItem[] { exit, security, ipAddress });
 
             exit.Index = 0;
             exit.Text = "E&xit";
             exit.Click += new System.EventHandler(this.exit_Click);
 
 
-            ipAddress.Text = "IP: " + NetworkUtils.getIpAddress() + ":" + Program.FIREWALL_RULE_PORT;
+            ipAddress.Text = NetworkUtils.getIpAddress() + ":" + Program.FIREWALL_RULE_PORT;
             ipAddress.Enabled = false;
 
-            initSecurity.Text = "Init Encryption";
+
+            security.Text = "Security";
+            security.MenuItems.AddRange(new MenuItem[] {  initSecurity });
+
+            initSecurity.Text = "Renew Encryption";
             initSecurity.Click += new System.EventHandler(this.initSecurity_Click);
 
             notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);

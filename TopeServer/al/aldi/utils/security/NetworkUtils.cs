@@ -158,5 +158,25 @@ namespace TopeServer.al.aldi.utils.security
             return output;
         }
 
+        public static string UnBindCertificateCmd(int port)
+        {
+
+
+            var assembly = typeof(Program).Assembly;
+            var attribute = (GuidAttribute)assembly.GetCustomAttributes(typeof(GuidAttribute), true)[0];
+            var id = attribute.Value;
+
+            String args = string.Format("http delete sslcert ipport=0.0.0.0:{0}", port);
+            Process p = new Process();
+            p.StartInfo.FileName = "netsh.exe";
+            p.StartInfo.Arguments = args;
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.Start();
+
+            string output = p.StandardOutput.ReadToEnd();
+            return output;
+        }
+
     }
 }

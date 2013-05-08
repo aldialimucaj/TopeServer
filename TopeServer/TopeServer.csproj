@@ -110,6 +110,7 @@
     <Compile Include="al\aldi\topeServer\model\TopeRequest.cs" />
     <Compile Include="al\aldi\topeServer\model\TopeResponse.cs" />
     <Compile Include="al\aldi\topeServer\view\IMessageDeliverer.cs" />
+    <Compile Include="al\aldi\utils\general\IniFileUtil.cs" />
     <Compile Include="al\aldi\utils\general\ProgramAdministration.cs" />
     <Compile Include="al\aldi\utils\general\StringUtils.cs" />
     <Compile Include="al\aldi\utils\security\EncryptionUtils.cs" />
