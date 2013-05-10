@@ -8,7 +8,7 @@ using System.Text;
 namespace TopeServer.al.aldi.topeServer.model
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    class TopeRequest
+    public class TopeRequest
     {
         [JsonProperty()]
         public bool success { get; set; }
@@ -20,6 +20,8 @@ namespace TopeServer.al.aldi.topeServer.model
         public String requestId { get; set; }
         [JsonProperty()]
         public String responseId { get; set; }
+        [JsonProperty()]
+        public String message { get; set; }
         [JsonProperty()]
         public DateTime date { get; set; }
         [JsonProperty()]

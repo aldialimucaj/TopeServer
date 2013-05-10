@@ -31,7 +31,7 @@ namespace TopeServer.al.aldi.topeServer.control
         /// <param name="d">Function to be executed</param>
         /// <param name="timeToWait">Time in milliseconds to wait before execution</param>
         /// <returns></returns>
-        public TopeResponse Execute(Func<bool> d, TopeRequest request = null)
+        public TopeResponse Execute(Func<TopeRequest, bool> d, TopeRequest request = null)
         {
             // This was ment for acception GET requests
             if (null != request && request.authenticated)
@@ -52,7 +52,7 @@ namespace TopeServer.al.aldi.topeServer.control
                 Thread.Sleep(timeToWait);
                 try
                 {
-                    var exeSuccess = d();
+                    var exeSuccess = d(request);
                     response.success = exeSuccess;
                     if (exeSuccess)
                     {

@@ -50,7 +50,7 @@ namespace TopeServer
             security = new MenuItem();
             initSecurity = new MenuItem();
 
-            contextMenu1.MenuItems.AddRange(new MenuItem[] { exit, security, ipAddress });
+            contextMenu1.MenuItems.AddRange(new MenuItem[] { security, ipAddress, exit });
 
             exit.Index = 0;
             exit.Text = "E&xit";

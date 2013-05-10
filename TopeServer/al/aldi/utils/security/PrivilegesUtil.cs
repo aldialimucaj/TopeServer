@@ -36,7 +36,11 @@ namespace TopeServer.al.aldi.utils.security
 
         public static bool isAuthenticInDomain(String user, String password, String domain)
         {
+            if (domain.Equals(""))
+                domain = System.Environment.MachineName;
+
             bool isAuthentic = false;
+
             using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, domain))
             {
                 // validate the credentials
