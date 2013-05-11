@@ -102,6 +102,7 @@
   <ItemGroup>
     <Compile Include="al\aldi\topeServer\control\Code404Handler.cs" />
     <Compile Include="al\aldi\topeServer\control\Code500Handler.cs" />
+    <Compile Include="al\aldi\topeServer\TopeMsg.cs" />
     <Compile Include="al\aldi\utils\general\OsCommandExecutor.cs" />
     <Compile Include="al\aldi\topeServer\control\executors\OsCommands.cs" />
     <Compile Include="al\aldi\topeServer\control\modules\ModuleUtils.cs" />

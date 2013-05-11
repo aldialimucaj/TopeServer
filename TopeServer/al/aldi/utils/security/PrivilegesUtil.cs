@@ -22,7 +22,7 @@ namespace TopeServer.al.aldi.utils.security
         public static bool isAuthentic(String user, String password)
         {
             bool isAuthentic = false;
-            if (user == null)
+            if (user == null || password == null)
             {
                 return false;
             }

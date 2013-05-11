@@ -163,19 +163,7 @@ namespace TopeServer
             /* ****************************** */
             /* ************ TEST ************ */
             /* ****************************** */
-
-            Get["/logon"] = Post["/logon"] = _ => // logon 
-            {
-                TopeRequest request = ModuleUtils.validate(this);
-
-                TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.logon, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-
-            };
-
-            
+           
             Get["/test"] = Post["/test"] = _ => // lock screen
             {
                 TopeRequest request = ModuleUtils.validate(this);

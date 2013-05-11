@@ -43,6 +43,7 @@ namespace TopeServer.al.aldi.topeServer.control
             else
             {
                 response.success = false;
+                response.message = TopeMsg.ERR_AUTHENTICATION;
                 return response;
             }
 
