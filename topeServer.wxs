@@ -33,6 +33,9 @@
                     <Component Id="BOUNCYCASTLE.CRYPTOEXT.DLL" DiskId="1" Guid="4B88D280-5D3B-4B63-A9E3-D2A8BB9758F9">
                         <File Id="BOUNCYCASTLE.CRYPTOEXT.DLL" Name="BouncyCastle.CryptoExt.dll" Source="TopeServer\bin\Release\BouncyCastle.CryptoExt.dll" />
                     </Component>
+                    <Component Id="COREAUDIOAPI.DLL" DiskId="1" Guid="72DE49AF-F320-4906-A37D-954EDB823626">
+                        <File Id="COREAUDIOAPI.DLL" Name="CoreAudioApi.dll" Source="TopeServer\bin\Release\CoreAudioApi.dll" />
+                    </Component>
                     <Component Id="TOPESERVER.EXE" DiskId="1" Guid="175581EC-D629-4AAC-AF47-F73AD1ED1D13">
                         <File Id="TOPESERVER.EXE" Name="TopeServer.exe" Source="H:\Dropbox\te_ndryshme\Programming\C#\TopeServer\TopeServer\bin\Release\TopeServer.exe">
                             <Shortcut Id="ExeShortcut" Directory="ProgramMenuDir" Name="TopeServer" Advertise="yes" Icon="StartMenuIcon.exe" IconIndex="0" />
@@ -56,6 +59,7 @@
             <ComponentRef Id="NEWTONSOFT.JSON.DLL" />
             <ComponentRef Id="NEWTONSOFT.JSON.XML" />
             <ComponentRef Id="BOUNCYCASTLE.CRYPTOEXT.DLL" />
+            <ComponentRef Id="COREAUDIOAPI.DLL" />
             <ComponentRef Id="TOPESERVER.EXE" />
             <ComponentRef Id="StartMenuShortcuts" />
             <ComponentRef Id="AutoStartTope" />

@@ -186,6 +186,12 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CoreAudioApi\CoreAudioApi.csproj">
+      <Project>{9f1076aa-63df-4128-9c10-fd65e425c783}</Project>
+      <Name>CoreAudioApi</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

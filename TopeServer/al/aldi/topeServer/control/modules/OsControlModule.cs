@@ -187,6 +187,18 @@ namespace TopeServer
 
             };
 
+            Get["/sound_on"] = Post["/sound_on"] = _ => // monitor off
+            {
+                showMsg("Sound On");
+                TopeRequest request = ModuleUtils.validate(this);
+
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(OsCommands.soundOn, request);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
+
+            };
+
 
 
             /* ****************************** */

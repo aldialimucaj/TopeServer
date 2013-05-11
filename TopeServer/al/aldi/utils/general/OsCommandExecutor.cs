@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using CoreAudioApi;
 
 namespace TopeServer.al.aldi.topeServer.control.executors
 {
@@ -121,12 +122,32 @@ namespace TopeServer.al.aldi.topeServer.control.executors
         }
 
         /* ************ SOUND ************ */
+        public static bool soundSwap()
+        {
+            MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
+            MMDevice device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
+            for (int i = 0; i < device.AudioSessionManager.Sessions.Count; i++)
+            {
+                AudioSessionControl session = device.AudioSessionManager.Sessions[i];
+                if (session.State == AudioSessionState.AudioSessionStateActive)
+                {
+                    AudioMeterInformation mi = session.AudioMeterInformation;
+                    SimpleAudioVolume vol = session.SimpleAudioVolume;
+                    vol.Mute = !vol.Mute;
+                }
+            }
+
+            return true;
+        }
+
         public static bool soundMute()
         {
-            int APPCOMMAND_VOLUME_MUTE = 0x80000;
-            int WM_APPCOMMAND = 0x319;
-            SendMessageW(new IntPtr(0xFFFF), WM_APPCOMMAND, new IntPtr(0xFFFF), (IntPtr)APPCOMMAND_VOLUME_MUTE);
-            return true;
+            return soundSwap();
+        }
+
+        public static bool soundUnMute()
+        {
+            return soundSwap();
         }
     }
 }

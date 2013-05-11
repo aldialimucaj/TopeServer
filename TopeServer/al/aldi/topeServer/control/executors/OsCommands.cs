@@ -64,6 +64,11 @@ namespace TopeServer.al.aldi.topeServer.control.executors
             return OsCommandExecutor.soundMute();
         }
 
+        public static bool soundOn(TopeRequest arg)
+        {
+            return OsCommandExecutor.soundUnMute();
+        }
+
 
     }
 }
