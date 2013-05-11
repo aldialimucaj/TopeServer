@@ -18,21 +18,23 @@ namespace TopeServer.al.aldi.topeServer.control.executors
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern bool ExitWindowsEx(int flag, int reason);
 
-        /* Locking the workstatio n*/
+        /* Locking the workstation*/
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern bool LockWorkStation();
 
         /* For input block/unblock */
-        [System.Runtime.InteropServices.DllImportAttribute("user32.dll", EntryPoint = "BlockInput")]
+        [System.Runtime.InteropServices.DllImportAttribute("User32.dll", EntryPoint = "BlockInput")]
         [return: System.Runtime.InteropServices.MarshalAsAttribute(System.Runtime.InteropServices.UnmanagedType.Bool)]
         public static extern bool BlockInput([System.Runtime.InteropServices.MarshalAsAttribute(System.Runtime.InteropServices.UnmanagedType.Bool)] bool fBlockIt);
 
         /* For the monitor interaction */
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetDesktopWindow();
 
+        /* Planed for sound*/
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessageW(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+   
         /* Keyboard emulator */
 
 
@@ -116,6 +118,15 @@ namespace TopeServer.al.aldi.topeServer.control.executors
         public static bool unlockInput()
         {
             return lockInput(false);
+        }
+
+        /* ************ SOUND ************ */
+        public static bool soundMute()
+        {
+            int APPCOMMAND_VOLUME_MUTE = 0x80000;
+            int WM_APPCOMMAND = 0x319;
+            SendMessageW(new IntPtr(0xFFFF), WM_APPCOMMAND, new IntPtr(0xFFFF), (IntPtr)APPCOMMAND_VOLUME_MUTE);
+            return true;
         }
     }
 }

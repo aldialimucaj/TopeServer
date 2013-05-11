@@ -20,8 +20,8 @@ namespace TopeServer.al.aldi.topeServer.control
         {
             
 #if DEBUG
-            //var response = new GenericFileResponse("500.html", "text/html");
-            var response = new JsonResponse(new { success = false, status = 500, messsage = "internal server error" }, new DefaultJsonSerializer());
+            var response = new GenericFileResponse("500.html", "text/html");
+            //var response = new JsonResponse(new { success = false, status = 500, messsage = "internal server error" }, new DefaultJsonSerializer());
 #else
             var response = new JsonResponse(new { success = false, status = 500, messsage = "internal server error" }, new DefaultJsonSerializer());
 #endif

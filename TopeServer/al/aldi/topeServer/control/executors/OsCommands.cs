@@ -59,9 +59,11 @@ namespace TopeServer.al.aldi.topeServer.control.executors
             return OsCommandExecutor.unlockInput();
         }
 
-        public static bool logon(TopeRequest arg)
+        public static bool soundMute(TopeRequest arg)
         {
-            return OsCommandExecutor.logonUser("a","","a");
+            return OsCommandExecutor.soundMute();
         }
+
+
     }
 }

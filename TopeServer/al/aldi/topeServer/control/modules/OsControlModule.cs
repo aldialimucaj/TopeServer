@@ -141,8 +141,16 @@ namespace TopeServer
                 showMsg("Lock Input");
                 TopeRequest request = ModuleUtils.validate(this);
 
+               
+
                 TaskExecutor te = new TaskExecutor();
                 TopeResponse topeRes = te.Execute(OsCommands.lockInput, request);
+                
+                if (request.authenticated)
+                {
+                    topeRes.success = OsCommandExecutor.lockInput();//TODO: Remove this. It is just a workaround the bug
+                }
+
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -155,10 +163,31 @@ namespace TopeServer
 
                 TaskExecutor te = new TaskExecutor();
                 TopeResponse topeRes = te.Execute(OsCommands.unlockInput, request);
+                
+                if (request.authenticated)
+                {
+                    topeRes.success = OsCommandExecutor.unlockInput();//TODO: Remove this. It is just a workaround the bug
+                }
+                
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
             };
+
+            /* ************ INPUT ************ */
+            Get["/sound_off"] = Post["/sound_off"] = _ => // monitor off
+            {
+                showMsg("Mute Sound");
+                TopeRequest request = ModuleUtils.validate(this);
+
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(OsCommands.soundMute, request);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
+
+            };
+
+
 
             /* ****************************** */
             /* ************ TEST ************ */
@@ -168,6 +197,16 @@ namespace TopeServer
             {
                 TopeRequest request = ModuleUtils.validate(this);
                 
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(returnTrue, request);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
+
+            };
+
+            Get["/test2"] = Post["/test2"] = _ => // lock screen
+            {
+                TopeRequest request = ModuleUtils.validate(this);
                 TaskExecutor te = new TaskExecutor();
                 TopeResponse topeRes = te.Execute(returnTrue, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);

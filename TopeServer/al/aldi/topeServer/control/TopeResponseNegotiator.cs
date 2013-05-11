@@ -32,7 +32,7 @@ namespace TopeServer.al.aldi.topeServer.control
             /* generation the json object out of the response*/
             /* putting the json model */
             String json = JsonConvert.SerializeObject(model);
-            response.WithModel(json);
+            response.WithFullNegotiation().WithMediaRangeModel("*/*", json);
             return response;
         }
 
