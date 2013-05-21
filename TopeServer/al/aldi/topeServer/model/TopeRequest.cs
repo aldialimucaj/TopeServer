@@ -25,9 +25,9 @@ namespace TopeServer.al.aldi.topeServer.model
         [JsonProperty()]
         public DateTime date { get; set; }
         [JsonProperty()]
-        public int timeToExecute { get; set; }
+        public DateTime timeToExecute { get; set; }
         [JsonProperty()]
-        public int timeToWait { get; set; }
+        public long timeToWait { get; set; }
         [JsonProperty()]
         public String user { get; set; }
         [JsonProperty()]

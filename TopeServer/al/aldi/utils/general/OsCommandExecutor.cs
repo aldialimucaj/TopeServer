@@ -122,7 +122,7 @@ namespace TopeServer.al.aldi.topeServer.control.executors
         }
 
         /* ************ SOUND ************ */
-        public static bool soundSwap()
+        public static bool soundSwap(bool status)
         {
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
             MMDevice device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
@@ -133,7 +133,7 @@ namespace TopeServer.al.aldi.topeServer.control.executors
                 {
                     AudioMeterInformation mi = session.AudioMeterInformation;
                     SimpleAudioVolume vol = session.SimpleAudioVolume;
-                    vol.Mute = !vol.Mute;
+                    vol.Mute = status;
                 }
             }
 
@@ -142,12 +142,12 @@ namespace TopeServer.al.aldi.topeServer.control.executors
 
         public static bool soundMute()
         {
-            return soundSwap();
+            return soundSwap(true);
         }
 
         public static bool soundUnMute()
         {
-            return soundSwap();
+            return soundSwap(false);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using TopeServer.al.aldi.topeServer.model;
+using TopeServer.al.aldi.utils.general;
 
 namespace TopeServer.al.aldi.topeServer.control
 {
@@ -12,8 +13,8 @@ namespace TopeServer.al.aldi.topeServer.control
         TopeRequest request = null;
         TopeResponse response = new TopeResponse();
 
-        int timeToWait = 0;
-        int timeToExecute = 0;
+        long timeToWait = 0;
+        DateTime timeToExecute;
         
 
 
@@ -50,7 +51,16 @@ namespace TopeServer.al.aldi.topeServer.control
             var thread = new Thread(
             () =>
             {
-                Thread.Sleep(timeToWait);
+                /* if the execution time is set and its in the future */
+                if (null != timeToExecute )
+                {
+                    /* overriding the timeToWait as the date and time sounds more accurate to use */
+                    
+                    long t_timeToWait =(long) (timeToExecute - DateTime.Now).TotalMilliseconds;
+                    timeToWait = t_timeToWait >= 0 ? t_timeToWait : timeToWait;
+                }
+
+                Thread.Sleep((int)timeToWait);
                 try
                 {
                     var exeSuccess = d(request);
@@ -86,7 +96,7 @@ namespace TopeServer.al.aldi.topeServer.control
 
         private bool isItWorthWaiting()
         {
-            return !(timeToWait != 0 || timeToExecute != 0);
+            return !(timeToWait != 0 || timeToExecute != null);
         }
     }
 
