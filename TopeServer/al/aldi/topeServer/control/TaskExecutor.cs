@@ -44,7 +44,14 @@ namespace TopeServer.al.aldi.topeServer.control
             else
             {
                 response.success = false;
-                response.message = TopeMsg.ERR_AUTHENTICATION;
+                if (!String.IsNullOrEmpty(request.message))
+                {
+                    response.message = request.message;
+                }
+                else
+                {
+                    response.message = TopeMsg.ERR_AUTHENTICATION;
+                }
                 return response;
             }
 

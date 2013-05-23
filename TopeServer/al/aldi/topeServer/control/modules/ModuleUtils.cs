@@ -2,6 +2,7 @@
 using Nancy.ModelBinding;
 using System;
 using System.Collections.Generic;
+using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Text;
 using TopeServer.al.aldi.topeServer.model;
@@ -18,8 +19,17 @@ namespace TopeServer.al.aldi.topeServer.control.modules
             TopeRequest request = module.Bind<TopeRequest>();
             String user = request.user;
             String pass = request.password;
+            String domain = request.domain;
 
-            request.authenticated = PrivilegesUtil.isAuthentic(user, pass);
+            try
+            {
+                request.authenticated = PrivilegesUtil.isAuthentic(user, pass, domain);
+            }
+            catch (PrincipalServerDownException e)
+            {
+                request.authenticated = false;
+                request.message = e.Message;
+            }
 
             return request;
         }

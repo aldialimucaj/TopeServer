@@ -19,7 +19,7 @@ namespace TopeServer.al.aldi.utils.security
             }
         }
 
-        public static bool isAuthentic(String user, String password)
+        public static bool isAuthenticLocal(String user, String password)
         {
             bool isAuthentic = false;
             if (user == null || password == null)
@@ -34,12 +34,14 @@ namespace TopeServer.al.aldi.utils.security
             return isAuthentic;
         }
 
-        public static bool isAuthenticInDomain(String user, String password, String domain)
+        public static bool isAuthentic(String user, String password, String domain)
         {
-            if (domain.Equals(""))
-                domain = System.Environment.MachineName;
-
             bool isAuthentic = false;
+
+            if (String.IsNullOrEmpty(domain))
+            {
+                return isAuthenticLocal(user, password);
+            }
 
             using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, domain))
             {
@@ -48,6 +50,6 @@ namespace TopeServer.al.aldi.utils.security
             }
             return isAuthentic;
         }
-	
+
     }
 }
