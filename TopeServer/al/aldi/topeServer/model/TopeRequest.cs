@@ -12,18 +12,23 @@ namespace TopeServer.al.aldi.topeServer.model
     public class TopeRequest
     {
         [JsonProperty()]
-        public Int64 topeRequestId { get; set; }
+        public Int64 topeRequestId { get; set; }    /* unique ID */
         [JsonProperty()]
-        public Int64 actionId { get; set; }
+        public Int64 actionId { get; set; }         /* action ID */
         [JsonProperty()]
-        public bool success { get; set; }
-        [NotMapped]
+        public bool success { get; set; }           /* mark if successfully execute */
         [JsonProperty()]
-        public bool authenticated { get; set; }
+        public Int64 executed { get; set; }         /* mark > 0 if alredy executed */
+        [JsonProperty()]
+        public Int64 repeat { get; set; }           /* mark if execution is to be repeted. how many times > 0. arg0 interval */
+        [JsonProperty()]
+        public bool persistent { get; set; }        /* even after restart or program closed */
+        [JsonProperty()]
+        public bool authenticated { get; set; }     /* was it an authenticated call */
         /*TODO: REMOVE*/
         [NotMapped]
         [JsonProperty()]
-        public String command { get; set; }
+        public String command { get; set; }         /* TODO: legacy. to be removed after client sends action ids*/
         [JsonProperty()]
         public String requestHash { get; set; }
         [JsonProperty()]

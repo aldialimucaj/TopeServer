@@ -57,6 +57,25 @@ namespace TopeServer.al.aldi.topeServer.control.db.tables
 
         }
 
+        public static TopeAction getAction(Int64 actionId)
+        {
+            TopeActionContext tac = new TopeActionContext();
+            IQueryable<TopeAction> actionsQuery = from TOPEACTIONS in tac.actions where TOPEACTIONS.actionId == actionId select TOPEACTIONS;
+            return actionsQuery.First<TopeAction>();
+        }
+
+        public static TopeAction getAction(TopeRequest request)
+        {
+            return getAction(request.actionId);
+        }
+
+        public static TopeAction getAction(String method)
+        {
+            TopeActionContext tac = new TopeActionContext();
+            IQueryable<TopeAction> actionsQuery = from TOPEACTIONS in tac.actions where TOPEACTIONS.method == method select TOPEACTIONS;
+            return actionsQuery.First<TopeAction>();
+        }
+
         public void insertIntoDb()
         {
 

@@ -117,6 +117,7 @@
     <Compile Include="al\aldi\topeServer\control\db\SQLiteDbConnector.cs" />
     <Compile Include="al\aldi\topeServer\control\db\tables\TopeActionDAO.cs" />
     <Compile Include="al\aldi\topeServer\control\db\tables\TopeRequestDAO.cs" />
+    <Compile Include="al\aldi\topeServer\control\TaskManager.cs" />
     <Compile Include="al\aldi\topeServer\model\TopeAction.cs" />
     <Compile Include="al\aldi\topeServer\TopeMsg.cs" />
     <Compile Include="al\aldi\utils\general\OsCommandExecutor.cs" />

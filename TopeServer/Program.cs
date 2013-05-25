@@ -15,6 +15,7 @@ using TopeServer.al.aldi.topeServer.model;
 using TopeServer.al.aldi.topeServer.control.db.contexts;
 using System.Reflection;
 using TopeServer.al.aldi.topeServer.control.executors;
+using TopeServer.al.aldi.topeServer.control;
 
 namespace TopeServer
 {
@@ -44,6 +45,7 @@ namespace TopeServer
         private static bool WIDNOWS_FORM = true;
 
         TopeServer ts = new TopeServer();
+        TaskManager taskManager = TaskManager.getInstance();
 
         private void startServer()
         {
@@ -84,7 +86,7 @@ namespace TopeServer
             }
         }
 
-        private void loadDatabase()
+        private void reloadDatabase()
         {
             TopeActionDAO tAction = new TopeActionDAO();
             tAction.dropTable();
@@ -93,28 +95,8 @@ namespace TopeServer
             tRequest.dropTable();
             tRequest.createTable();
 
-
-            TopeAction a1 = new TopeAction();
-            a1.method = "do smth baaaad bitch";
-            TopeAction a2 = new TopeAction();
-            a2.method = "i did it";
-               
-            TopeActionContext tac = new TopeActionContext();
-
-            tac.actions.Add(a1);
-            tac.actions.Add(a2);
-
-            TopeAction existingAction1 = new TopeAction() { actionId = 1 };
-            TopeAction existingAction2 = new TopeAction() { actionId = 2 };
-            //tac.actions.Attach(a1);
-            //tac.actions.Attach(a2);
-
-            TopeRequest r1 = new TopeRequest() { message = "TO_ASK_ACTION", success = true };
-            r1.actionId = existingAction1.actionId;
-
-            tac.requests.Add(r1);
-
-            tac.SaveChanges();
+            addActions();
+           
         }
 
         private void addActions(Type t, String prefix)
@@ -140,15 +122,15 @@ namespace TopeServer
             tac.SaveChanges();
         }
 
-        private void test()
+        private void startTaskManager()
+        {
+            taskManager.startExecutor();
+        }
+
+        private void addActions()
         {
             Type t = typeof(OsCommands);
             addActions(t, "/os/");
-
-            List<TopeAction> actions = TopeActionDAO.getAllActions();
-
-
-            //method.Invoke(null, new Object[] {new TopeRequest()});
         }
 
 
@@ -163,8 +145,8 @@ namespace TopeServer
 
                 Program p = new Program();
                 p.readParameters();
-                //p.loadDatabase();
-                p.test();
+                p.reloadDatabase();
+                p.startTaskManager();
                 p.startServer();
             }
             else

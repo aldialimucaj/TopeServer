@@ -40,6 +40,7 @@ namespace TopeServer
 
         private void autoInitCommands()
         {
+            TaskManager taskManager = TaskManager.getInstance();
             List<TopeAction> actions = getFilteredActions(TopeActionDAO.getAllActions());
             foreach (TopeAction ta in actions)
             {
@@ -49,15 +50,22 @@ namespace TopeServer
 
                     showMsg(ta.method);
                     TopeRequest request = ModuleUtils.validate(this);
+                    taskManager.addRequest(request);
 
+                    /* starting execution */
                     TaskExecutor te = new TaskExecutor();
-
                     Type t = Type.GetType(ta.module);
                     MethodInfo method = t.GetMethod(ta.method, BindingFlags.Static | BindingFlags.Public);
                     var input = Expression.Parameter(typeof(TopeRequest), "input");
                     Func<TopeRequest, bool> result = Expression.Lambda<Func<TopeRequest, bool>>(Expression.Call( method, input), input).Compile();
                     TopeResponse topeRes = te.Execute(result, request);
-                    
+                    /* execution finished */
+
+                    /* updating the request */
+                    request.success = topeRes.success;
+                    request.executed++;
+                    taskManager.updateRequest(request);
+
                     TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                     return nego.Response;
                 };
