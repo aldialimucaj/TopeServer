@@ -14,6 +14,9 @@ using TopeServer.al.aldi.topeServer.model;
 using TopeServer.al.aldi.topeServer.control;
 using TopeServer.al.aldi.topeServer.control.modules;
 using TopeServer.al.aldi.utils.security;
+using TopeServer.al.aldi.topeServer.control.db.tables;
+using System.Reflection;
+using System.Linq.Expressions;
 
 namespace TopeServer
 {
@@ -23,13 +26,148 @@ namespace TopeServer
         public IMessageDeliverer deliverer;
                
         public OsControlModule()
-            : base("/os") 
         {
-            initCommands();
+            autoInitCommands();
+            extraInitCommands();
+
             initControllers();
             var container = TinyIoCContainer.Current;
             IMessageDeliverer mdl = container.Resolve<IMessageDeliverer>();
             setDeliverer(mdl);
+        }
+
+        
+
+        private void autoInitCommands()
+        {
+            List<TopeAction> actions = getFilteredActions(TopeActionDAO.getAllActions());
+            foreach (TopeAction ta in actions)
+            {
+                Get[ta.commandFullPath] = Post[ta.commandFullPath] = _ => // generic
+                {
+                    
+
+                    showMsg(ta.method);
+                    TopeRequest request = ModuleUtils.validate(this);
+
+                    TaskExecutor te = new TaskExecutor();
+
+                    Type t = Type.GetType(ta.module);
+                    MethodInfo method = t.GetMethod(ta.method, BindingFlags.Static | BindingFlags.Public);
+                    var input = Expression.Parameter(typeof(TopeRequest), "input");
+                    Func<TopeRequest, bool> result = Expression.Lambda<Func<TopeRequest, bool>>(Expression.Call( method, input), input).Compile();
+                    TopeResponse topeRes = te.Execute(result, request);
+                    
+                    TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                    return nego.Response;
+                };
+            }
+        }
+
+        private void extraInitCommands()
+        {
+            /* ************ INPUT ************ */
+            
+            Get["/os/lockInput"] = Post["/os/lockInput"] = _ => // lock screen
+            {
+                showMsg("Lock Input");
+                TopeRequest request = ModuleUtils.validate(this);
+
+
+
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(OsCommands.lockInput, request);
+
+                if (request.authenticated)
+                {
+                    topeRes.success = OsCommandExecutor.lockInput();//TODO: Remove this. It is just a workaround the bug
+                }
+
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
+
+            };
+
+            Get["/os/unlockInput"] = Post["/os/unlockInput"] = _ => // lock screen
+            {
+                showMsg("Unlock Input");
+                TopeRequest request = ModuleUtils.validate(this);
+
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(OsCommands.unlockInput, request);
+
+                if (request.authenticated)
+                {
+                    topeRes.success = OsCommandExecutor.unlockInput();//TODO: Remove this. It is just a workaround the bug
+                }
+
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
+
+            };
+
+            /* ****************************** */
+            /* ************ TEST ************ */
+            /* ****************************** */
+
+            Get["/os/test"] = Post["/os/test"] = _ => // lock screen
+            {
+                TopeRequest request = ModuleUtils.validate(this);
+
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(returnTrue, request);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
+
+            };
+
+            Get["/os/test2"] = Post["/os/test2"] = _ => // lock screen
+            {
+                TopeRequest request = ModuleUtils.validate(this);
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(returnTrue, request);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
+
+            };
+
+            Get["/os/test.aspx"] = Post["/os/test.aspx"] = _ => // apsx
+            {
+
+                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("<h1>OK</h1>");
+
+            };
+
+            Get["/os/test.php"] = Post["/os/test.php"] = _ => // lock screen
+            {
+
+                TopeRequest request = new TopeRequest();//this.Bind<TopeRequest>();
+                request.success = true;
+                TaskExecutor te = new TaskExecutor();
+                TopeResponse topeRes = te.Execute(returnTrue, request);
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
+
+            };
+
+        }
+
+        private List<TopeAction> getFilteredActions(List<TopeAction> actions)
+        {
+            List<TopeAction> filteredActions = new List<TopeAction>();
+            foreach (TopeAction ta in actions)
+            {
+                /* skipping extra methods */
+                switch (ta.method)
+                {
+                    case "lockInput":
+                    case "unlockInput":
+                        continue;
+
+                }
+                filteredActions.Add(ta);
+            }
+            return filteredActions;
         }
 
         private void initControllers()
@@ -249,6 +387,12 @@ namespace TopeServer
         public bool returnTrue(TopeRequest request)
         {
             showMsg("TestMsg: "+request.message);
+            return true;
+        }
+
+        public bool returnTrue()
+        {
+            showMsg("TestMsg: ");
             return true;
         }
 

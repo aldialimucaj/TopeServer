@@ -10,6 +10,11 @@ using NetFwTypeLib;
 using System.Windows.Forms;
 using System.Security.Cryptography.X509Certificates;
 using TopeServer.al.aldi.utils.general;
+using TopeServer.al.aldi.topeServer.control.db.tables;
+using TopeServer.al.aldi.topeServer.model;
+using TopeServer.al.aldi.topeServer.control.db.contexts;
+using System.Reflection;
+using TopeServer.al.aldi.topeServer.control.executors;
 
 namespace TopeServer
 {
@@ -77,8 +82,75 @@ namespace TopeServer
                 initSecurity();
                 bool b = propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_URL_BOUND, TRUE);
             }
-            
         }
+
+        private void loadDatabase()
+        {
+            TopeActionDAO tAction = new TopeActionDAO();
+            tAction.dropTable();
+            tAction.createTable();
+            TopeRequestDAO tRequest = new TopeRequestDAO();
+            tRequest.dropTable();
+            tRequest.createTable();
+
+
+            TopeAction a1 = new TopeAction();
+            a1.method = "do smth baaaad bitch";
+            TopeAction a2 = new TopeAction();
+            a2.method = "i did it";
+               
+            TopeActionContext tac = new TopeActionContext();
+
+            tac.actions.Add(a1);
+            tac.actions.Add(a2);
+
+            TopeAction existingAction1 = new TopeAction() { actionId = 1 };
+            TopeAction existingAction2 = new TopeAction() { actionId = 2 };
+            //tac.actions.Attach(a1);
+            //tac.actions.Attach(a2);
+
+            TopeRequest r1 = new TopeRequest() { message = "TO_ASK_ACTION", success = true };
+            r1.actionId = existingAction1.actionId;
+
+            tac.requests.Add(r1);
+
+            tac.SaveChanges();
+        }
+
+        private void addActions(Type t, String prefix)
+        {
+            TopeActionDAO tAction = new TopeActionDAO();
+            tAction.dropTable();
+            tAction.createTable();
+
+            TopeActionContext tac = new TopeActionContext();
+
+            MethodInfo[] methodInfos = t.GetMethods(BindingFlags.Public | BindingFlags.Static);
+
+            foreach (MethodInfo mi in methodInfos)
+            {
+                TopeAction ta = new TopeAction();
+                ta.active = true.ToString();
+                ta.module = t.FullName;
+                ta.method = mi.Name;
+                ta.commandFullPath = prefix + mi.Name;
+                tac.actions.Add(ta);
+            }
+
+            tac.SaveChanges();
+        }
+
+        private void test()
+        {
+            Type t = typeof(OsCommands);
+            addActions(t, "/os/");
+
+            List<TopeAction> actions = TopeActionDAO.getAllActions();
+
+
+            //method.Invoke(null, new Object[] {new TopeRequest()});
+        }
+
 
         [STAThread]
         static void Main(string[] args)
@@ -91,6 +163,8 @@ namespace TopeServer
 
                 Program p = new Program();
                 p.readParameters();
+                //p.loadDatabase();
+                p.test();
                 p.startServer();
             }
             else
@@ -101,3 +175,4 @@ namespace TopeServer
         }
     }
 }
+

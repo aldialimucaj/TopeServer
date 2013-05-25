@@ -36,6 +36,28 @@
                     <Component Id="COREAUDIOAPI.DLL" DiskId="1" Guid="72DE49AF-F320-4906-A37D-954EDB823626">
                         <File Id="COREAUDIOAPI.DLL" Name="CoreAudioApi.dll" Source="TopeServer\bin\Release\CoreAudioApi.dll" />
                     </Component>
+                    <Component Id="ENTITYFRAMEWORK.DLL" DiskId="1" Guid="E67040A2-91AB-4EC2-A5C3-1792552D5A34">
+                        <File Id="ENTITYFRAMEWORK.DLL" Name="EntityFramework.dll" Source="TopeServer\bin\Release\EntityFramework.dll" />
+                    </Component>
+                    <Component Id="ENTITYFRAMEWORK.XML" DiskId="1" Guid="CB4EA9A0-6F4D-4485-B708-6F2D289BFC08">
+                        <File Id="ENTITYFRAMEWORK.XML" Name="EntityFramework.xml" Source="TopeServer\bin\Release\EntityFramework.xml" />
+                    </Component>
+                    <Component Id="SYSTEM.DATA.SQLITE.DLL" DiskId="1" Guid="110D5EF6-27BA-409A-A091-BFE785A58F2F">
+                        <File Id="SYSTEM.DATA.SQLITE.DLL" Name="System.Data.SQLite.dll" Source="TopeServer\bin\Release\System.Data.SQLite.dll" />
+                    </Component>
+                    <Component Id="SYSTEM.DATA.SQLITE.LINQ.DLL" DiskId="1" Guid="27416614-0B4A-4690-B7D7-B855AFC2AECF">
+                        <File Id="SYSTEM.DATA.SQLITE.LINQ.DLL" Name="System.Data.SQLite.Linq.dll" Source="TopeServer\bin\Release\System.Data.SQLite.Linq.dll" />
+                    </Component>
+                    <Directory Id="x86Folder" Name="x86">
+                        <Component Id="SQLITE.INTEROP.x86.DLL" Guid="988324E2-B424-46EA-8F17-CE2351CBB950">
+                            <File Id="SQLITE.INTEROP.x86.DLL" Name="SQLite.Interop.dll" Source="TopeServer\bin\Release\x86\SQLite.Interop.dll" />
+                        </Component>
+                    </Directory>
+                    <Directory Id="x64Folder" Name="x64">
+                        <Component Id="SQLITE.INTEROP.x64.DLL" Guid="8A4DE94D-C114-4914-8E7F-241786855E6F">
+                            <File Id="SQLITE.INTEROP.x64.DLL" Name="SQLite.Interop.dll" Source="TopeServer\bin\Release\x64\SQLite.Interop.dll" />
+                        </Component>
+                    </Directory>
                     <Component Id="TOPESERVER.EXE" DiskId="1" Guid="175581EC-D629-4AAC-AF47-F73AD1ED1D13">
                         <File Id="TOPESERVER.EXE" Name="TopeServer.exe" Source="H:\Dropbox\te_ndryshme\Programming\C#\TopeServer\TopeServer\bin\Release\TopeServer.exe">
                             <Shortcut Id="ExeShortcut" Directory="ProgramMenuDir" Name="TopeServer" Advertise="yes" Icon="StartMenuIcon.exe" IconIndex="0" />
@@ -60,6 +82,12 @@
             <ComponentRef Id="NEWTONSOFT.JSON.XML" />
             <ComponentRef Id="BOUNCYCASTLE.CRYPTOEXT.DLL" />
             <ComponentRef Id="COREAUDIOAPI.DLL" />
+            <ComponentRef Id="ENTITYFRAMEWORK.DLL" />
+            <ComponentRef Id="ENTITYFRAMEWORK.XML" />
+            <ComponentRef Id="SYSTEM.DATA.SQLITE.DLL" />
+            <ComponentRef Id="SYSTEM.DATA.SQLITE.LINQ.DLL" />
+            <ComponentRef Id="SQLITE.INTEROP.x86.DLL" />
+            <ComponentRef Id="SQLITE.INTEROP.x64.DLL" />
             <ComponentRef Id="TOPESERVER.EXE" />
             <ComponentRef Id="StartMenuShortcuts" />
             <ComponentRef Id="AutoStartTope" />

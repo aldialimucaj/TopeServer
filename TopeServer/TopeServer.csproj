@@ -76,6 +76,9 @@
     <Reference Include="BouncyCastle.CryptoExt">
       <HintPath>..\packages\BouncyCastle-Ext.1.7.0\lib\net20\BouncyCastle.CryptoExt.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Nancy, Version=0.17.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nancy.0.17.1\lib\net40\Nancy.dll</HintPath>
@@ -89,7 +92,15 @@
       <HintPath>..\packages\Newtonsoft.Json.5.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\packages\System.Data.SQLite.1.0.85.0\lib\net40\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>..\packages\System.Data.SQLite.1.0.85.0\lib\net40\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -102,6 +113,11 @@
   <ItemGroup>
     <Compile Include="al\aldi\topeServer\control\Code404Handler.cs" />
     <Compile Include="al\aldi\topeServer\control\Code500Handler.cs" />
+    <Compile Include="al\aldi\topeServer\control\db\contexts\TopeActionContext.cs" />
+    <Compile Include="al\aldi\topeServer\control\db\SQLiteDbConnector.cs" />
+    <Compile Include="al\aldi\topeServer\control\db\tables\TopeActionDAO.cs" />
+    <Compile Include="al\aldi\topeServer\control\db\tables\TopeRequestDAO.cs" />
+    <Compile Include="al\aldi\topeServer\model\TopeAction.cs" />
     <Compile Include="al\aldi\topeServer\TopeMsg.cs" />
     <Compile Include="al\aldi\utils\general\OsCommandExecutor.cs" />
     <Compile Include="al\aldi\topeServer\control\executors\OsCommands.cs" />
@@ -172,6 +188,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="x64\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\Icon.png" />
     <Content Include="system_log_out.ico" />
   </ItemGroup>
