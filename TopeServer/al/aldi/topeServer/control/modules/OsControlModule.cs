@@ -17,6 +17,7 @@ using TopeServer.al.aldi.utils.security;
 using TopeServer.al.aldi.topeServer.control.db.tables;
 using System.Reflection;
 using System.Linq.Expressions;
+using TopeServer.al.aldi.topeServer.model.responses;
 
 namespace TopeServer
 {
@@ -53,16 +54,16 @@ namespace TopeServer
                     taskManager.addRequest(request);
 
                     /* starting execution */
-                    TaskExecutor te = new TaskExecutor();
+                    ITaskExecutor taskExecutor = new TaskExecutor();
                     Type t = Type.GetType(ta.module);
                     MethodInfo method = t.GetMethod(ta.method, BindingFlags.Static | BindingFlags.Public);
                     var input = Expression.Parameter(typeof(TopeRequest), "input");
                     Func<TopeRequest, bool> result = Expression.Lambda<Func<TopeRequest, bool>>(Expression.Call( method, input), input).Compile();
-                    TopeResponse topeRes = te.Execute(result, request);
+                    var topeRes = taskExecutor.Execute(result, request);
                     /* execution finished */
 
                     /* updating the request */
-                    request.success = topeRes.success;
+                    request.success = topeRes.isSuccessful();
                     request.executed++;
                     taskManager.updateRequest(request);
 
@@ -84,11 +85,11 @@ namespace TopeServer
 
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.lockInput, request);
+                ITopeResponse topeRes = te.Execute(OsCommands.lockInput, request);
 
                 if (request.authenticated)
                 {
-                    topeRes.success = OsCommandExecutor.lockInput();//TODO: Remove this. It is just a workaround the bug
+                    topeRes.setSuccess(OsCommandExecutor.lockInput());//TODO: Remove this. It is just a workaround the bug
                 }
 
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
@@ -102,11 +103,11 @@ namespace TopeServer
                 TopeRequest request = ModuleUtils.validate(this);
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.unlockInput, request);
+                ITopeResponse topeRes = te.Execute(OsCommands.unlockInput, request);
 
                 if (request.authenticated)
                 {
-                    topeRes.success = OsCommandExecutor.unlockInput();//TODO: Remove this. It is just a workaround the bug
+                    topeRes.setSuccess(OsCommandExecutor.unlockInput());//TODO: Remove this. It is just a workaround the bug
                 }
 
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
@@ -123,7 +124,12 @@ namespace TopeServer
                 TopeRequest request = ModuleUtils.validate(this);
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(returnTrue, request);
+                ITopeResponse topeRes = te.Execute(returnTrue, request);
+
+                TopeTestResponse.TestClassWithStringMessage payload = new TopeTestResponse.TestClassWithStringMessage();
+                payload.testMessage = "master of generics";
+                topeRes.setPayload(payload);
+                
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -133,7 +139,7 @@ namespace TopeServer
             {
                 TopeRequest request = ModuleUtils.validate(this);
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(returnTrue, request);
+                ITopeResponse topeRes = te.Execute(returnTrue, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -152,7 +158,7 @@ namespace TopeServer
                 TopeRequest request = new TopeRequest();//this.Bind<TopeRequest>();
                 request.success = true;
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(returnTrue, request);
+                ITopeResponse topeRes = te.Execute(returnTrue, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -183,6 +189,16 @@ namespace TopeServer
             
         }
 
+
+
+
+
+
+
+        /* ********************************** */
+        /* ************ OBSOLETE ************ */
+        /* ********************************** */
+
         private void initCommands()
         {
             Get["/"] = Post["/"] = _ => "TopeServer running..."; // default route
@@ -195,7 +211,7 @@ namespace TopeServer
                 TopeRequest request = ModuleUtils.validate(this);
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.hibernatePC, request);
+                ITopeResponse topeRes = te.Execute(OsCommands.hibernatePC, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
             };
@@ -206,7 +222,7 @@ namespace TopeServer
                 TopeRequest request = ModuleUtils.validate(this);
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.standbyPC, request);
+                ITopeResponse topeRes = te.Execute(OsCommands.standbyPC, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
             };
@@ -217,7 +233,7 @@ namespace TopeServer
                 TopeRequest request = ModuleUtils.validate(this);
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.powerOffPC, request);
+                ITopeResponse topeRes = te.Execute(OsCommands.powerOffPC, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
             };
@@ -228,7 +244,7 @@ namespace TopeServer
                 TopeRequest request = ModuleUtils.validate(this);
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.restartPC, request);
+                ITopeResponse topeRes = te.Execute(OsCommands.restartPC, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
             };
@@ -239,7 +255,7 @@ namespace TopeServer
                 TopeRequest request = ModuleUtils.validate(this);
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.logOffPC, request);
+                ITopeResponse topeRes = te.Execute(OsCommands.logOffPC, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
             };
@@ -250,7 +266,7 @@ namespace TopeServer
                 TopeRequest request = ModuleUtils.validate(this);
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.lockScreen, request);
+                ITopeResponse topeRes = te.Execute(OsCommands.lockScreen, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -262,7 +278,7 @@ namespace TopeServer
                 TopeRequest request = ModuleUtils.validate(this);
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.turnMonitorOn, request);
+                ITopeResponse topeRes = te.Execute(OsCommands.turnMonitorOn, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -274,7 +290,7 @@ namespace TopeServer
                 TopeRequest request = ModuleUtils.validate(this);
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.turnMonitorOff, request);
+                ITopeResponse topeRes = te.Execute(OsCommands.turnMonitorOff, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -290,11 +306,11 @@ namespace TopeServer
                
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.lockInput, request);
+                ITopeResponse topeRes = te.Execute(OsCommands.lockInput, request);
                 
                 if (request.authenticated)
                 {
-                    topeRes.success = OsCommandExecutor.lockInput();//TODO: Remove this. It is just a workaround the bug
+                    topeRes.setSuccess(OsCommandExecutor.lockInput());//TODO: Remove this. It is just a workaround the bug
                 }
 
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
@@ -308,11 +324,11 @@ namespace TopeServer
                 TopeRequest request = ModuleUtils.validate(this);
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.unlockInput, request);
+                ITopeResponse topeRes = te.Execute(OsCommands.unlockInput, request);
                 
                 if (request.authenticated)
                 {
-                    topeRes.success = OsCommandExecutor.unlockInput();//TODO: Remove this. It is just a workaround the bug
+                    topeRes.setSuccess( OsCommandExecutor.unlockInput());//TODO: Remove this. It is just a workaround the bug
                 }
                 
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
@@ -327,7 +343,7 @@ namespace TopeServer
                 TopeRequest request = ModuleUtils.validate(this);
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.soundMute, request);
+                ITopeResponse topeRes = te.Execute(OsCommands.soundMute, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -339,7 +355,7 @@ namespace TopeServer
                 TopeRequest request = ModuleUtils.validate(this);
 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(OsCommands.soundOn, request);
+                ITopeResponse topeRes = te.Execute(OsCommands.soundOn, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -356,7 +372,7 @@ namespace TopeServer
                 TopeRequest request = ModuleUtils.validate(this);
                 
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(returnTrue, request);
+                ITopeResponse topeRes = te.Execute(returnTrue, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -366,7 +382,7 @@ namespace TopeServer
             {
                 TopeRequest request = ModuleUtils.validate(this);
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(returnTrue, request);
+                ITopeResponse topeRes = te.Execute(returnTrue, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -385,7 +401,7 @@ namespace TopeServer
                 TopeRequest request = new TopeRequest();//this.Bind<TopeRequest>();
                 request.success = true;
                 TaskExecutor te = new TaskExecutor();
-                TopeResponse topeRes = te.Execute(returnTrue, request);
+                ITopeResponse topeRes = te.Execute(returnTrue, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 

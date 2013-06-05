@@ -117,7 +117,10 @@
     <Compile Include="al\aldi\topeServer\control\db\SQLiteDbConnector.cs" />
     <Compile Include="al\aldi\topeServer\control\db\tables\TopeActionDAO.cs" />
     <Compile Include="al\aldi\topeServer\control\db\tables\TopeRequestDAO.cs" />
+    <Compile Include="al\aldi\topeServer\control\ITaskExecutor.cs" />
     <Compile Include="al\aldi\topeServer\control\TaskManager.cs" />
+    <Compile Include="al\aldi\topeServer\model\responses\ITopeResponse.cs" />
+    <Compile Include="al\aldi\topeServer\model\responses\TopeTestResponse.cs" />
     <Compile Include="al\aldi\topeServer\model\TopeAction.cs" />
     <Compile Include="al\aldi\topeServer\TopeMsg.cs" />
     <Compile Include="al\aldi\utils\general\OsCommandExecutor.cs" />
@@ -127,7 +130,7 @@
     <Compile Include="al\aldi\topeServer\control\TaskExecutor.cs" />
     <Compile Include="al\aldi\topeServer\control\TopeResponseNegotiator.cs" />
     <Compile Include="al\aldi\topeServer\model\TopeRequest.cs" />
-    <Compile Include="al\aldi\topeServer\model\TopeResponse.cs" />
+    <Compile Include="al\aldi\topeServer\model\responses\TopeResponse.cs" />
     <Compile Include="al\aldi\topeServer\view\IMessageDeliverer.cs" />
     <Compile Include="al\aldi\utils\general\IniFileUtil.cs" />
     <Compile Include="al\aldi\utils\general\ProgramAdministration.cs" />

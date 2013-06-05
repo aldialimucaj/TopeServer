@@ -8,7 +8,7 @@ using TopeServer.al.aldi.utils.general;
 
 namespace TopeServer.al.aldi.topeServer.control
 {
-    class TaskExecutor
+    class TaskExecutor : ITaskExecutor
     {
         TopeRequest request = null;
         TopeResponse response = new TopeResponse();
@@ -32,7 +32,7 @@ namespace TopeServer.al.aldi.topeServer.control
         /// <param name="d">Function to be executed</param>
         /// <param name="timeToWait">Time in milliseconds to wait before execution</param>
         /// <returns></returns>
-        public TopeResponse Execute(Func<TopeRequest, bool> d, TopeRequest request = null)
+        public ITopeResponse Execute(Func<TopeRequest, bool> d, TopeRequest request = null)
         {
             // This was ment for acception GET requests
             if (null != request && request.authenticated)

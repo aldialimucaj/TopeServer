@@ -11,14 +11,14 @@ using TopeServer.al.aldi.topeServer.model;
 
 namespace TopeServer.al.aldi.topeServer.control
 {
-    class TopeResponseNegotiator 
+    class TopeResponseNegotiator
     {
         private Negotiator response = null;
         public Negotiator Response { get { return getResponse(); } set {response = value;}}
-        private TopeResponse model = null;
+        private ITopeResponse model = null;
         
 
-        public TopeResponseNegotiator(Negotiator negotiator, TopeResponse topeResponse)
+        public TopeResponseNegotiator(Negotiator negotiator, ITopeResponse topeResponse)
         {
 
             this.Response = negotiator;

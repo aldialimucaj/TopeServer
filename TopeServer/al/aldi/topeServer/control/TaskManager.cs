@@ -82,7 +82,7 @@ namespace TopeServer.al.aldi.topeServer.control
                     MethodInfo method = t.GetMethod(ta.method, BindingFlags.Static | BindingFlags.Public);
                     var input = Expression.Parameter(typeof(TopeRequest), "input");
                     Func<TopeRequest, bool> result = Expression.Lambda<Func<TopeRequest, bool>>(Expression.Call(method, input), input).Compile();
-                    TopeResponse topeRes = te.Execute(result, request);
+                    ITopeResponse topeRes = te.Execute(result, request);
                     request.executed++;
                     tac.SaveChanges();
                 }
