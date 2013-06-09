@@ -120,6 +120,7 @@
     <Compile Include="al\aldi\topeServer\control\ITaskExecutor.cs" />
     <Compile Include="al\aldi\topeServer\control\TaskManager.cs" />
     <Compile Include="al\aldi\topeServer\model\responses\ITopeResponse.cs" />
+    <Compile Include="al\aldi\topeServer\model\responses\SynchActionResponse.cs" />
     <Compile Include="al\aldi\topeServer\model\responses\TopeTestResponse.cs" />
     <Compile Include="al\aldi\topeServer\model\TopeAction.cs" />
     <Compile Include="al\aldi\topeServer\TopeMsg.cs" />

@@ -31,7 +31,6 @@ namespace TopeServer
             autoInitCommands();
             extraInitCommands();
 
-            initControllers();
             var container = TinyIoCContainer.Current;
             IMessageDeliverer mdl = container.Resolve<IMessageDeliverer>();
             setDeliverer(mdl);
@@ -75,6 +74,25 @@ namespace TopeServer
 
         private void extraInitCommands()
         {
+            /* ************ SYNCHRONIZE ACTIONS ************ */
+
+            Get["/os/synchActions"] = Post["/os/synchActions"] = _ => // Synch actions
+            {
+                showMsg("Synch Actions");
+                TopeRequest request = ModuleUtils.validate(this);
+
+                TaskExecutor te = new TaskExecutor();
+                ITopeResponse topeRes = te.Execute(dummyMethod, request);
+
+                SynchActionResponse.ActionList payload = new SynchActionResponse.ActionList();
+                payload.actions = TopeActionDAO.getAllActions();
+                topeRes.setPayload(payload);                
+
+                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
+                return nego.Response;
+
+            };
+
             /* ************ INPUT ************ */
             
             Get["/os/lockInput"] = Post["/os/lockInput"] = _ => // lock screen
@@ -184,230 +202,6 @@ namespace TopeServer
             return filteredActions;
         }
 
-        private void initControllers()
-        {
-            
-        }
-
-
-
-
-
-
-
-        /* ********************************** */
-        /* ************ OBSOLETE ************ */
-        /* ********************************** */
-
-        private void initCommands()
-        {
-            Get["/"] = Post["/"] = _ => "TopeServer running..."; // default route
-
-            /* ************ POWER ************ */
-
-            Get["/hibernate"] = Post["/hibernate"] = _ => // hibernating pc
-            {
-                showMsg("Hibernate");
-                TopeRequest request = ModuleUtils.validate(this);
-
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(OsCommands.hibernatePC, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-            };
-
-            Get["/standby"] = Post["/standby"] = _ => // standby
-            {
-                showMsg("Stand By");
-                TopeRequest request = ModuleUtils.validate(this);
-
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(OsCommands.standbyPC, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-            };
-
-            Get["/poweroff"] = Post["/poweroff"] = _ => // suspend pc
-            {
-                showMsg("Power Off");
-                TopeRequest request = ModuleUtils.validate(this);
-
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(OsCommands.powerOffPC, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-            };
-
-            Get["/restart"] = Post["/restart"] = _ => // restart pc
-            {
-                showMsg("Restart");
-                TopeRequest request = ModuleUtils.validate(this);
-
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(OsCommands.restartPC, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-            };
-
-            Get["/logoff"] = Post["/logoff"] = _ => // logoff pc
-            {
-                showMsg("Log off");
-                TopeRequest request = ModuleUtils.validate(this);
-
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(OsCommands.logOffPC, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-            };
-
-            Get["/lock_screen"] = Post["/lock_screen"] = _ => // lock screen
-            {
-                showMsg("Lock Screen");
-                TopeRequest request = ModuleUtils.validate(this);
-
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(OsCommands.lockScreen, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-
-            };
-
-            Get["/monitor_on"] = Post["/monitor_on"] = _ => // monitor on
-            {
-                showMsg("Monitor On");
-                TopeRequest request = ModuleUtils.validate(this);
-
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(OsCommands.turnMonitorOn, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-
-            };
-
-            Get["/monitor_off"] = Post["/monitor_off"] = _ => // monitor off
-            {
-                showMsg("Monitor Off");
-                TopeRequest request = ModuleUtils.validate(this);
-
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(OsCommands.turnMonitorOff, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-
-            };
-
-            /* ************ INPUT ************ */
-
-            Get["/input_lock"] = Post["/input_lock"] = _ => // lock screen
-            {
-                showMsg("Lock Input");
-                TopeRequest request = ModuleUtils.validate(this);
-
-               
-
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(OsCommands.lockInput, request);
-                
-                if (request.authenticated)
-                {
-                    topeRes.setSuccess(OsCommandExecutor.lockInput());//TODO: Remove this. It is just a workaround the bug
-                }
-
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-
-            };
-
-            Get["/input_unlock"] = Post["/input_unlock"] = _ => // lock screen
-            {
-                showMsg("Unlock Input");
-                TopeRequest request = ModuleUtils.validate(this);
-
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(OsCommands.unlockInput, request);
-                
-                if (request.authenticated)
-                {
-                    topeRes.setSuccess( OsCommandExecutor.unlockInput());//TODO: Remove this. It is just a workaround the bug
-                }
-                
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-
-            };
-
-            /* ************ INPUT ************ */
-            Get["/sound_off"] = Post["/sound_off"] = _ => // monitor off
-            {
-                showMsg("Mute Sound");
-                TopeRequest request = ModuleUtils.validate(this);
-
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(OsCommands.soundMute, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-
-            };
-
-            Get["/sound_on"] = Post["/sound_on"] = _ => // monitor off
-            {
-                showMsg("Sound On");
-                TopeRequest request = ModuleUtils.validate(this);
-
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(OsCommands.soundOn, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-
-            };
-
-
-
-            /* ****************************** */
-            /* ************ TEST ************ */
-            /* ****************************** */
-           
-            Get["/test"] = Post["/test"] = _ => // lock screen
-            {
-                TopeRequest request = ModuleUtils.validate(this);
-                
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(returnTrue, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-
-            };
-
-            Get["/test2"] = Post["/test2"] = _ => // lock screen
-            {
-                TopeRequest request = ModuleUtils.validate(this);
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(returnTrue, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-
-            };
-
-            Get["/test.aspx"] = Post["/test.aspx"] = _ => // apsx
-            {
-                
-                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("<h1>OK</h1>");
-
-            };
-
-            Get["/test.php"] = Post["/test.php"] = _ => // lock screen
-            {
-
-                TopeRequest request = new TopeRequest();//this.Bind<TopeRequest>();
-                request.success = true;
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(returnTrue, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-
-            };
-        }
-
         public bool returnTrue(TopeRequest request)
         {
             showMsg("TestMsg: "+request.message);
@@ -417,6 +211,11 @@ namespace TopeServer
         public bool returnTrue()
         {
             showMsg("TestMsg: ");
+            return true;
+        }
+
+        public bool dummyMethod(TopeRequest request)
+        {
             return true;
         }
 

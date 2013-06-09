@@ -96,15 +96,11 @@ namespace TopeServer
             tRequest.createTable();
 
             addActions();
-           
         }
 
         private void addActions(Type t, String prefix)
         {
             TopeActionDAO tAction = new TopeActionDAO();
-            tAction.dropTable();
-            tAction.createTable();
-
             TopeActionContext tac = new TopeActionContext();
 
             MethodInfo[] methodInfos = t.GetMethods(BindingFlags.Public | BindingFlags.Static);

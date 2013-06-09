@@ -7,7 +7,7 @@ using TopeServer.al.aldi.topeServer.model;
 
 namespace TopeServer.al.aldi.topeServer.control.db.tables
 {
-    class TopeActionDAO
+    public class TopeActionDAO
     {
         public const String TABLE_NAME      = "TOPEACTIONS";
         public const String ID              = "actionId";
