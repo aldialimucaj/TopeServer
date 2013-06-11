@@ -28,7 +28,7 @@ namespace TopeServer.al.aldi.topeServer.model
         /*TODO: REMOVE*/
         [NotMapped]
         [JsonProperty()]
-        public String command { get; set; }         /* TODO: legacy. to be removed after client sends action ids*/
+        public String method { get; set; }         /* the command which must be the same as the method name */
         [JsonProperty()]
         public String requestHash { get; set; }
         [JsonProperty()]

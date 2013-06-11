@@ -23,7 +23,7 @@ namespace TopeServer
 {
     public class OsControlModule : NancyModule
     {
-        public const String MODULE_NAME = "OsControlModule";
+        public const String MODULE_NAME = "ActionControlModule";
         public IMessageDeliverer deliverer;
                
         public OsControlModule()
@@ -93,6 +93,10 @@ namespace TopeServer
 
             };
 
+            /* ****************************** */
+            /* ************  OS  ************ */
+            /* ****************************** */
+
             /* ************ INPUT ************ */
             
             Get["/os/lockInput"] = Post["/os/lockInput"] = _ => // lock screen
@@ -134,6 +138,11 @@ namespace TopeServer
             };
 
             /* ****************************** */
+            /* ************ PROG ************ */
+            /* ****************************** */
+
+
+            /* ****************************** */
             /* ************ TEST ************ */
             /* ****************************** */
 
@@ -148,35 +157,6 @@ namespace TopeServer
                 payload.testMessage = "master of generics";
                 topeRes.setPayload(payload);
                 
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-
-            };
-
-            Get["/os/test2"] = Post["/os/test2"] = _ => // lock screen
-            {
-                TopeRequest request = ModuleUtils.validate(this);
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(returnTrue, request);
-                TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
-                return nego.Response;
-
-            };
-
-            Get["/os/test.aspx"] = Post["/os/test.aspx"] = _ => // apsx
-            {
-
-                return Negotiate.WithStatusCode(HttpStatusCode.OK).WithModel("<h1>OK</h1>");
-
-            };
-
-            Get["/os/test.php"] = Post["/os/test.php"] = _ => // lock screen
-            {
-
-                TopeRequest request = new TopeRequest();//this.Bind<TopeRequest>();
-                request.success = true;
-                TaskExecutor te = new TaskExecutor();
-                ITopeResponse topeRes = te.Execute(returnTrue, request);
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 

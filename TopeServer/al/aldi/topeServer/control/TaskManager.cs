@@ -33,12 +33,7 @@ namespace TopeServer.al.aldi.topeServer.control
 
         public bool addRequest(TopeRequest request)
         {
-            if (0 > request.actionId)
-            {
-                //TODO: the action is empty
-                return false;
-            }
-            TopeAction action = TopeActionDAO.getAction(request.actionId);
+            TopeAction action = TopeActionDAO.getAction(request.method);
             if (null == action)
             {
                 //TODO: Take care of not existing action

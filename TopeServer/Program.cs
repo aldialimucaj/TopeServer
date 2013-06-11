@@ -63,6 +63,10 @@ namespace TopeServer
 #endif
         }
 
+        /// <summary>
+        /// Init the SSL certificate and register it under the port and program
+        /// </summary>
+        /// <returns></returns>
         public static String initSecurity()
         {
             X509Certificate2 certificate = EncryptionUtils.GenerateCertificate("TopeServerCert");
@@ -100,7 +104,6 @@ namespace TopeServer
 
         private void addActions(Type t, String prefix)
         {
-            TopeActionDAO tAction = new TopeActionDAO();
             TopeActionContext tac = new TopeActionContext();
 
             MethodInfo[] methodInfos = t.GetMethods(BindingFlags.Public | BindingFlags.Static);
@@ -127,6 +130,9 @@ namespace TopeServer
         {
             Type t = typeof(OsCommands);
             addActions(t, "/os/");
+
+            t = typeof(ProgCommands);
+            addActions(t, "/prog/");
         }
 
 
@@ -149,7 +155,6 @@ namespace TopeServer
             {
                 /* WINDOWS SERVICE */
             }
-
         }
     }
 }

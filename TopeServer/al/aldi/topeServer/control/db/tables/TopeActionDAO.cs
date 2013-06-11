@@ -66,7 +66,7 @@ namespace TopeServer.al.aldi.topeServer.control.db.tables
 
         public static TopeAction getAction(TopeRequest request)
         {
-            return getAction(request.actionId);
+            return getAction(request.method);
         }
 
         public static TopeAction getAction(String method)

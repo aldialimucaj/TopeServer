@@ -19,10 +19,10 @@
                 </Component>
                 <Directory Id="RELEASE" Name="TopeServer">
                     <Component Id="NANCY.DLL" DiskId="1" Guid="2C37F25C-AE5B-447C-985C-B3FF414A9913">
-                        <File Id="NANCY.DLL" Name="Nancy.dll" Source="H:\Dropbox\te_ndryshme\Programming\C#\TopeServer\TopeServer\bin\Release\Nancy.dll" />
+                        <File Id="NANCY.DLL" Name="Nancy.dll" Source="TopeServer\bin\Release\Nancy.dll" />
                     </Component>
                     <Component Id="NANCY.HOSTING.SELF.DLL" DiskId="1" Guid="3696268D-788A-4328-8088-BD225BD63DA5">
-                        <File Id="NANCY.HOSTING.SELF.DLL" Name="Nancy.Hosting.Self.dll" Source="H:\Dropbox\te_ndryshme\Programming\C#\TopeServer\TopeServer\bin\Release\Nancy.Hosting.Self.dll" />
+                        <File Id="NANCY.HOSTING.SELF.DLL" Name="Nancy.Hosting.Self.dll" Source="TopeServer\bin\Release\Nancy.Hosting.Self.dll" />
                     </Component>
                     <Component Id="NEWTONSOFT.JSON.DLL" DiskId="1" Guid="D4946DB5-DA83-47BF-9215-2EB6E4955D4B">
                         <File Id="NEWTONSOFT.JSON.DLL" Name="Newtonsoft.Json.dll" Source="TopeServer\bin\Release\Newtonsoft.Json.dll" />
@@ -58,8 +58,11 @@
                             <File Id="SQLITE.INTEROP.x64.DLL" Name="SQLite.Interop.dll" Source="TopeServer\bin\Release\x64\SQLite.Interop.dll" />
                         </Component>
                     </Directory>
+                    <Component Id="TOPESERVER.EXE.CONFIG" Guid="06AB8C08-C427-4872-9D23-7EF5742A5D72">
+                        <File Id="TOPESERVER.EXE.CONFIG" Name="TopeServer.exe.config" Source="TopeServer\bin\Release\TopeServer.exe.config" />
+                    </Component>
                     <Component Id="TOPESERVER.EXE" DiskId="1" Guid="175581EC-D629-4AAC-AF47-F73AD1ED1D13">
-                        <File Id="TOPESERVER.EXE" Name="TopeServer.exe" Source="H:\Dropbox\te_ndryshme\Programming\C#\TopeServer\TopeServer\bin\Release\TopeServer.exe">
+                        <File Id="TOPESERVER.EXE" Name="TopeServer.exe" Source="TopeServer\bin\Release\TopeServer.exe">
                             <Shortcut Id="ExeShortcut" Directory="ProgramMenuDir" Name="TopeServer" Advertise="yes" Icon="StartMenuIcon.exe" IconIndex="0" />
                         </File>
                     </Component>
@@ -88,6 +91,7 @@
             <ComponentRef Id="SYSTEM.DATA.SQLITE.LINQ.DLL" />
             <ComponentRef Id="SQLITE.INTEROP.x86.DLL" />
             <ComponentRef Id="SQLITE.INTEROP.x64.DLL" />
+			<ComponentRef Id="TOPESERVER.EXE.CONFIG" />
             <ComponentRef Id="TOPESERVER.EXE" />
             <ComponentRef Id="StartMenuShortcuts" />
             <ComponentRef Id="AutoStartTope" />
@@ -99,7 +103,7 @@
         <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Tope Server" />
         <PropertyRef Id="NETFRAMEWORK40FULL" />
         <Condition Message="This application requires .NET Framework 4.0.">Installed OR NETFRAMEWORK40FULL</Condition>
-        <Icon Id="StartMenuIcon.exe" SourceFile="H:\Dropbox\te_ndryshme\Programming\C#\TopeServer\TopeServer\bin\Release\TopeServer.exe" />
+        <Icon Id="StartMenuIcon.exe" SourceFile="TopeServer\bin\Release\TopeServer.exe" />
         <Property Id="ASSISTANCE_START_VIA_REGISTRY">1</Property>
         <Property Id="WixShellExecTarget" Value="[RELEASE]TopeServer.exe" />
         <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
