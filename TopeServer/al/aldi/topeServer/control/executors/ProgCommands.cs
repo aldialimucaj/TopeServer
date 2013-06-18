@@ -13,5 +13,10 @@ namespace TopeServer.al.aldi.topeServer.control.executors
         {
             return ProgCommandExecutor.openBrowserWithUrl(request.arg0);
         }
+
+        public static bool appControllPowerPoint(TopeRequest request)
+        {
+            return ProgCommandExecutor.appInputSimulation(request.arg0);
+        }
     }
 }

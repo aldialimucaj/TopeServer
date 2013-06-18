@@ -223,6 +223,10 @@
       <Project>{9f1076aa-63df-4128-9c10-fd65e425c783}</Project>
       <Name>CoreAudioApi</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Inputsimulator\WindowsInput\WindowsInput.csproj">
+      <Project>{3549cd6f-80f8-450f-b99e-cf0a736b1f2a}</Project>
+      <Name>WindowsInput</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using CoreAudioApi;
+using WindowsInput;
+using WindowsInput.Native;
 
 namespace TopeServer.al.aldi.topeServer.control.executors
 {
@@ -119,6 +121,13 @@ namespace TopeServer.al.aldi.topeServer.control.executors
         public static bool unlockInput()
         {
             return lockInput(false);
+        }
+
+        public static bool simInputPressTheSpacebar()
+        {
+            InputSimulator inputSimupator = new InputSimulator();
+            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.SPACE);
+            return true;
         }
 
         /* ************ SOUND ************ */

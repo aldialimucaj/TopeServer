@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using TopeServer.al.aldi.topeServer.control.executors;
 
 namespace TopeServer.al.aldi.utils.general
 {
@@ -18,6 +19,14 @@ namespace TopeServer.al.aldi.utils.general
             catch (ArgumentException)
             {
                 return false;
+            }
+            return true;
+        }
+
+        public static bool appInputSimulation(String key)
+        {
+            if(key.Equals("SPACE")) {
+                OsCommandExecutor.simInputPressTheSpacebar();
             }
             return true;
         }

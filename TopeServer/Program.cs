@@ -35,6 +35,7 @@ namespace TopeServer
 
         public const String INI_VAR_URL_BOUND = "url_bound";
         public const String INI_VAR_CERT_HASH = "ssl_cert_hash";
+        public const String INI_VAR_DB_CREATED = "db_created";
 
         public const String TRUE  = "true";
         public const String FALSE = "false";
@@ -92,14 +93,20 @@ namespace TopeServer
 
         private void reloadDatabase()
         {
-            TopeActionDAO tAction = new TopeActionDAO();
-            tAction.dropTable();
-            tAction.createTable();
-            TopeRequestDAO tRequest = new TopeRequestDAO();
-            tRequest.dropTable();
-            tRequest.createTable();
+            propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED, FALSE);
+             String database_created = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED);
+             if (!database_created.Equals(TRUE))
+             {
+                 TopeActionDAO tAction = new TopeActionDAO();
+                 tAction.dropTable();
+                 tAction.createTable();
+                 TopeRequestDAO tRequest = new TopeRequestDAO();
+                 tRequest.dropTable();
+                 tRequest.createTable();
 
-            addActions();
+                 addActions();
+                 bool b = propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED, TRUE);
+             }
         }
 
         private void addActions(Type t, String prefix)

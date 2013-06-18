@@ -10,6 +10,7 @@ namespace TopeServer.al.aldi.utils.general
     {
         public static String INI_SECTION_GENERAL = "General";
         public static String INI_SECTION_SECURITY = "Security";
+        public static String INI_SECTION_DATABASE = "Database";
 
         public string path;
 

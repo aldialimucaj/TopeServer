@@ -18,6 +18,9 @@
                     <Condition>ASSISTANCE_START_VIA_REGISTRY</Condition>
                 </Component>
                 <Directory Id="RELEASE" Name="TopeServer">
+                    <Component Id="WINDOWSINPUT.DLL" DiskId="1" Guid="5CEF530E-6A42-4D74-BA4B-FFDF66B511A8">
+                        <File Id="WINDOWSINPUT.DLL" Name="WindowsInput.dll" Source="TopeServer\bin\Release\WindowsInput.dll" />
+                    </Component>
                     <Component Id="NANCY.DLL" DiskId="1" Guid="2C37F25C-AE5B-447C-985C-B3FF414A9913">
                         <File Id="NANCY.DLL" Name="Nancy.dll" Source="TopeServer\bin\Release\Nancy.dll" />
                     </Component>
@@ -91,7 +94,7 @@
             <ComponentRef Id="SYSTEM.DATA.SQLITE.LINQ.DLL" />
             <ComponentRef Id="SQLITE.INTEROP.x86.DLL" />
             <ComponentRef Id="SQLITE.INTEROP.x64.DLL" />
-			<ComponentRef Id="TOPESERVER.EXE.CONFIG" />
+            <ComponentRef Id="TOPESERVER.EXE.CONFIG" />
             <ComponentRef Id="TOPESERVER.EXE" />
             <ComponentRef Id="StartMenuShortcuts" />
             <ComponentRef Id="AutoStartTope" />
