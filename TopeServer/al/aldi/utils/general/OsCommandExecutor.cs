@@ -130,6 +130,44 @@ namespace TopeServer.al.aldi.topeServer.control.executors
             return true;
         }
 
+        public static bool simInputPressBackspace()
+        {
+            InputSimulator inputSimupator = new InputSimulator();
+            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.BACK);
+            return true;
+        }
+
+        public static bool simInputPressShiftF5()
+        {
+            InputSimulator inputSimupator = new InputSimulator();
+            inputSimupator.Keyboard.KeyDown(VirtualKeyCode.SHIFT);
+            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.F5);
+            inputSimupator.Keyboard.KeyUp(VirtualKeyCode.SHIFT);
+            return true;
+        }
+
+        public static bool simInputPressPeriod()
+        {
+            InputSimulator inputSimupator = new InputSimulator();
+            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.OEM_PERIOD);
+            return true;
+        }
+
+        public static bool simInputPressRight()
+        {
+            InputSimulator inputSimupator = new InputSimulator();
+            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.RIGHT);
+            return true;
+        }
+
+        public static bool simInputPressLeft()
+        {
+            InputSimulator inputSimupator = new InputSimulator();
+            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.LEFT);
+            return true;
+        }
+        
+
         /* ************ SOUND ************ */
         public static bool soundSwap(bool status)
         {

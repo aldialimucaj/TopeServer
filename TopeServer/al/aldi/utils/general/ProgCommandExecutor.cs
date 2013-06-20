@@ -25,8 +25,28 @@ namespace TopeServer.al.aldi.utils.general
 
         public static bool appInputSimulation(String key)
         {
-            if(key.Equals("SPACE")) {
+            if(key.Equals("#SPACE")) {
                 OsCommandExecutor.simInputPressTheSpacebar();
+            }
+            if (key.Equals("#BACKSPACE"))
+            {
+                OsCommandExecutor.simInputPressBackspace();
+            }
+            if (key.Equals("#SHIFTF5"))
+            {
+                OsCommandExecutor.simInputPressShiftF5();
+            }
+            if (key.Equals("#PERIOD"))
+            {
+                OsCommandExecutor.simInputPressPeriod();
+            }
+            if (key.Equals("#RIGHT"))
+            {
+                OsCommandExecutor.simInputPressRight();
+            }
+            if (key.Equals("#LEFT"))
+            {
+                OsCommandExecutor.simInputPressLeft();
             }
             return true;
         }

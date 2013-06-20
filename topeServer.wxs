@@ -82,6 +82,7 @@
             </Directory>
         </Directory>
         <Feature Id="DefaultFeature" Title="Main Feature" Level="1">
+			<ComponentRef Id="WINDOWSINPUT.DLL" />
             <ComponentRef Id="NANCY.DLL" />
             <ComponentRef Id="NANCY.HOSTING.SELF.DLL" />
             <ComponentRef Id="NEWTONSOFT.JSON.DLL" />
