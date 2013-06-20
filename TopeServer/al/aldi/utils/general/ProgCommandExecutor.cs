@@ -48,7 +48,32 @@ namespace TopeServer.al.aldi.utils.general
             {
                 OsCommandExecutor.simInputPressLeft();
             }
+            if (key.Equals("#f"))
+            {
+                OsCommandExecutor.simInputPressKeyF();
+            }
+            if (key.Equals("#t"))
+            {
+                OsCommandExecutor.simInputPressKeyT();
+            }
+            if (key.Equals("#CTRL-RIGHT"))
+            {
+                OsCommandExecutor.simInputPressCtrlRight();
+            }
+            if (key.Equals("#CTRL-LEFT"))
+            {
+                OsCommandExecutor.simInputPressCtrlLeft();
+            }
+            if (key.Equals("#CTRL-UP"))
+            {
+                OsCommandExecutor.simInputPressCtrlUp();
+            }
+            if (key.Equals("#CTRL-DOWN"))
+            {
+                OsCommandExecutor.simInputPressCtrlDown();
+            }
             return true;
         }
+
     }
 }

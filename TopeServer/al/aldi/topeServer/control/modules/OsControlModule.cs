@@ -18,6 +18,7 @@ using TopeServer.al.aldi.topeServer.control.db.tables;
 using System.Reflection;
 using System.Linq.Expressions;
 using TopeServer.al.aldi.topeServer.model.responses;
+using TopeServer.al.aldi.utils.general;
 
 namespace TopeServer
 {
@@ -50,7 +51,14 @@ namespace TopeServer
 
                     showMsg(ta.method);
                     TopeRequest request = ModuleUtils.validate(this);
-                    taskManager.addRequest(request);
+                    try
+                    {
+                        taskManager.addRequest(request);
+                    }
+                    catch (Exception e)
+                    {
+                        TopeLogger.Log(e.StackTrace);
+                    }
 
                     /* starting execution */
                     ITaskExecutor taskExecutor = new TaskExecutor();
@@ -64,7 +72,14 @@ namespace TopeServer
                     /* updating the request */
                     request.success = topeRes.isSuccessful();
                     request.executed++;
-                    taskManager.updateRequest(request);
+                    try
+                    {
+                        taskManager.updateRequest(request);
+                    }
+                    catch (Exception e)
+                    {
+                        TopeLogger.Log(e.StackTrace);
+                    }
 
                     TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                     return nego.Response;

@@ -141,6 +141,7 @@
     <Compile Include="al\aldi\utils\general\ProgramAdministration.cs" />
     <Compile Include="al\aldi\utils\general\StringUtils.cs" />
     <Compile Include="al\aldi\utils\general\SystemUtils.cs" />
+    <Compile Include="al\aldi\utils\general\TopeLogger.cs" />
     <Compile Include="al\aldi\utils\security\EncryptionUtils.cs" />
     <Compile Include="al\aldi\utils\security\NetworkUtils.cs" />
     <Compile Include="al\aldi\utils\security\PrivilegesUtil.cs" />

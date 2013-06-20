@@ -4,6 +4,7 @@ using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
+using TopeServer.al.aldi.utils.general;
 
 namespace TopeServer.al.aldi.utils.security
 {
@@ -26,10 +27,17 @@ namespace TopeServer.al.aldi.utils.security
             {
                 return false;
             }
-            using (PrincipalContext pc = new PrincipalContext(ContextType.Machine))
+            try
             {
-                // validate the credentials
-                isAuthentic = pc.ValidateCredentials(user, password);
+                using (PrincipalContext pc = new PrincipalContext(ContextType.Machine))
+                {
+                    // validate the credentials
+                    isAuthentic = pc.ValidateCredentials(user, password);
+                }
+            }
+            catch (Exception e)
+            {
+                TopeLogger.Log(e.StackTrace);
             }
             return isAuthentic;
         }
@@ -42,11 +50,17 @@ namespace TopeServer.al.aldi.utils.security
             {
                 return isAuthenticLocal(user, password);
             }
-
-            using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, domain))
+            try
             {
-                // validate the credentials
-                isAuthentic = pc.ValidateCredentials(user, password);
+                using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, domain))
+                {
+                    // validate the credentials
+                    isAuthentic = pc.ValidateCredentials(user, password);
+                }
+            }
+            catch (Exception e)
+            {
+                TopeLogger.Log(e.StackTrace);
             }
             return isAuthentic;
         }

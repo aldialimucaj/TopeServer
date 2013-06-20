@@ -167,6 +167,54 @@ namespace TopeServer.al.aldi.topeServer.control.executors
             return true;
         }
         
+        public static bool simInputPressKeyF()
+        {
+            InputSimulator inputSimupator = new InputSimulator();
+            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.VK_F);
+            return true;
+        }
+
+        public static bool simInputPressKeyT()
+        {
+            InputSimulator inputSimupator = new InputSimulator();
+            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.VK_T);
+            return true;
+        }
+
+        public static bool simInputPressCtrlLeft()
+        {
+            InputSimulator inputSimupator = new InputSimulator();
+            inputSimupator.Keyboard.KeyDown(VirtualKeyCode.CONTROL);
+            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.LEFT);
+            inputSimupator.Keyboard.KeyUp(VirtualKeyCode.CONTROL);
+            return true;
+        }
+        public static bool simInputPressCtrlRight()
+        {
+            InputSimulator inputSimupator = new InputSimulator();
+            inputSimupator.Keyboard.KeyDown(VirtualKeyCode.CONTROL);
+            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.RIGHT);
+            inputSimupator.Keyboard.KeyUp(VirtualKeyCode.CONTROL);
+            return true;
+        }
+
+        public static bool simInputPressCtrlUp()
+        {
+            InputSimulator inputSimupator = new InputSimulator();
+            inputSimupator.Keyboard.KeyDown(VirtualKeyCode.CONTROL);
+            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.UP);
+            inputSimupator.Keyboard.KeyUp(VirtualKeyCode.CONTROL);
+            return true;
+        }
+        public static bool simInputPressCtrlDown()
+        {
+            InputSimulator inputSimupator = new InputSimulator();
+            inputSimupator.Keyboard.KeyDown(VirtualKeyCode.CONTROL);
+            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.DOWN);
+            inputSimupator.Keyboard.KeyUp(VirtualKeyCode.CONTROL);
+            return true;
+        }
+        
 
         /* ************ SOUND ************ */
         public static bool soundSwap(bool status)
