@@ -120,6 +120,7 @@
     <Compile Include="al\aldi\topeServer\control\db\tables\TopeActionDAO.cs" />
     <Compile Include="al\aldi\topeServer\control\db\tables\TopeRequestDAO.cs" />
     <Compile Include="al\aldi\topeServer\control\executors\ProgCommands.cs" />
+    <Compile Include="al\aldi\topeServer\control\executors\UtilCommands.cs" />
     <Compile Include="al\aldi\topeServer\control\ITaskExecutor.cs" />
     <Compile Include="al\aldi\topeServer\control\TaskManager.cs" />
     <Compile Include="al\aldi\topeServer\model\responses\ITopeResponse.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="al\aldi\utils\general\StringUtils.cs" />
     <Compile Include="al\aldi\utils\general\SystemUtils.cs" />
     <Compile Include="al\aldi\utils\general\TopeLogger.cs" />
+    <Compile Include="al\aldi\utils\general\UtilsCommandExecutor.cs" />
     <Compile Include="al\aldi\utils\security\EncryptionUtils.cs" />
     <Compile Include="al\aldi\utils\security\NetworkUtils.cs" />
     <Compile Include="al\aldi\utils\security\PrivilegesUtil.cs" />

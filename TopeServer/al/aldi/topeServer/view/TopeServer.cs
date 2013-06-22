@@ -82,7 +82,7 @@ namespace TopeServer
 
         private void notifyIcon1_DoubleClick(object sender, EventArgs e)
         {
-            MessageBox.Show("Double Click");
+            MessageBox.Show("Congatulations, you just made a successful double click!");
         }
 
         

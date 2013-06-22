@@ -140,6 +140,9 @@ namespace TopeServer
 
             t = typeof(ProgCommands);
             addActions(t, "/prog/");
+
+            t = typeof(UtilCommands);
+            addActions(t, "/util/");
         }
 
 
