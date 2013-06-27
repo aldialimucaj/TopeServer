@@ -9,7 +9,7 @@ namespace TopeServer.al.aldi.topeServer.control.db.tables
 {
     class TopeRequestDAO
     {
-        public const String TABLE_NAME      = "TOPEREQUESTS";
+        public const String TABLE_NAME      = "TopeRequests";
         public const String ID              = "topeRequestId";
         public const String TOPE_ACTION     = "actionId";
         public const String USER            = "user";

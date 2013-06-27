@@ -82,7 +82,7 @@ namespace TopeServer
 
         private void notifyIcon1_DoubleClick(object sender, EventArgs e)
         {
-            MessageBox.Show("Congatulations, you just made a successful double click!");
+            MessageBox.Show("Congatulations, you just performed a successful double click!");
         }
 
         
@@ -90,6 +90,7 @@ namespace TopeServer
         private void exit_Click(object sender, EventArgs e)
         {
             this.Close();
+            Environment.Exit(0);
         }
 
         private void initSecurity_Click(object sender, EventArgs e)

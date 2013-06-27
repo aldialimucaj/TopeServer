@@ -46,13 +46,13 @@ namespace TopeServer.al.aldi.utils.security
 
 
             X509Certificate2 cert = new X509Certificate2(DotNetUtilities.ToX509Certificate((Org.BouncyCastle.X509.X509Certificate)newCert));
-
+            
             return ConvertToWindows(newCert, keypair);
         }
 
         public static X509Certificate2 ConvertToWindows(Org.BouncyCastle.X509.X509Certificate newCert, AsymmetricCipherKeyPair kp)
         {
-            var tempStorePwd = "random";
+            var tempStorePwd = Program.FILE_CERT_PASSWORD;
             var tempStoreFile = new FileInfo(Path.GetTempFileName());
 
             try
@@ -85,7 +85,7 @@ namespace TopeServer.al.aldi.utils.security
                 }
 
                 // reload key 
-                return new X509Certificate2(tempStoreFile.FullName, tempStorePwd);
+                return new X509Certificate2(tempStoreFile.FullName, tempStorePwd, X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet);
             }
             finally
             {
@@ -98,15 +98,23 @@ namespace TopeServer.al.aldi.utils.security
         /// Install certificate into the local machine
         /// </summary>
         /// <param name="cerFileName">path of certificate</param>
-        public static void InstallCertificate(string cerFileName, string password)
+        public static void InstallCertificate(string cerFileName, string password, StoreName storeName)
         {
-            X509Certificate2 certificate = new X509Certificate2(cerFileName, password, X509KeyStorageFlags.PersistKeySet);
-            //X509Store store = new X509Store(StoreName.TrustedPublisher, StoreLocation.LocalMachine);
-            X509Store store = new X509Store(StoreName.TrustedPublisher, StoreLocation.LocalMachine);
+            X509Certificate2 certificate = new X509Certificate2(cerFileName, password, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet);
+            X509Store store = new X509Store(storeName, StoreLocation.LocalMachine);
 
             store.Open(OpenFlags.ReadWrite);
             store.Add(certificate);
             store.Close();
+        }
+
+        /// <summary>
+        /// Install certificate into the local machine
+        /// </summary>
+        /// <param name="cerFileName">path of certificate</param>
+        public static void InstallCertificate( string password, StoreName storeName)
+        {
+            InstallCertificate(Program.FILE_CERT_NAME, password, storeName);
         }
 
         /// <summary>
@@ -130,6 +138,74 @@ namespace TopeServer.al.aldi.utils.security
             store.Open(OpenFlags.ReadWrite);
             store.Add(certificate);
             store.Close();
+        }
+
+        public static void SaveCertificateToFile(X509Certificate2 certificate, String password, String fileName)
+        {
+            File.WriteAllBytes(fileName, certificate.Export(X509ContentType.Pfx, password));
+        }
+
+        public static void SaveCertificateToFile(X509Certificate2 certificate, String password)
+        {
+            SaveCertificateToFile(certificate, password, Program.FILE_CERT_NAME);
+        }
+
+        public static void RemoveCertificate(string cerFileName)
+        {
+            X509Store store = new X509Store(StoreName.TrustedPublisher, StoreLocation.LocalMachine);
+
+            store.Open(OpenFlags.ReadWrite);
+            var certificates = store.Certificates;
+            
+            foreach (var certificate in certificates)
+            {
+                var friendlyName = certificate.FriendlyName;
+                var xname = certificate.SubjectName.Name; 
+                if(xname.Equals("CN="+cerFileName)){
+                    store.Remove(certificate);
+                }
+                
+            }
+
+            store.Close();
+
+            store = new X509Store(StoreName.Root, StoreLocation.LocalMachine);
+
+            store.Open(OpenFlags.ReadWrite);
+            certificates = store.Certificates;
+
+            foreach (var certificate in certificates)
+            {
+                var friendlyName = certificate.FriendlyName;
+                var xname = certificate.SubjectName.Name;
+                if (xname.Equals("CN=" + cerFileName))
+                {
+                    store.Remove(certificate);
+                }
+
+            }
+
+            store.Close();
+
+            store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+
+            store.Open(OpenFlags.ReadWrite);
+            certificates = store.Certificates;
+
+            foreach (var certificate in certificates)
+            {
+                var friendlyName = certificate.FriendlyName;
+                var xname = certificate.SubjectName.Name;
+                if (xname.Equals("CN=" + cerFileName))
+                {
+                    store.Remove(certificate);
+                }
+
+            }
+
+            store.Close();
+
+            
         }
     }
 }

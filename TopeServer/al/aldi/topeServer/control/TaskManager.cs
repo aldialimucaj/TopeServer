@@ -60,7 +60,7 @@ namespace TopeServer.al.aldi.topeServer.control
         public void startExecutor()
         {
             Thread thread = new Thread(requestPoolChecker);
-            thread.Start();
+            //thread.Start();
 
         }
 

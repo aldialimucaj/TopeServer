@@ -5,6 +5,7 @@ using System.Media;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using System.Speech.Synthesis;
 
 namespace TopeServer.al.aldi.utils.general
 {
@@ -23,6 +24,13 @@ namespace TopeServer.al.aldi.utils.general
         internal static bool beep(string p)
         {
             SystemSounds.Beep.Play();
+            return true;
+        }
+
+        internal static bool readOutLoud(string p)
+        {
+            SpeechSynthesizer ss = new SpeechSynthesizer();
+            ss.SpeakAsync(p);
             return true;
         }
     }

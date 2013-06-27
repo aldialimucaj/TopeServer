@@ -61,6 +61,9 @@
                             <File Id="SQLITE.INTEROP.x64.DLL" Name="SQLite.Interop.dll" Source="TopeServer\bin\Release\x64\SQLite.Interop.dll" />
                         </Component>
                     </Directory>
+                    <Component Id="TOPESERVER.INI" Guid="79E91FD5-11F9-4B44-BA06-F33527D3DAFD">
+                        <File Id="TOPESERVER.INI" Name="TopeServer.ini" Source="TopeServer\bin\Release\TopeServer.ini" />
+                    </Component>
                     <Component Id="TOPESERVER.EXE.CONFIG" Guid="06AB8C08-C427-4872-9D23-7EF5742A5D72">
                         <File Id="TOPESERVER.EXE.CONFIG" Name="TopeServer.exe.config" Source="TopeServer\bin\Release\TopeServer.exe.config" />
                     </Component>
@@ -76,13 +79,13 @@
                     <Component Id="StartMenuShortcuts" Guid="64B7907D-72AC-43B1-A372-E1CE30F4540E">
                         <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
                         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type="string" Value="" />
-                        <Shortcut Id="UninstallProduct" Name="Uninstall TopeServer" Description="Uninstalls the TopeServer and removes its services." Target="[System64Folder]msiexec.exe" Arguments="/x [ProductCode]" />
+                        <Shortcut Id="UninstallProduct" Name="Uninstall Tope Server" Description="Uninstalls the TopeServer and removes its services." Target="[System64Folder]msiexec.exe" Arguments="/x [ProductCode]" />
                     </Component>
                 </Directory>
             </Directory>
         </Directory>
         <Feature Id="DefaultFeature" Title="Main Feature" Level="1">
-			<ComponentRef Id="WINDOWSINPUT.DLL" />
+            <ComponentRef Id="WINDOWSINPUT.DLL" />
             <ComponentRef Id="NANCY.DLL" />
             <ComponentRef Id="NANCY.HOSTING.SELF.DLL" />
             <ComponentRef Id="NEWTONSOFT.JSON.DLL" />
@@ -95,6 +98,7 @@
             <ComponentRef Id="SYSTEM.DATA.SQLITE.LINQ.DLL" />
             <ComponentRef Id="SQLITE.INTEROP.x86.DLL" />
             <ComponentRef Id="SQLITE.INTEROP.x64.DLL" />
+            <ComponentRef Id="TOPESERVER.INI" />
             <ComponentRef Id="TOPESERVER.EXE.CONFIG" />
             <ComponentRef Id="TOPESERVER.EXE" />
             <ComponentRef Id="StartMenuShortcuts" />

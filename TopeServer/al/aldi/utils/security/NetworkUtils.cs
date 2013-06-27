@@ -146,6 +146,7 @@ namespace TopeServer.al.aldi.utils.security
             var attribute = (GuidAttribute)assembly.GetCustomAttributes(typeof(GuidAttribute), true)[0];
             var id = attribute.Value;
 
+            //String args = string.Format("http add sslcert ipport=0.0.0.0:{0} certhash={1} appid={{{2}}} clientcertnegotiation=disable usagecheck=disable verifyclientcertrevocation=disable certstorename=MY", port, cert.GetCertHashString().ToLower(), id);
             String args = string.Format("http add sslcert ipport=0.0.0.0:{0} certhash={1} appid={{{2}}}", port, cert.GetCertHashString().ToLower(), id);
             Process p = new Process();
             p.StartInfo.FileName = "netsh.exe";

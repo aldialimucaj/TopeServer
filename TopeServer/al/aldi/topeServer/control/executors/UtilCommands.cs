@@ -18,5 +18,10 @@ namespace TopeServer.al.aldi.topeServer.control.executors
         {
             return UtilsCommandExecutor.beep(request.arg0);
         }
+
+        public static bool readOutLoud(TopeRequest request)
+        {
+            return UtilsCommandExecutor.readOutLoud(request.arg0);
+        }
     }
 }

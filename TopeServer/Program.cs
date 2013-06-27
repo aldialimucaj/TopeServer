@@ -31,18 +31,21 @@ namespace TopeServer
 
         public const String FIREWALL_RULE_NAME = "TopeClient Firewall Rule";
         public const String FIREWALL_RULE_DESC = "TopeClient Firewall Rule";
-        public const String FILE_INI_GENERAL = "/TopeServer.ini";
+        public const String FILE_INI_GENERAL   = "/TopeServer.ini";
+        public const String FILE_CERT_NAME     = "TopeCert.pfx";
+        public const String FILE_CERT_PASSWORD = "TopePassword";
+        public const String TOPE_CERT_NAME     = "TopeServerCert";
 
-        public const String INI_VAR_URL_BOUND = "url_bound";
-        public const String INI_VAR_CERT_HASH = "ssl_cert_hash";
+        public const String INI_VAR_URL_BOUND  = "url_bound";
+        public const String INI_VAR_CERT_HASH  = "ssl_cert_hash";
         public const String INI_VAR_DB_CREATED = "db_created";
 
-        public const String TRUE  = "true";
+        public const String TRUE = "true";
         public const String FALSE = "false";
 
 
         IniFileUtil propertiesFile = new IniFileUtil(ProgramAdministration.getProgramPath() + FILE_INI_GENERAL);
-        
+
         private static bool WIDNOWS_FORM = true;
 
         TopeServer ts = new TopeServer();
@@ -59,8 +62,8 @@ namespace TopeServer
             {
                 /* WINDOWS SERVICE */
             }
-#if DEBUG 
-        StaticConfiguration.DisableErrorTraces = false;
+#if DEBUG
+            StaticConfiguration.DisableErrorTraces = false;
 #endif
         }
 
@@ -70,10 +73,12 @@ namespace TopeServer
         /// <returns></returns>
         public static String initSecurity()
         {
-            X509Certificate2 certificate = EncryptionUtils.GenerateCertificate("TopeServerCert");
-            EncryptionUtils.InstallCertificate(certificate, StoreName.Root);
-            EncryptionUtils.InstallCertificate(certificate, StoreName.TrustedPublisher);
-            EncryptionUtils.InstallCertificate(certificate, StoreName.My);
+            EncryptionUtils.RemoveCertificate(TOPE_CERT_NAME); // Clean up the old certificates
+            X509Certificate2 certificate = EncryptionUtils.GenerateCertificate(TOPE_CERT_NAME);
+            EncryptionUtils.SaveCertificateToFile(certificate, FILE_CERT_PASSWORD);
+            EncryptionUtils.InstallCertificate(FILE_CERT_PASSWORD, StoreName.Root);
+            EncryptionUtils.InstallCertificate(FILE_CERT_PASSWORD, StoreName.TrustedPublisher);
+            EncryptionUtils.InstallCertificate(FILE_CERT_PASSWORD, StoreName.My);
             NetworkUtils.UnBindCertificateCmd(FIREWALL_RULE_PORT); // unbind existing certificates on listening port
             return NetworkUtils.BindCertificateCmd(certificate, FIREWALL_RULE_PORT);
         }
@@ -89,24 +94,30 @@ namespace TopeServer
                 initSecurity();
                 bool b = propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_URL_BOUND, TRUE);
             }
+            reloadDatabase();
+            String database_created = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED);
+            if (!database_created.Equals(TRUE))
+            {
+                reloadDatabase();
+            }
         }
 
         private void reloadDatabase()
         {
             propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED, FALSE);
-             String database_created = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED);
-             if (!database_created.Equals(TRUE))
-             {
-                 TopeActionDAO tAction = new TopeActionDAO();
-                 tAction.dropTable();
-                 tAction.createTable();
-                 TopeRequestDAO tRequest = new TopeRequestDAO();
-                 tRequest.dropTable();
-                 tRequest.createTable();
+            String database_created = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED);
+            if (!database_created.Equals(TRUE))
+            {
+                TopeActionDAO tAction = new TopeActionDAO();
+                tAction.dropTable();
+                tAction.createTable();
+                TopeRequestDAO tRequest = new TopeRequestDAO();
+                tRequest.dropTable();
+                tRequest.createTable();
 
-                 addActions();
-                 bool b = propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED, TRUE);
-             }
+                addActions();
+                bool b = propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED, TRUE);
+            }
         }
 
         private void addActions(Type t, String prefix)
@@ -157,7 +168,6 @@ namespace TopeServer
 
                 Program p = new Program();
                 p.readParameters();
-                p.reloadDatabase();
                 p.startTaskManager();
                 p.startServer();
             }
