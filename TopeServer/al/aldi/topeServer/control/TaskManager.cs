@@ -13,6 +13,7 @@ namespace TopeServer.al.aldi.topeServer.control
 {
     class TaskManager
     {
+        private const int THREAD_CHECK_TIMER = 5000;
         private static TaskManager taskManager = null;
         private TopeActionContext tac = new TopeActionContext();
         private TopeRequestDAO trDAO = null;
@@ -60,8 +61,7 @@ namespace TopeServer.al.aldi.topeServer.control
         public void startExecutor()
         {
             Thread thread = new Thread(requestPoolChecker);
-            //thread.Start();
-
+            thread.Start();
         }
 
         private void requestPoolChecker()
@@ -81,7 +81,7 @@ namespace TopeServer.al.aldi.topeServer.control
                     request.executed++;
                     tac.SaveChanges();
                 }
-                Thread.Sleep(5000);
+                Thread.Sleep(THREAD_CHECK_TIMER);
             }
         }
     }

@@ -94,7 +94,6 @@ namespace TopeServer
                 initSecurity();
                 bool b = propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_URL_BOUND, TRUE);
             }
-            reloadDatabase();
             String database_created = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED);
             if (!database_created.Equals(TRUE))
             {
@@ -104,7 +103,6 @@ namespace TopeServer
 
         private void reloadDatabase()
         {
-            propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED, FALSE);
             String database_created = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED);
             if (!database_created.Equals(TRUE))
             {
