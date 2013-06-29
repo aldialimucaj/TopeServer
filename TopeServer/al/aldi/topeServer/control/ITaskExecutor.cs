@@ -8,6 +8,6 @@ namespace TopeServer.al.aldi.topeServer.control
 {
     interface ITaskExecutor
     {
-        ITopeResponse Execute(Func<TopeRequest, bool> d, TopeRequest request = null);
+        ITopeResponse Execute(Func<TopeRequest, TopeResponse> d, TopeRequest request = null);
     }
 }

@@ -65,7 +65,7 @@ namespace TopeServer
                     Type t = Type.GetType(ta.module);
                     MethodInfo method = t.GetMethod(ta.method, BindingFlags.Static | BindingFlags.Public);
                     var input = Expression.Parameter(typeof(TopeRequest), "input");
-                    Func<TopeRequest, bool> result = Expression.Lambda<Func<TopeRequest, bool>>(Expression.Call( method, input), input).Compile();
+                    Func<TopeRequest, TopeResponse> result = Expression.Lambda<Func<TopeRequest, TopeResponse>>(Expression.Call(method, input), input).Compile();
                     var topeRes = taskExecutor.Execute(result, request);
                     /* execution finished */
 
@@ -197,10 +197,12 @@ namespace TopeServer
             return filteredActions;
         }
 
-        public bool returnTrue(TopeRequest request)
+        public TopeResponse returnTrue(TopeRequest request)
         {
+            TopeResponse topeResponse = new TopeResponse();
             showMsg("TestMsg: "+request.message);
-            return true;
+            topeResponse.success = true;
+            return topeResponse;
         }
 
         public bool returnTrue()
@@ -209,9 +211,11 @@ namespace TopeServer
             return true;
         }
 
-        public bool dummyMethod(TopeRequest request)
+        public TopeResponse dummyMethod(TopeRequest request)
         {
-            return true;
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = true;
+            return topeResponse;
         }
 
         public void setDeliverer(IMessageDeliverer d)

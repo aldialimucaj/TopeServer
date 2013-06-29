@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using System.Speech.Synthesis;
+using System.Threading;
 
 namespace TopeServer.al.aldi.utils.general
 {
@@ -32,6 +33,30 @@ namespace TopeServer.al.aldi.utils.general
             SpeechSynthesizer ss = new SpeechSynthesizer();
             ss.SpeakAsync(p);
             return true;
+        }
+
+        internal static String readClipBoard()
+        {
+            String text = null;
+            Exception threadEx = null;
+            Thread staThread = new Thread(
+                delegate()
+                {
+                    try
+                    {
+                        text = Clipboard.GetText();
+                    }
+
+                    catch (Exception ex)
+                    {
+                        threadEx = ex;
+                    }
+                }
+            );
+            staThread.SetApartmentState(ApartmentState.STA);
+            staThread.Start();
+            staThread.Join();
+            return text;
         }
     }
 }

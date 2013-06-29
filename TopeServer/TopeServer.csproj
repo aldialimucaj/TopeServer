@@ -124,6 +124,7 @@
     <Compile Include="al\aldi\topeServer\control\executors\UtilCommands.cs" />
     <Compile Include="al\aldi\topeServer\control\ITaskExecutor.cs" />
     <Compile Include="al\aldi\topeServer\control\TaskManager.cs" />
+    <Compile Include="al\aldi\topeServer\model\responses\SimpleTextResponse.cs" />
     <Compile Include="al\aldi\topeServer\model\responses\ITopeResponse.cs" />
     <Compile Include="al\aldi\topeServer\model\responses\SynchActionResponse.cs" />
     <Compile Include="al\aldi\topeServer\model\responses\TopeTestResponse.cs" />

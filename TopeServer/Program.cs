@@ -31,13 +31,13 @@ namespace TopeServer
 
         public const String FIREWALL_RULE_NAME = "TopeClient Firewall Rule";
         public const String FIREWALL_RULE_DESC = "TopeClient Firewall Rule";
-        public const String FILE_INI_GENERAL   = "/TopeServer.ini";
-        public const String FILE_CERT_NAME     = "TopeCert.pfx";
+        public const String FILE_INI_GENERAL = "/TopeServer.ini";
+        public const String FILE_CERT_NAME = "TopeCert.pfx";
         public const String FILE_CERT_PASSWORD = "TopePassword";
-        public const String TOPE_CERT_NAME     = "TopeServerCert";
+        public const String TOPE_CERT_NAME = "TopeServerCert";
 
-        public const String INI_VAR_URL_BOUND  = "url_bound";
-        public const String INI_VAR_CERT_HASH  = "ssl_cert_hash";
+        public const String INI_VAR_URL_BOUND = "url_bound";
+        public const String INI_VAR_CERT_HASH = "ssl_cert_hash";
         public const String INI_VAR_DB_CREATED = "db_created";
 
         public const String TRUE = "true";
@@ -94,6 +94,8 @@ namespace TopeServer
                 initSecurity();
                 bool b = propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_URL_BOUND, TRUE);
             }
+
+            reloadDatabase();
             String database_created = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED);
             if (!database_created.Equals(TRUE))
             {
@@ -103,19 +105,15 @@ namespace TopeServer
 
         private void reloadDatabase()
         {
-            String database_created = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED);
-            if (!database_created.Equals(TRUE))
-            {
-                TopeActionDAO tAction = new TopeActionDAO();
-                tAction.dropTable();
-                tAction.createTable();
-                TopeRequestDAO tRequest = new TopeRequestDAO();
-                tRequest.dropTable();
-                tRequest.createTable();
+            TopeActionDAO tAction = new TopeActionDAO();
+            tAction.dropTable();
+            tAction.createTable();
+            TopeRequestDAO tRequest = new TopeRequestDAO();
+            tRequest.dropTable();
+            tRequest.createTable();
 
-                addActions();
-                bool b = propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED, TRUE);
-            }
+            addActions();
+            bool b = propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_DATABASE, INI_VAR_DB_CREATED, TRUE);
         }
 
         private void addActions(Type t, String prefix)

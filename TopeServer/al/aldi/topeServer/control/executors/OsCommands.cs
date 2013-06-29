@@ -9,69 +9,95 @@ namespace TopeServer.al.aldi.topeServer.control.executors
 {
     class OsCommands
     {
-        public static bool hibernatePC(TopeRequest request)
+        public static TopeResponse hibernatePC(TopeRequest request)
         {
-            return OsCommandExecutor.hibernatePC();
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = OsCommandExecutor.hibernatePC();
+            return topeResponse;
         }
 
-        public static bool standbyPC(TopeRequest arg)
+        public static TopeResponse standbyPC(TopeRequest arg)
         {
-            return OsCommandExecutor.standbyPC();
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = OsCommandExecutor.standbyPC();
+            return topeResponse;
         }
 
-        public static bool powerOffPC(TopeRequest arg)
+        public static TopeResponse powerOffPC(TopeRequest arg)
         {
-            return OsCommandExecutor.powerOffPC();
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = OsCommandExecutor.powerOffPC();
+            return topeResponse;
         }
 
-        public static bool restartPC(TopeRequest arg)
+        public static TopeResponse restartPC(TopeRequest arg)
         {
-            return OsCommandExecutor.restartPC();
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = OsCommandExecutor.restartPC();
+            return topeResponse;
         }
 
-        public static bool logOffPC(TopeRequest arg)
+        public static TopeResponse logOffPC(TopeRequest arg)
         {
-            return OsCommandExecutor.logOffPC();
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = OsCommandExecutor.logOffPC();
+            return topeResponse;
         }
 
-        public static bool lockScreen(TopeRequest arg)
+        public static TopeResponse lockScreen(TopeRequest arg)
         {
-            return OsCommandExecutor.lockScreen();
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = OsCommandExecutor.lockScreen();
+            return topeResponse;
         }
 
-        public static bool turnMonitorOn(TopeRequest arg)
+        public static TopeResponse turnMonitorOn(TopeRequest arg)
         {
-            return OsCommandExecutor.turnMonitorOn();
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = OsCommandExecutor.turnMonitorOn();
+            return topeResponse;
         }
 
-        public static bool turnMonitorOff(TopeRequest arg)
+        public static TopeResponse turnMonitorOff(TopeRequest arg)
         {
-            return OsCommandExecutor.turnMonitorOff();
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = OsCommandExecutor.turnMonitorOff();
+            return topeResponse;
         }
 
-        public static bool lockInput(TopeRequest arg)
+        public static TopeResponse lockInput(TopeRequest arg)
         {
-            return OsCommandExecutor.lockInput();
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = OsCommandExecutor.lockInput();
+            return topeResponse;
         }
 
-        public static bool unlockInput(TopeRequest arg)
+        public static TopeResponse unlockInput(TopeRequest arg)
         {
-            return OsCommandExecutor.unlockInput();
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = OsCommandExecutor.unlockInput();
+            return topeResponse;
         }
 
-        public static bool soundMute(TopeRequest arg)
+        public static TopeResponse soundMute(TopeRequest arg)
         {
-            return OsCommandExecutor.soundMute();
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = OsCommandExecutor.soundMute();
+            return topeResponse;
         }
 
-        public static bool soundOn(TopeRequest arg)
+        public static TopeResponse soundOn(TopeRequest arg)
         {
-            return OsCommandExecutor.soundUnMute();
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = OsCommandExecutor.soundUnMute();
+            return topeResponse;
         }
 
-        public static bool test(TopeRequest arg)
+        public static TopeResponse test(TopeRequest arg)
         {
-            return true;
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = true;
+            return topeResponse;
         }
     }
 }

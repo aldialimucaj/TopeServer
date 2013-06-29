@@ -9,19 +9,25 @@ namespace TopeServer.al.aldi.topeServer.control.executors
 {
     public class ProgCommands
     {
-        public static bool openBrowserWithUrl(TopeRequest request)
+        public static TopeResponse openBrowserWithUrl(TopeRequest request)
         {
-            return ProgCommandExecutor.openBrowserWithUrl(request.arg0);
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = ProgCommandExecutor.openBrowserWithUrl(request.arg0);
+            return topeResponse;
         }
 
-        public static bool appControlPowerPoint(TopeRequest request)
+        public static TopeResponse appControlPowerPoint(TopeRequest request)
         {
-            return ProgCommandExecutor.appInputSimulation(request.arg0);
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = ProgCommandExecutor.appInputSimulation(request.arg0);
+            return topeResponse;
         }
 
-        public static bool appControlVLC(TopeRequest request)
+        public static TopeResponse appControlVLC(TopeRequest request)
         {
-            return ProgCommandExecutor.appInputSimulation(request.arg0);
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = ProgCommandExecutor.appInputSimulation(request.arg0);
+            return topeResponse;
         }
     }
 }

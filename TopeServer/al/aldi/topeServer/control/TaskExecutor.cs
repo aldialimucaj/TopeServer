@@ -15,14 +15,14 @@ namespace TopeServer.al.aldi.topeServer.control
 
         long timeToWait = 0;
         DateTime timeToExecute;
-        
+
 
 
         /// <summary>
         /// Delecate Method implementing the task that need to be executed.
         /// </summary>
         /// <returns>true if task succeeded</returns>
-        public delegate bool Executor();
+        public delegate TopeResponse Executor();
 
         /// <summary>
         /// Executes function in thread. If a timer is set then it returns true, signaling
@@ -32,7 +32,7 @@ namespace TopeServer.al.aldi.topeServer.control
         /// <param name="d">Function to be executed</param>
         /// <param name="timeToWait">Time in milliseconds to wait before execution</param>
         /// <returns></returns>
-        public ITopeResponse Execute(Func<TopeRequest, bool> d, TopeRequest request = null)
+        public ITopeResponse Execute(Func<TopeRequest, TopeResponse> d, TopeRequest request = null)
         {
             // This was ment for acception GET requests
             if (null != request && request.authenticated)
@@ -59,23 +59,26 @@ namespace TopeServer.al.aldi.topeServer.control
             () =>
             {
                 /* if the execution time is set and its in the future */
-                if (null != timeToExecute )
+                if (null != timeToExecute)
                 {
                     /* overriding the timeToWait as the date and time sounds more accurate to use */
-                    
-                    long t_timeToWait =(long) (timeToExecute - DateTime.Now).TotalMilliseconds;
+
+                    long t_timeToWait = (long)(timeToExecute - DateTime.Now).TotalMilliseconds;
                     timeToWait = t_timeToWait >= 0 ? t_timeToWait : timeToWait;
                 }
 
                 Thread.Sleep((int)timeToWait);
                 try
                 {
+
                     var exeSuccess = d(request);
-                    response.success = exeSuccess;
-                    if (exeSuccess)
+
+                    response.success = exeSuccess.success;
+                    if (response.success)
                     {
                         response.message = "Task executed successfully";
                     }
+                    response.payload = exeSuccess.payload;
                 }
                 catch (Exception e)
                 {

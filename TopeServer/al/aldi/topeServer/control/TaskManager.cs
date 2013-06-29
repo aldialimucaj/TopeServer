@@ -76,7 +76,7 @@ namespace TopeServer.al.aldi.topeServer.control
                     Type t = Type.GetType(ta.module);
                     MethodInfo method = t.GetMethod(ta.method, BindingFlags.Static | BindingFlags.Public);
                     var input = Expression.Parameter(typeof(TopeRequest), "input");
-                    Func<TopeRequest, bool> result = Expression.Lambda<Func<TopeRequest, bool>>(Expression.Call(method, input), input).Compile();
+                    Func<TopeRequest, TopeResponse> result = Expression.Lambda<Func<TopeRequest, TopeResponse>>(Expression.Call(method, input), input).Compile();
                     ITopeResponse topeRes = te.Execute(result, request);
                     request.executed++;
                     tac.SaveChanges();
