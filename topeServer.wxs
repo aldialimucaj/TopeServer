@@ -117,13 +117,21 @@
 		<CustomAction Id="CreateScheduledTask" 
 			Return="check"
 			Directory="RELEASE"
-			ExeCommand="&quot;[SystemFolder]SCHTASKS.EXE&quot; /CREATE /SC onlogon /TN &quot;Tope Task&quot; /RL highest /TR &quot;[RELEASE]TopeServer.exe&quot; /RU [%USERDOMAIN]\[LogonUser]" 
+			ExeCommand="&quot;[SystemFolder]SCHTASKS.EXE&quot; /CREATE /F /SC onlogon /TN &quot;Tope Task&quot; /RL highest /TR &quot;[RELEASE]TopeServer.exe&quot; /RU [%USERDOMAIN]\[LogonUser]" 
+			Impersonate="no"
+			Execute="deferred"
+			/>
+		<CustomAction Id="DeleteUpdateTask" 
+			Return="check"
+			Directory="RELEASE"
+			ExeCommand="&quot;[SystemFolder]SCHTASKS.EXE&quot; /Delete /F /TN &quot;Tope Task&quot;" 
 			Impersonate="no"
 			Execute="deferred"
 			/>
         <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
 		<InstallExecuteSequence>
-         <Custom Action='CreateScheduledTask' After='InstallFiles'>NOT Installed</Custom>
+         <Custom Action="CreateScheduledTask" After="InstallFiles">NOT Installed</Custom>
+		 <Custom Action="DeleteUpdateTask" Before="RemoveFiles">Installed</Custom>
       </InstallExecuteSequence>
     </Product>
 </Wix>
