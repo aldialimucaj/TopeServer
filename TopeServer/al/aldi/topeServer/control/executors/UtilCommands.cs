@@ -39,5 +39,12 @@ namespace TopeServer.al.aldi.topeServer.control.executors
             topeResponse.setPayload(payload);
             return topeResponse;
         }
+
+        public static TopeResponse ping(TopeRequest request)
+        {
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = true;
+            return topeResponse;
+        }
     }
 }
