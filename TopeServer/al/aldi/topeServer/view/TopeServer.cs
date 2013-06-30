@@ -73,6 +73,8 @@ namespace TopeServer
 
             justThisUser.Text = "Only current user";
             justThisUser.Click += new System.EventHandler(this.justThisUser_Click);
+            String justThisUserChecked = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_SEC_ONLY_ACCTUAL_USER);
+            justThisUser.Checked = justThisUserChecked.Equals(Program.TRUE);
 
             notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
             
@@ -108,7 +110,6 @@ namespace TopeServer
 
         private void justThisUser_Click(object sender, EventArgs e)
         {
-            String url_bound = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_SEC_ONLY_ACCTUAL_USER);
             MenuItem item = (MenuItem) sender;
             item.Checked = !item.Checked;
             

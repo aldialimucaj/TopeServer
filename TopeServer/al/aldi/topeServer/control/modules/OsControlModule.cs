@@ -26,6 +26,7 @@ namespace TopeServer
     {
         public const String MODULE_NAME = "ActionControlModule";
         public IMessageDeliverer deliverer;
+        IniFileUtil propertiesFile = new IniFileUtil(ProgramAdministration.getProgramPath() + Program.FILE_INI_GENERAL);
                
         public OsControlModule()
         {
@@ -47,7 +48,6 @@ namespace TopeServer
             {
                 Get[ta.commandFullPath] = Post[ta.commandFullPath] = _ => // generic
                 {
-                    
 
                     showMsg(ta.method);
                     TopeRequest request = ModuleUtils.validate(this);

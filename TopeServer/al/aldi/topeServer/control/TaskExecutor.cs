@@ -16,8 +16,6 @@ namespace TopeServer.al.aldi.topeServer.control
 
         long timeToWait = 0;
         DateTime timeToExecute;
-        IniFileUtil propertiesFile = new IniFileUtil(ProgramAdministration.getProgramPath() + Program.FILE_INI_GENERAL);
-
 
         /// <summary>
         /// Delecate Method implementing the task that need to be executed.
@@ -35,17 +33,6 @@ namespace TopeServer.al.aldi.topeServer.control
         /// <returns></returns>
         public ITopeResponse Execute(Func<TopeRequest, TopeResponse> d, TopeRequest request = null)
         {
-            String only_current_user = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_SEC_ONLY_ACCTUAL_USER);
-            if (only_current_user.Equals(Program.TRUE))
-            {
-                String currentUser = PrivilegesUtil.getCurrentUser();
-                if (!currentUser.ToUpper().Equals(request.user.ToUpper()))
-                {
-                    response.message = TopeMsg.ERR_USER_NOT_ALLOWED;
-                    return response;
-                }
-            }
-
             // This was ment for acception GET requests
             if (null != request && request.authenticated)
             {
