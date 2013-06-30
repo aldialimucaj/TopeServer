@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using TopeServer.al.aldi.topeServer.model;
 using TopeServer.al.aldi.utils.general;
+using TopeServer.al.aldi.utils.security;
 
 namespace TopeServer.al.aldi.topeServer.control
 {
@@ -15,7 +16,7 @@ namespace TopeServer.al.aldi.topeServer.control
 
         long timeToWait = 0;
         DateTime timeToExecute;
-
+        IniFileUtil propertiesFile = new IniFileUtil(ProgramAdministration.getProgramPath() + Program.FILE_INI_GENERAL);
 
 
         /// <summary>
@@ -34,6 +35,17 @@ namespace TopeServer.al.aldi.topeServer.control
         /// <returns></returns>
         public ITopeResponse Execute(Func<TopeRequest, TopeResponse> d, TopeRequest request = null)
         {
+            String only_current_user = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_SEC_ONLY_ACCTUAL_USER);
+            if (only_current_user.Equals(Program.TRUE))
+            {
+                String currentUser = PrivilegesUtil.getCurrentUser();
+                if (!currentUser.ToUpper().Equals(request.user.ToUpper()))
+                {
+                    response.message = TopeMsg.ERR_USER_NOT_ALLOWED;
+                    return response;
+                }
+            }
+
             // This was ment for acception GET requests
             if (null != request && request.authenticated)
             {

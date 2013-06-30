@@ -65,5 +65,11 @@ namespace TopeServer.al.aldi.utils.security
             return isAuthentic;
         }
 
+        public static String getCurrentUser()
+        {
+            string userName = Environment.UserName;
+            return userName;
+        }
+
     }
 }

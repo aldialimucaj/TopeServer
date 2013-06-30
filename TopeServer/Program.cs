@@ -36,9 +36,10 @@ namespace TopeServer
         public const String FILE_CERT_PASSWORD = "TopePassword";
         public const String TOPE_CERT_NAME = "TopeServerCert";
 
-        public const String INI_VAR_URL_BOUND = "url_bound";
-        public const String INI_VAR_CERT_HASH = "ssl_cert_hash";
-        public const String INI_VAR_DB_CREATED = "db_created";
+        public const String INI_VAR_URL_BOUND               = "url_bound";
+        public const String INI_VAR_CERT_HASH               = "ssl_cert_hash";
+        public const String INI_VAR_DB_CREATED              = "db_created";
+        public const String INI_VAR_SEC_ONLY_ACCTUAL_USER   = "only_actual_user";
 
         public const String TRUE = "true";
         public const String FALSE = "false";

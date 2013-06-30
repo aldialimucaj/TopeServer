@@ -12,6 +12,7 @@ using Nancy;
 using Nancy.Hosting.Self;
 using TopeServer.al.aldi.topeServer.view;
 using Nancy.TinyIoc;
+using TopeServer.al.aldi.utils.general;
 
 namespace TopeServer
 {
@@ -25,6 +26,8 @@ namespace TopeServer
 
         MenuItem security;
         MenuItem initSecurity;
+        MenuItem justThisUser;
+        IniFileUtil propertiesFile = new IniFileUtil(ProgramAdministration.getProgramPath() + Program.FILE_INI_GENERAL);
 
 
         public TopeServer()
@@ -49,6 +52,7 @@ namespace TopeServer
             ipAddress = new MenuItem();
             security = new MenuItem();
             initSecurity = new MenuItem();
+            justThisUser = new MenuItem();
 
             contextMenu1.MenuItems.AddRange(new MenuItem[] { security, ipAddress, exit });
 
@@ -62,10 +66,13 @@ namespace TopeServer
 
 
             security.Text = "Security";
-            security.MenuItems.AddRange(new MenuItem[] {  initSecurity });
+            security.MenuItems.AddRange(new MenuItem[] {  initSecurity, justThisUser });
 
             initSecurity.Text = "Renew Encryption";
             initSecurity.Click += new System.EventHandler(this.initSecurity_Click);
+
+            justThisUser.Text = "Only current user";
+            justThisUser.Click += new System.EventHandler(this.justThisUser_Click);
 
             notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
             
@@ -97,6 +104,15 @@ namespace TopeServer
         {
             String output = Program.initSecurity();
             showMsg(output);
+        }
+
+        private void justThisUser_Click(object sender, EventArgs e)
+        {
+            String url_bound = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_SEC_ONLY_ACCTUAL_USER);
+            MenuItem item = (MenuItem) sender;
+            item.Checked = !item.Checked;
+            
+            propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_SEC_ONLY_ACCTUAL_USER, item.Checked?Program.TRUE:Program.FALSE);
         }
 
         private void TopeServer_Resize(object sender, EventArgs e)
@@ -162,12 +178,16 @@ namespace TopeServer
 
         public void showMsg(string title, string msg)
         {
+            if (msg.Equals("ping"))
+            {
+                return;
+            }
             showPopup(title, msg);
         }
 
         public void showMsg(string msg)
         {
-            showPopup("TopeServer", msg);
+            showMsg("TopeServer", msg);
         }
     }
 }
