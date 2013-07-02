@@ -26,31 +26,32 @@ namespace TopeServer
 #if DEBUG
         public const int FIREWALL_RULE_PORT = 8181;
 #else
-        public const int FIREWALL_RULE_PORT = 8080;
+        public const int FIREWALL_RULE_PORT = 8503;
 #endif
+        private static bool WIDNOWS_FORM                    = true;
 
-        public const String FIREWALL_RULE_NAME = "TopeClient Firewall Rule";
-        public const String FIREWALL_RULE_DESC = "TopeClient Firewall Rule";
-        public const String FILE_INI_GENERAL = "/TopeServer.ini";
-        public const String FILE_CERT_NAME = "TopeCert.pfx";
-        public const String FILE_CERT_PASSWORD = "TopePassword";
-        public const String TOPE_CERT_NAME = "TopeServerCert";
+        public const String FIREWALL_RULE_NAME              = "TopeClient Firewall Rule";
+        public const String FIREWALL_RULE_DESC              = "TopeClient Firewall Rule";
+        public const String FILE_INI_GENERAL                = "/TopeServer.ini";
+        public const String FILE_CERT_NAME                  = "TopeCert.pfx";
+        public const String FILE_CERT_PASSWORD              = "TopePassword";
+        public const String TOPE_CERT_NAME                  = "TopeServerCert";
 
+        public const String INI_VAR_DEFAULT                 = "default";
         public const String INI_VAR_URL_BOUND               = "url_bound";
+        public const String INI_VAR_HOST_PORT               = "host_port";
         public const String INI_VAR_CERT_HASH               = "ssl_cert_hash";
         public const String INI_VAR_DB_CREATED              = "db_created";
         public const String INI_VAR_SEC_ONLY_ACCTUAL_USER   = "only_actual_user";
 
-        public const String TRUE = "true";
-        public const String FALSE = "false";
+        public const String TRUE                            = "true";
+        public const String FALSE                           = "false";
 
 
-        IniFileUtil propertiesFile = new IniFileUtil(ProgramAdministration.getProgramPath() + FILE_INI_GENERAL);
-
-        private static bool WIDNOWS_FORM = true;
-
-        TopeServer ts = new TopeServer();
-        TaskManager taskManager = TaskManager.getInstance();
+        private IniFileUtil propertiesFile  = new IniFileUtil(ProgramAdministration.getProgramPath() + FILE_INI_GENERAL);
+        private TopeServer ts               = new TopeServer();
+        private TaskManager taskManager     = TaskManager.getInstance();
+        private int hostPort                = 0;
 
         private void startServer()
         {
@@ -72,7 +73,7 @@ namespace TopeServer
         /// Init the SSL certificate and register it under the port and program
         /// </summary>
         /// <returns></returns>
-        public static String initSecurity()
+        public static String initSecurity(int hostPort)
         {
             EncryptionUtils.RemoveCertificate(TOPE_CERT_NAME); // Clean up the old certificates
             X509Certificate2 certificate = EncryptionUtils.GenerateCertificate(TOPE_CERT_NAME);
@@ -80,8 +81,8 @@ namespace TopeServer
             EncryptionUtils.InstallCertificate(FILE_CERT_PASSWORD, StoreName.Root);
             EncryptionUtils.InstallCertificate(FILE_CERT_PASSWORD, StoreName.TrustedPublisher);
             EncryptionUtils.InstallCertificate(FILE_CERT_PASSWORD, StoreName.My);
-            NetworkUtils.UnBindCertificateCmd(FIREWALL_RULE_PORT); // unbind existing certificates on listening port
-            return NetworkUtils.BindCertificateCmd(certificate, FIREWALL_RULE_PORT);
+            NetworkUtils.UnBindCertificateCmd(hostPort); // unbind existing certificates on listening port
+            return NetworkUtils.BindCertificateCmd(certificate, hostPort);
         }
 
         /// <summary>
@@ -89,10 +90,20 @@ namespace TopeServer
         /// </summary>
         private void readParameters()
         {
+            // setting up default values for the topeServer.ini
+            setupDefaultIni();
+
+            String hostPortSetting = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_HOST_PORT);
+            if (!hostPortSetting.Equals(""))
+            {
+                hostPort = Convert.ToInt32(hostPortSetting);
+            }
+
+
             String url_bound = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_URL_BOUND);
             if (!url_bound.Equals(TRUE))
             {
-                initSecurity();
+                initSecurity(hostPort);
                 bool b = propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_URL_BOUND, TRUE);
             }
 
@@ -101,6 +112,17 @@ namespace TopeServer
             if (!database_created.Equals(TRUE))
             {
                 reloadDatabase();
+            }
+        }
+
+        private void setupDefaultIni()
+        {
+            String defaultVar = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_DEFAULT);
+            if (!defaultVar.Equals(TRUE))
+            {
+                propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_DEFAULT, TRUE);
+                propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_HOST_PORT, Convert.ToString(FIREWALL_RULE_PORT));
+                propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_DEFAULT, TRUE);
             }
         }
 

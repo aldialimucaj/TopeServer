@@ -28,14 +28,25 @@ namespace TopeServer
         MenuItem initSecurity;
         MenuItem justThisUser;
         IniFileUtil propertiesFile = new IniFileUtil(ProgramAdministration.getProgramPath() + Program.FILE_INI_GENERAL);
+        private int hostPort = 0;
 
 
         public TopeServer()
         {
+            initVariables();
             InitViews();
 
             var container = TinyIoCContainer.Current;
             container.Register<IMessageDeliverer>(this);
+        }
+
+        private void initVariables()
+        {
+            String hostPortSetting = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_GENERAL, Program.INI_VAR_HOST_PORT);
+            if (!hostPortSetting.Equals(""))
+            {
+                hostPort = Convert.ToInt32(hostPortSetting);
+            }
         }
 
         private void InitViews()
@@ -61,7 +72,7 @@ namespace TopeServer
             exit.Click += new System.EventHandler(this.exit_Click);
 
 
-            ipAddress.Text = NetworkUtils.getIpAddress() + ":" + Program.FIREWALL_RULE_PORT;
+            ipAddress.Text = NetworkUtils.getIpAddress() + ":" + hostPort;
             ipAddress.Enabled = false;
 
 
@@ -104,7 +115,7 @@ namespace TopeServer
 
         private void initSecurity_Click(object sender, EventArgs e)
         {
-            String output = Program.initSecurity();
+            String output = Program.initSecurity(hostPort);
             showMsg(output);
         }
 
@@ -145,20 +156,20 @@ namespace TopeServer
 
         private void TopeServer_Load(object sender, EventArgs e)
         {
-            if (!NetworkUtils.checkPort(Program.FIREWALL_RULE_NAME, Program.FIREWALL_RULE_PORT))
+            if (!NetworkUtils.checkPort(Program.FIREWALL_RULE_NAME, hostPort))
             {
-                NetworkUtils.openPort(Program.FIREWALL_RULE_NAME, Program.FIREWALL_RULE_DESC, Program.FIREWALL_RULE_PORT);
+                NetworkUtils.openPort(Program.FIREWALL_RULE_NAME, Program.FIREWALL_RULE_DESC, hostPort);
             }
 
             this.WindowState = FormWindowState.Minimized;
 
 
-            var url = "https://localhost:" + Program.FIREWALL_RULE_PORT + "/";
+            var url = "https://localhost:" + hostPort + "/";
             var nancy = new NancyHost(new Uri(url));
             try
             {
                 nancy.Start();
-                showPopup("Tope Server started", NetworkUtils.getIpAddress() + ":" + Program.FIREWALL_RULE_PORT);
+                showPopup("Tope Server started", NetworkUtils.getIpAddress() + ":" + hostPort);
                 /* init the messangers */
             }
             catch (System.Net.HttpListenerException excp1)
