@@ -23,25 +23,35 @@ namespace TopeServer.al.aldi.topeServer.control.modules
             String pass = request.password;
             String domain = request.domain;
 
-            String only_current_user = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_SEC_ONLY_ACCTUAL_USER);
-            if (only_current_user.Equals(Program.TRUE))
+            /* checking if the client is password protected, if not, no need for authentication */
+            String passwordProtectedUserChecked = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_PWD_PROTECTED);
+            if (passwordProtectedUserChecked.Equals(Program.TRUE))
             {
-                String currentUser = PrivilegesUtil.getCurrentUser();
-                if (!currentUser.ToUpper().Equals(request.user.ToUpper()))
+                /* checking if the user is the logged in user, otherwise return error */
+                String only_current_user = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_SEC_ONLY_ACCTUAL_USER);
+                if (only_current_user.Equals(Program.TRUE))
                 {
-                    request.message = TopeMsg.ERR_USER_NOT_ALLOWED;
-                    return request;
+                    String currentUser = PrivilegesUtil.getCurrentUser();
+                    if (null == user || !currentUser.ToUpper().Equals(user.ToUpper()))
+                    {
+                        request.message = TopeMsg.ERR_USER_NOT_ALLOWED;
+                        return request;
+                    }
+                }
+
+                try
+                {
+                    request.authenticated = PrivilegesUtil.isAuthentic(user, pass, domain);
+                }
+                catch (PrincipalServerDownException e)
+                {
+                    request.authenticated = false;
+                    request.message = e.Message;
                 }
             }
-
-            try
+            else
             {
-                request.authenticated = PrivilegesUtil.isAuthentic(user, pass, domain);
-            }
-            catch (PrincipalServerDownException e)
-            {
-                request.authenticated = false;
-                request.message = e.Message;
+                request.authenticated = true;
             }
 
             return request;

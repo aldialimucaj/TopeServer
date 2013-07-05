@@ -41,6 +41,7 @@ namespace TopeServer
         public const String INI_VAR_URL_BOUND               = "url_bound";
         public const String INI_VAR_HOST_PORT               = "host_port";
         public const String INI_VAR_CERT_HASH               = "ssl_cert_hash";
+        public const String INI_VAR_PWD_PROTECTED           = "password_protected";
         public const String INI_VAR_DB_CREATED              = "db_created";
         public const String INI_VAR_SEC_ONLY_ACCTUAL_USER   = "only_actual_user";
 
@@ -123,6 +124,7 @@ namespace TopeServer
                 propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_DEFAULT, TRUE);
                 propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_HOST_PORT, Convert.ToString(FIREWALL_RULE_PORT));
                 propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_DEFAULT, TRUE);
+                propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_SECURITY, INI_VAR_PWD_PROTECTED, TRUE);
             }
         }
 

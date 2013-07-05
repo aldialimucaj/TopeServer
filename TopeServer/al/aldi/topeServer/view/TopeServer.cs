@@ -27,6 +27,7 @@ namespace TopeServer
         MenuItem security;
         MenuItem initSecurity;
         MenuItem justThisUser;
+        MenuItem passwordProtectedUser;
         IniFileUtil propertiesFile = new IniFileUtil(ProgramAdministration.getProgramPath() + Program.FILE_INI_GENERAL);
         private int hostPort = 0;
 
@@ -64,6 +65,7 @@ namespace TopeServer
             security = new MenuItem();
             initSecurity = new MenuItem();
             justThisUser = new MenuItem();
+            passwordProtectedUser = new MenuItem();
 
             contextMenu1.MenuItems.AddRange(new MenuItem[] { security, ipAddress, exit });
 
@@ -77,7 +79,7 @@ namespace TopeServer
 
 
             security.Text = "Security";
-            security.MenuItems.AddRange(new MenuItem[] {  initSecurity, justThisUser });
+            security.MenuItems.AddRange(new MenuItem[] { initSecurity, justThisUser, passwordProtectedUser });
 
             initSecurity.Text = "Renew Encryption";
             initSecurity.Click += new System.EventHandler(this.initSecurity_Click);
@@ -86,6 +88,11 @@ namespace TopeServer
             justThisUser.Click += new System.EventHandler(this.justThisUser_Click);
             String justThisUserChecked = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_SEC_ONLY_ACCTUAL_USER);
             justThisUser.Checked = justThisUserChecked.Equals(Program.TRUE);
+
+            passwordProtectedUser.Text = "Password Protected";
+            passwordProtectedUser.Click += new System.EventHandler(this.passwordProtectedUser_Click);
+            String passwordProtectedUserChecked = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_PWD_PROTECTED);
+            passwordProtectedUser.Checked = passwordProtectedUserChecked.Equals(Program.TRUE);
 
             notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
             
@@ -125,6 +132,14 @@ namespace TopeServer
             item.Checked = !item.Checked;
             
             propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_SEC_ONLY_ACCTUAL_USER, item.Checked?Program.TRUE:Program.FALSE);
+        }
+
+        private void passwordProtectedUser_Click(object sender, EventArgs e)
+        {
+            MenuItem item = (MenuItem)sender;
+            item.Checked = !item.Checked;
+
+            propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_PWD_PROTECTED, item.Checked ? Program.TRUE : Program.FALSE);
         }
 
         private void TopeServer_Resize(object sender, EventArgs e)
