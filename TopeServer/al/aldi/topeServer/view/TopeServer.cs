@@ -19,12 +19,15 @@ namespace TopeServer
     public partial class TopeServer : Form, IMessageDeliverer
     {
         
-        NotifyIcon notifyIcon1;
-        ContextMenu contextMenu1;
+        NotifyIcon toolbarNotifyIcon;
+        ContextMenu mainToolbarIconMenu;
         MenuItem exit;
         MenuItem ipAddress;
 
-        MenuItem security;
+        MenuItem generalMenu;
+        MenuItem showPopupMsg;
+
+        MenuItem securityMenu;
         MenuItem initSecurity;
         MenuItem justThisUser;
         MenuItem passwordProtectedUser;
@@ -54,20 +57,32 @@ namespace TopeServer
         {
             InitializeComponent();
             components = new Container();
-            notifyIcon1 = new NotifyIcon(components);
+            toolbarNotifyIcon = new NotifyIcon(components);
 
-            notifyIcon1.Icon = Properties.Resources.system_log_out;
+            toolbarNotifyIcon.Icon = Properties.Resources.system_log_out;
 
-            contextMenu1 = new ContextMenu();
-            notifyIcon1.ContextMenu = this.contextMenu1;
+            mainToolbarIconMenu = new ContextMenu();
+            toolbarNotifyIcon.ContextMenu = this.mainToolbarIconMenu;
             exit = new MenuItem();
             ipAddress = new MenuItem();
-            security = new MenuItem();
+
+            generalMenu = new MenuItem();
+            generalMenu.Text = "General";
+            showPopupMsg = new MenuItem();
+
+            showPopupMsg.Text = "Show Popup Messages";
+            showPopupMsg.Click += new System.EventHandler(this.showPopupMsg_Click);
+            String showPopupMsgChecked = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_GENERAL, Program.INI_VAR_G_SHOW_POPUP);
+            showPopupMsg.Checked = showPopupMsgChecked.Equals(Program.TRUE);
+
+            generalMenu.MenuItems.AddRange(new MenuItem[] { showPopupMsg });
+            
+            securityMenu = new MenuItem();
             initSecurity = new MenuItem();
             justThisUser = new MenuItem();
             passwordProtectedUser = new MenuItem();
 
-            contextMenu1.MenuItems.AddRange(new MenuItem[] { security, ipAddress, exit });
+            mainToolbarIconMenu.MenuItems.AddRange(new MenuItem[] { exit, securityMenu, generalMenu, ipAddress });
 
             exit.Index = 0;
             exit.Text = "E&xit";
@@ -78,8 +93,8 @@ namespace TopeServer
             ipAddress.Enabled = false;
 
 
-            security.Text = "Security";
-            security.MenuItems.AddRange(new MenuItem[] { initSecurity, justThisUser, passwordProtectedUser });
+            securityMenu.Text = "Security";
+            securityMenu.MenuItems.AddRange(new MenuItem[] { initSecurity, justThisUser, passwordProtectedUser });
 
             initSecurity.Text = "Renew Encryption";
             initSecurity.Click += new System.EventHandler(this.initSecurity_Click);
@@ -94,16 +109,25 @@ namespace TopeServer
             String passwordProtectedUserChecked = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_PWD_PROTECTED);
             passwordProtectedUser.Checked = passwordProtectedUserChecked.Equals(Program.TRUE);
 
-            notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
+            toolbarNotifyIcon.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
             
         }
 
         public void showIcon(String msg = "")
         {
-            if (null != notifyIcon1)
+            if (null != toolbarNotifyIcon)
             {
-                notifyIcon1.Text = "TopeServer (Running)";
-                notifyIcon1.Visible = true;
+                toolbarNotifyIcon.Text = "TopeServer (Running)";
+                toolbarNotifyIcon.Visible = true;
+            }
+        }
+
+        public void hideIcon()
+        {
+            if (null != toolbarNotifyIcon)
+            {
+                toolbarNotifyIcon.Text = "TopeServer (Stopped)";
+                toolbarNotifyIcon.Visible = false;
             }
         }
 
@@ -116,6 +140,7 @@ namespace TopeServer
 
         private void exit_Click(object sender, EventArgs e)
         {
+            this.toolbarNotifyIcon.Visible = false;
             this.Close();
             Environment.Exit(0);
         }
@@ -134,6 +159,14 @@ namespace TopeServer
             propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_SECURITY, Program.INI_VAR_SEC_ONLY_ACCTUAL_USER, item.Checked?Program.TRUE:Program.FALSE);
         }
 
+        private void showPopupMsg_Click(object sender, EventArgs e)
+        {
+            MenuItem item = (MenuItem)sender;
+            item.Checked = !item.Checked;
+
+            propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, Program.INI_VAR_G_SHOW_POPUP, item.Checked ? Program.TRUE : Program.FALSE);
+        }
+
         private void passwordProtectedUser_Click(object sender, EventArgs e)
         {
             MenuItem item = (MenuItem)sender;
@@ -146,10 +179,10 @@ namespace TopeServer
         {
             if (this.WindowState == FormWindowState.Minimized)
             {
-                this.notifyIcon1.ContextMenu = contextMenu1;
+                this.toolbarNotifyIcon.ContextMenu = mainToolbarIconMenu;
                 this.ShowInTaskbar = false;
                 this.WindowState = FormWindowState.Minimized;
-                this.notifyIcon1.Visible = true;
+                this.toolbarNotifyIcon.Visible = true;
                 this.Hide();
 
             }
@@ -195,11 +228,15 @@ namespace TopeServer
 
         public void showPopup(String title, String msg)
         {
-            this.notifyIcon1.BalloonTipText = msg;
-            this.notifyIcon1.BalloonTipTitle = title;
-            this.notifyIcon1.Icon = Properties.Resources.system_log_out;
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.ShowBalloonTip(3);
+            String defaultVar = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_GENERAL, Program.INI_VAR_G_SHOW_POPUP);
+            if (defaultVar.Equals(Program.TRUE))
+            {
+                this.toolbarNotifyIcon.BalloonTipText = msg;
+                this.toolbarNotifyIcon.BalloonTipTitle = title;
+                this.toolbarNotifyIcon.Icon = Properties.Resources.system_log_out;
+                this.toolbarNotifyIcon.Visible = true;
+                this.toolbarNotifyIcon.ShowBalloonTip(2);
+            }
         }
 
 

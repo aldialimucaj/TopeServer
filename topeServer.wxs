@@ -122,7 +122,7 @@
 			Execute="deferred"
 			/>
 		<CustomAction Id="DeleteUpdateTask" 
-			Return="check"
+			Return="asyncNoWait"
 			Directory="RELEASE"
 			ExeCommand="&quot;[SystemFolder]SCHTASKS.EXE&quot; /Delete /F /TN &quot;Tope Task&quot;" 
 			Impersonate="no"

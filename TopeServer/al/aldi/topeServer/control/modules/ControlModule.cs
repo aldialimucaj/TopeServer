@@ -22,13 +22,13 @@ using TopeServer.al.aldi.utils.general;
 
 namespace TopeServer
 {
-    public class OsControlModule : NancyModule
+    public class ControlModule : NancyModule
     {
-        public const String MODULE_NAME = "ActionControlModule";
+        public const String MODULE_NAME = "Tope Server";
         public IMessageDeliverer deliverer;
         IniFileUtil propertiesFile = new IniFileUtil(ProgramAdministration.getProgramPath() + Program.FILE_INI_GENERAL);
                
-        public OsControlModule()
+        public ControlModule()
         {
             autoInitCommands();
             extraInitCommands();

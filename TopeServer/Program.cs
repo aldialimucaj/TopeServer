@@ -44,6 +44,7 @@ namespace TopeServer
         public const String INI_VAR_PWD_PROTECTED           = "password_protected";
         public const String INI_VAR_DB_CREATED              = "db_created";
         public const String INI_VAR_SEC_ONLY_ACCTUAL_USER   = "only_actual_user";
+        public const String INI_VAR_G_SHOW_POPUP            = "show_popup_msg";
 
         public const String TRUE                            = "true";
         public const String FALSE                           = "false";
@@ -125,6 +126,7 @@ namespace TopeServer
                 propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_HOST_PORT, Convert.ToString(FIREWALL_RULE_PORT));
                 propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_DEFAULT, TRUE);
                 propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_SECURITY, INI_VAR_PWD_PROTECTED, TRUE);
+                propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_G_SHOW_POPUP, TRUE);
             }
         }
 
