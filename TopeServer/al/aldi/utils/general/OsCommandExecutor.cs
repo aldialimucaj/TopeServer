@@ -181,6 +181,8 @@ namespace TopeServer.al.aldi.topeServer.control.executors
             return true;
         }
 
+        // CTRL
+
         public static bool simInputPressCtrlLeft()
         {
             InputSimulator inputSimupator = new InputSimulator();
@@ -214,7 +216,16 @@ namespace TopeServer.al.aldi.topeServer.control.executors
             inputSimupator.Keyboard.KeyUp(VirtualKeyCode.CONTROL);
             return true;
         }
-        
+
+        // ALT
+        public static bool simInputPressAltF4()
+        {
+            InputSimulator inputSimupator = new InputSimulator();
+            inputSimupator.Keyboard.KeyDown(VirtualKeyCode.LMENU);
+            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.F4);
+            inputSimupator.Keyboard.KeyUp(VirtualKeyCode.LMENU);
+            return true;
+        }
 
         /* ************ SOUND ************ */
         public static bool soundSwap(bool status)

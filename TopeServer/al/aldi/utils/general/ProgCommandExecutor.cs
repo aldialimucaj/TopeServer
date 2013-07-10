@@ -56,6 +56,9 @@ namespace TopeServer.al.aldi.utils.general
             {
                 OsCommandExecutor.simInputPressKeyT();
             }
+
+            // CTRL
+            
             if (key.Equals("#CTRL-RIGHT"))
             {
                 OsCommandExecutor.simInputPressCtrlRight();
@@ -71,6 +74,12 @@ namespace TopeServer.al.aldi.utils.general
             if (key.Equals("#CTRL-DOWN"))
             {
                 OsCommandExecutor.simInputPressCtrlDown();
+            }
+
+            // ALT
+            if (key.Equals("#ALT-F4"))
+            {
+                OsCommandExecutor.simInputPressAltF4();
             }
             return true;
         }

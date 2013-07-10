@@ -63,5 +63,12 @@ namespace TopeServer.al.aldi.topeServer.control.executors
             quitThread.Start();
             return topeResponse;
         }
+
+        public static TopeResponse shortcuts(TopeRequest request)
+        {
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = ProgCommandExecutor.appInputSimulation(request.arg0);
+            return topeResponse;
+        }
     }
 }
