@@ -2,3 +2,5 @@ TopeServer/bin/
 TopeServer/obj/
 topeServer.msi
 oldPackages/
+topeServer.wixobj
+topeServer.wixpdb
