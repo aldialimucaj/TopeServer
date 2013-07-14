@@ -76,6 +76,10 @@
     <Reference Include="BouncyCastle.CryptoExt">
       <HintPath>..\packages\BouncyCastle-Ext.1.7.0\lib\net20\BouncyCastle.CryptoExt.dll</HintPath>
     </Reference>
+    <Reference Include="CoreAudioApi, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\CoreAudioApi.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
@@ -112,6 +116,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsInput, Version=0.2.0.0, Culture=neutral, PublicKeyToken=9b287f7dc5073cad, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\WindowsInput.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="al\aldi\topeServer\control\Code404Handler.cs" />
@@ -222,16 +230,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\CoreAudioApi\CoreAudioApi.csproj">
-      <Project>{9f1076aa-63df-4128-9c10-fd65e425c783}</Project>
-      <Name>CoreAudioApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Inputsimulator\WindowsInput\WindowsInput.csproj">
-      <Project>{3549cd6f-80f8-450f-b99e-cf0a736b1f2a}</Project>
-      <Name>WindowsInput</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
