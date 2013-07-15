@@ -7,7 +7,7 @@
     lightArgs: "<projectname>.wixobj" -out "<projectname>.msi" -ext WixUIExtension -ext WixUtilExtension -ext WixNetFxExtension
 -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="611EFDF4-B339-49A0-AE1F-D1172B3878BA" Name="Tope Server" Language="1033" Version="0.0.1.1" Manufacturer="Aldi Alimucaj" UpgradeCode="DE8892D1-EE16-4A9C-8D1D-214CB77A0E73">
+    <Product Id="611EFDF4-B339-49A0-AE1F-D1172B3878BA" Name="Tope Server" Language="1033" Version="0.0.2.2" Manufacturer="Aldi Alimucaj" UpgradeCode="DE8892D1-EE16-4A9C-8D1D-214CB77A0E73">
         <Package Description="TopeServer is a host for the Tope architecture." Manufacturer="Aldi Alimucaj" Comments="Tope Server" InstallerVersion="300" Compressed="yes" />
         <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
         <Directory Id="TARGETDIR" Name="SourceDir">
@@ -133,5 +133,10 @@
          <Custom Action="CreateScheduledTask" After="InstallFiles">NOT Installed</Custom>
 		 <Custom Action="DeleteUpdateTask" Before="RemoveFiles">Installed</Custom>
       </InstallExecuteSequence>
+	  <MajorUpgrade
+		Schedule="afterInstallValidate"
+		DowngradeErrorMessage="A later version of Tope Server is already installed. Setup will now exit."
+		/>
     </Product>
+	
 </Wix>
