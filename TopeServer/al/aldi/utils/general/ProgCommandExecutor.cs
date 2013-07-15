@@ -25,7 +25,16 @@ namespace TopeServer.al.aldi.utils.general
 
         public static bool appInputSimulation(String key)
         {
-            if(key.Equals("#SPACE")) {
+            if (key.Equals("#ENTER"))
+            {
+                OsCommandExecutor.simInputPressEnter();
+            }
+            if (key.Equals("#ESCAPE"))
+            {
+                OsCommandExecutor.simInputPressEscape();
+            }
+            if(key.Equals("#SPACE")) 
+            {
                 OsCommandExecutor.simInputPressTheSpacebar();
             }
             if (key.Equals("#BACKSPACE"))
@@ -47,6 +56,14 @@ namespace TopeServer.al.aldi.utils.general
             if (key.Equals("#LEFT"))
             {
                 OsCommandExecutor.simInputPressLeft();
+            }
+            if (key.Equals("#PAGE_UP"))
+            {
+                OsCommandExecutor.simInputPressPageUp();
+            }
+            if (key.Equals("#PAGE_DOWN"))
+            {
+                OsCommandExecutor.simInputPressPageDown();
             }
             if (key.Equals("#f"))
             {
@@ -75,11 +92,23 @@ namespace TopeServer.al.aldi.utils.general
             {
                 OsCommandExecutor.simInputPressCtrlDown();
             }
+            if (key.Equals("#CTRL-W"))
+            {
+                OsCommandExecutor.simInputPressCtrlW();
+            }
+            if (key.Equals("#CTRL-TAB"))
+            {
+                OsCommandExecutor.simInputPressCtrlTab();
+            }
 
             // ALT
             if (key.Equals("#ALT-F4"))
             {
                 OsCommandExecutor.simInputPressAltF4();
+            }
+            if (key.Equals("#ALT-TAB"))
+            {
+                OsCommandExecutor.simInputPressAltTab();
             }
             return true;
         }

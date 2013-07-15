@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CoreAudioApi;
 using WindowsInput;
 using WindowsInput.Native;
+using System.Windows.Forms;
 
 namespace TopeServer.al.aldi.topeServer.control.executors
 {
@@ -123,61 +124,74 @@ namespace TopeServer.al.aldi.topeServer.control.executors
             return lockInput(false);
         }
 
+        public static bool simInputPressEnter()
+        {
+            SendKeys.SendWait("{ENTER}");
+            return true;
+        }
+
+        public static bool simInputPressEscape()
+        {
+            SendKeys.SendWait("{ESC}");
+            return true;
+        }
+
         public static bool simInputPressTheSpacebar()
         {
-            InputSimulator inputSimupator = new InputSimulator();
-            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.SPACE);
+            SendKeys.SendWait(" ");
             return true;
         }
 
         public static bool simInputPressBackspace()
         {
-            InputSimulator inputSimupator = new InputSimulator();
-            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.BACK);
+            SendKeys.SendWait("{BS}");
+            return true;
+        }
+        public static bool simInputPressPageUp()
+        {
+            SendKeys.SendWait("{PGUP}");
+            return true;
+        }
+
+        public static bool simInputPressPageDown()
+        {
+            SendKeys.SendWait("{PGDN}");
             return true;
         }
 
         public static bool simInputPressShiftF5()
         {
-            InputSimulator inputSimupator = new InputSimulator();
-            inputSimupator.Keyboard.KeyDown(VirtualKeyCode.SHIFT);
-            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.F5);
-            inputSimupator.Keyboard.KeyUp(VirtualKeyCode.SHIFT);
+            SendKeys.SendWait("+{F5}");
             return true;
         }
 
         public static bool simInputPressPeriod()
         {
-            InputSimulator inputSimupator = new InputSimulator();
-            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.OEM_PERIOD);
+            SendKeys.SendWait(".");
             return true;
         }
 
         public static bool simInputPressRight()
         {
-            InputSimulator inputSimupator = new InputSimulator();
-            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.RIGHT);
+            SendKeys.SendWait("{RIGHT}");
             return true;
         }
 
         public static bool simInputPressLeft()
         {
-            InputSimulator inputSimupator = new InputSimulator();
-            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.LEFT);
+            SendKeys.SendWait("{LEFT}");
             return true;
         }
         
         public static bool simInputPressKeyF()
         {
-            InputSimulator inputSimupator = new InputSimulator();
-            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.VK_F);
+            SendKeys.SendWait("f");
             return true;
         }
 
         public static bool simInputPressKeyT()
         {
-            InputSimulator inputSimupator = new InputSimulator();
-            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.VK_T);
+            SendKeys.SendWait("t");
             return true;
         }
 
@@ -185,45 +199,45 @@ namespace TopeServer.al.aldi.topeServer.control.executors
 
         public static bool simInputPressCtrlLeft()
         {
-            InputSimulator inputSimupator = new InputSimulator();
-            inputSimupator.Keyboard.KeyDown(VirtualKeyCode.CONTROL);
-            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.LEFT);
-            inputSimupator.Keyboard.KeyUp(VirtualKeyCode.CONTROL);
+            SendKeys.SendWait("^{LEFT}");
             return true;
         }
         public static bool simInputPressCtrlRight()
         {
-            InputSimulator inputSimupator = new InputSimulator();
-            inputSimupator.Keyboard.KeyDown(VirtualKeyCode.CONTROL);
-            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.RIGHT);
-            inputSimupator.Keyboard.KeyUp(VirtualKeyCode.CONTROL);
+            SendKeys.SendWait("^{RIGHT}");
             return true;
         }
 
         public static bool simInputPressCtrlUp()
         {
-            InputSimulator inputSimupator = new InputSimulator();
-            inputSimupator.Keyboard.KeyDown(VirtualKeyCode.CONTROL);
-            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.UP);
-            inputSimupator.Keyboard.KeyUp(VirtualKeyCode.CONTROL);
+            SendKeys.SendWait("^{UP}");
             return true;
         }
         public static bool simInputPressCtrlDown()
         {
-            InputSimulator inputSimupator = new InputSimulator();
-            inputSimupator.Keyboard.KeyDown(VirtualKeyCode.CONTROL);
-            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.DOWN);
-            inputSimupator.Keyboard.KeyUp(VirtualKeyCode.CONTROL);
+            SendKeys.SendWait("^{DOWN}");
+            return true;
+        }
+        public static bool simInputPressCtrlW()
+        {
+            SendKeys.SendWait("^w");
+            return true;
+        }
+        public static bool simInputPressCtrlTab()
+        {
+            SendKeys.SendWait("^{TAB}");
             return true;
         }
 
         // ALT
         public static bool simInputPressAltF4()
         {
-            InputSimulator inputSimupator = new InputSimulator();
-            inputSimupator.Keyboard.KeyDown(VirtualKeyCode.LMENU);
-            inputSimupator.Keyboard.KeyPress(VirtualKeyCode.F4);
-            inputSimupator.Keyboard.KeyUp(VirtualKeyCode.LMENU);
+            SendKeys.SendWait("%{F4}");
+            return true;
+        }
+        public static bool simInputPressAltTab()
+        {
+            SendKeys.SendWait("%{TAB}");
             return true;
         }
 
