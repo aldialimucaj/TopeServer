@@ -39,11 +39,8 @@ namespace TopeServer.al.aldi.utils.security
             gen.SetSignatureAlgorithm("SHA1withRSA");
             gen.SetPublicKey(keypair.Public);
 
-            //gen.AddExtension( X509Extensions.ExtendedKeyUsage.Id, false, new ExtendedKeyUsage(new ArrayList() { new DerObjectIdentifier("1.3.6.1.5.5.7.3.1") }));
-
-
+            // generate new certificate out of the key pairs private key
             var newCert = gen.Generate(keypair.Private);
-
 
             X509Certificate2 cert = new X509Certificate2(DotNetUtilities.ToX509Certificate((Org.BouncyCastle.X509.X509Certificate)newCert));
             
@@ -89,7 +86,7 @@ namespace TopeServer.al.aldi.utils.security
             }
             finally
             {
-                //tempStoreFile.Delete();
+                tempStoreFile.Delete();
             }
         }
 

@@ -16,6 +16,7 @@ using TopeServer.al.aldi.topeServer.control.db.contexts;
 using System.Reflection;
 using TopeServer.al.aldi.topeServer.control.executors;
 using TopeServer.al.aldi.topeServer.control;
+using System.IO;
 
 namespace TopeServer
 {
@@ -83,6 +84,11 @@ namespace TopeServer
             EncryptionUtils.InstallCertificate(FILE_CERT_PASSWORD, StoreName.Root);
             EncryptionUtils.InstallCertificate(FILE_CERT_PASSWORD, StoreName.TrustedPublisher);
             EncryptionUtils.InstallCertificate(FILE_CERT_PASSWORD, StoreName.My);
+            FileInfo fileInfo = new FileInfo(FILE_CERT_NAME);
+            if (fileInfo.Exists)
+            {
+                fileInfo.Delete();// deleting the certificate after installation. WARNING: Do not remove this. 
+            }
             NetworkUtils.UnBindCertificateCmd(hostPort); // unbind existing certificates on listening port
             return NetworkUtils.BindCertificateCmd(certificate, hostPort);
         }
