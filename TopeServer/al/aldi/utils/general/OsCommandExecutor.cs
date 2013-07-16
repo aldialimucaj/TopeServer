@@ -6,8 +6,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using CoreAudioApi;
-using WindowsInput;
-using WindowsInput.Native;
 using System.Windows.Forms;
 
 namespace TopeServer.al.aldi.topeServer.control.executors
