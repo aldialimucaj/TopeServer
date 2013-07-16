@@ -58,5 +58,26 @@ namespace TopeServer.al.aldi.utils.general
             staThread.Join();
             return text;
         }
+        internal static void writeClipBoard(String clipString)
+        {
+            Exception threadEx = null;
+            Thread staThread = new Thread(
+                delegate()
+                {
+                    try
+                    {
+                        Clipboard.SetText(clipString);
+                    }
+
+                    catch (Exception ex)
+                    {
+                        threadEx = ex;
+                    }
+                }
+            );
+            staThread.SetApartmentState(ApartmentState.STA);
+            staThread.Start();
+            staThread.Join();
+        }
     }
 }

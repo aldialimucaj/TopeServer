@@ -41,6 +41,14 @@ namespace TopeServer.al.aldi.topeServer.control.executors
             return topeResponse;
         }
 
+        public static TopeResponse writeClipBoard(TopeRequest request)
+        {
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = true;
+            UtilsCommandExecutor.writeClipBoard(request.arg0);
+            return topeResponse;
+        }
+
         public static TopeResponse ping(TopeRequest request)
         {
             TopeResponse topeResponse = new TopeResponse();
