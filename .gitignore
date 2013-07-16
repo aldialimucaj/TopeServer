@@ -5,3 +5,4 @@ oldPackages/
 topeServer.wixobj
 topeServer.wixpdb
 *.log
+*.pfx
