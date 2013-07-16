@@ -4,3 +4,4 @@ topeServer.msi
 oldPackages/
 topeServer.wixobj
 topeServer.wixpdb
+*.log
