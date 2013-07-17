@@ -101,7 +101,8 @@ namespace TopeServer
 
                 SynchActionResponse.ActionList payload = new SynchActionResponse.ActionList();
                 payload.actions = TopeActionDAO.getAllActions();
-                topeRes.setPayload(payload);                
+                payload.mac = NetworkUtils.GetMacAddress();
+                topeRes.setPayload(payload);
 
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;

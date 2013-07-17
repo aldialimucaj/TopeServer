@@ -11,6 +11,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using TopeServer.al.aldi.utils.general;
+using System.Net.NetworkInformation;
 
 namespace TopeServer.al.aldi.utils.security
 {
@@ -130,12 +131,51 @@ namespace TopeServer.al.aldi.utils.security
         public static String getIpAddress()
         {
             var hostEntry = Dns.GetHostEntry(Dns.GetHostName());
-            var ip = (
-                       from addr in hostEntry.AddressList
-                       where addr.AddressFamily.ToString() == "InterNetwork"
-                       select addr.ToString()
-                ).FirstOrDefault();
-            return ip;
+            var ipAddress = "<NO-IP>";
+            foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                {
+                    if (ni.Description.ToLower().Contains("virtual") || ni.Description.ToLower().Contains("vm"))
+                    {
+                        continue;
+                    }
+                    Console.WriteLine(ni.Name);
+                    foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
+                    {
+                        if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                        {
+                            return ip.Address.ToString();
+                        }
+                    }
+                }
+            }
+
+            return ipAddress;
+        }
+
+        /// <summary>
+        /// Finds the MAC address of the first operation NIC found.
+        /// </summary>
+        /// <returns>The MAC address.</returns>
+        public static string GetMacAddress()
+        {
+            string macAddresses = string.Empty;
+
+            foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (nic.Description.ToLower().Contains("virtual") || nic.Description.ToLower().Contains("vm"))
+                {
+                    continue;
+                }
+                if (nic.OperationalStatus == OperationalStatus.Up)
+                {
+                    macAddresses = string.Join(":", nic.GetPhysicalAddress().GetAddressBytes().Select(b => b.ToString("X2"))); 
+                    break;
+                }
+            }
+
+            return macAddresses;
         }
 
         public static string BindCertificateCmd(X509Certificate2 cert, int port)

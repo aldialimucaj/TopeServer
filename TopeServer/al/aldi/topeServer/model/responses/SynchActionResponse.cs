@@ -10,10 +10,12 @@ namespace TopeServer.al.aldi.topeServer.model.responses
         public class ActionList
         {
             public List<TopeAction> actions {get; set;}
+            public String mac { get; set; }
 
             public ActionList()
             {
                 actions = new List<TopeAction>();
+                mac = string.Empty;
             }
         }
     }

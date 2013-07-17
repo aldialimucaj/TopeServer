@@ -99,5 +99,13 @@ namespace TopeServer.al.aldi.topeServer.control.executors
             topeResponse.success = true;
             return topeResponse;
         }
+
+        public static TopeResponse wakeOnLan(TopeRequest arg)
+        {
+            // this is a dummy, method will never be executed
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = true;
+            return topeResponse;
+        }
     }
 }
