@@ -132,21 +132,16 @@ namespace TopeServer.al.aldi.utils.security
         {
             var hostEntry = Dns.GetHostEntry(Dns.GetHostName());
             var ipAddress = "<NO-IP>";
-            foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+            foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces().ToList().FindAll
+                (n => (n.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || n.NetworkInterfaceType == NetworkInterfaceType.Ethernet) &&
+                (!n.Description.ToLower().Contains("virtual") || n.Description.ToLower().Contains("vm")))
+                )
             {
-                if (ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
                 {
-                    if (ni.Description.ToLower().Contains("virtual") || ni.Description.ToLower().Contains("vm"))
+                    if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                     {
-                        continue;
-                    }
-                    Console.WriteLine(ni.Name);
-                    foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
-                    {
-                        if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                        {
-                            return ip.Address.ToString();
-                        }
+                        return ip.Address.ToString();
                     }
                 }
             }
@@ -162,17 +157,11 @@ namespace TopeServer.al.aldi.utils.security
         {
             string macAddresses = string.Empty;
 
-            foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+            foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces().ToList().FindAll
+                (n => (!n.Description.ToLower().Contains("virtual") || !n.Description.ToLower().Contains("vm")) && ((n.OperationalStatus == OperationalStatus.Up))))
             {
-                if (nic.Description.ToLower().Contains("virtual") || nic.Description.ToLower().Contains("vm"))
-                {
-                    continue;
-                }
-                if (nic.OperationalStatus == OperationalStatus.Up)
-                {
-                    macAddresses = string.Join(":", nic.GetPhysicalAddress().GetAddressBytes().Select(b => b.ToString("X2"))); 
-                    break;
-                }
+                macAddresses = string.Join(":", nic.GetPhysicalAddress().GetAddressBytes().Select(b => b.ToString("X2")));
+                break;
             }
 
             return macAddresses;
@@ -180,8 +169,8 @@ namespace TopeServer.al.aldi.utils.security
 
         public static string BindCertificateCmd(X509Certificate2 cert, int port)
         {
-            
-            
+
+
             var assembly = typeof(Program).Assembly;
             var attribute = (GuidAttribute)assembly.GetCustomAttributes(typeof(GuidAttribute), true)[0];
             var id = attribute.Value;
