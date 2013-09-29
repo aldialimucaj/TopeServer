@@ -105,15 +105,16 @@
             <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
         </UI>
         <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Tope Server" />
-        <PropertyRef Id="NETFRAMEWORK40FULL" />
-        <Condition Message="This application requires .NET Framework 4.0.">Installed OR NETFRAMEWORK40FULL</Condition>
+        <PropertyRef Id="NETFRAMEWORK40FULL"/>
+		<PropertyRef Id="NETFRAMEWORK45"/>
+        <Condition Message="This application requires .NET Framework 4.0 or higher">Installed OR NETFRAMEWORK40FULL OR NETFRAMEWORK45</Condition>
         <Icon Id="StartMenuIcon.exe" SourceFile="TopeServer\bin\Release\TopeServer.exe" />
         <Property Id="ASSISTANCE_START_VIA_REGISTRY">1</Property>
         <Property Id="WixShellExecTarget" Value="[RELEASE]TopeServer.exe" />
 		<CustomAction Id="CreateScheduledTask" 
 			Return="check"
 			Directory="RELEASE"
-			ExeCommand="&quot;[SystemFolder]SCHTASKS.EXE&quot; /CREATE /F /SC onlogon /TN &quot;Tope Task&quot; /RL highest /TR &quot;[RELEASE]TopeServer.exe&quot; /RU [%USERDOMAIN]\[LogonUser]" 
+			ExeCommand="&quot;[SystemFolder]SCHTASKS.EXE&quot; /CREATE /F /SC onlogon /TN &quot;Tope Task&quot; /RL highest /TR &quot;&#92;&quot;[RELEASE]TopeServer.exe&#92;&quot;&quot; /RU [%USERDOMAIN]\[LogonUser]" 
 			Impersonate="no"
 			Execute="deferred"
 			/>
@@ -128,11 +129,8 @@
 		<InstallExecuteSequence>
          <Custom Action="CreateScheduledTask" After="InstallFiles">NOT Installed</Custom>
 		 <Custom Action="DeleteUpdateTask" Before="RemoveFiles">Installed</Custom>
-      </InstallExecuteSequence>
-	  <MajorUpgrade
-		Schedule="afterInstallValidate"
-		DowngradeErrorMessage="A later version of Tope Server is already installed. Setup will now exit."
-		/>
+		</InstallExecuteSequence>
+
     </Product>
 	
 </Wix>
