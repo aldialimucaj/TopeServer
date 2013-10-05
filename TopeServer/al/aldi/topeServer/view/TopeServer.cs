@@ -82,10 +82,10 @@ namespace TopeServer
             justThisUser = new MenuItem();
             passwordProtectedUser = new MenuItem();
 
-            mainToolbarIconMenu.MenuItems.AddRange(new MenuItem[] { exit, securityMenu, generalMenu, ipAddress });
-
-            exit.Index = 0;
-            exit.Text = "E&xit";
+            mainToolbarIconMenu.MenuItems.AddRange(new MenuItem[] { securityMenu, generalMenu, ipAddress, exit });
+            
+            //exit.Index = 0;
+            exit.Text = "Exit";
             exit.Click += new System.EventHandler(this.exit_Click);
 
 
