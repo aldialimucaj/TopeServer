@@ -7,19 +7,23 @@
     lightArgs: "<projectname>.wixobj" -out "<projectname>.msi" -ext WixUIExtension -ext WixUtilExtension -ext WixNetFxExtension
 -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <?define UpgradeCode = "611EFDF4-B339-49A0-AE1F-D1172B3878BB" ?>
+    <?define UpgradeCode = "611EFDF4-B339-49A0-AE1F-D1172B3878BC" ?>
     <?define ProductTitle = "Tope Server" ?>
     <?define ProductName = "TopeServer" ?>
-    <?define ProductManufacturer = "Aldi Alimucaj" ?>
+    <?define ProductManufacturer = "Aldi Alimucaj" ?>    
     <?define VersionMin="0.0.1" ?> 
     <?define VersionMax="1.0.0" ?>
+    
+    
         
-    <Product Id="611EFDF4-B339-49A0-AE1F-D1172B3878BE" Name="$(var.ProductTitle)" Language="1033" Version="0.2.2" Manufacturer="$(var.ProductManufacturer)" UpgradeCode="$(var.UpgradeCode)">
+    <Product Id="*" Name="$(var.ProductTitle)" Language="1033" Version="!(bind.FileVersion.TOPESERVER.EXE)" Manufacturer="$(var.ProductManufacturer)" UpgradeCode="$(var.UpgradeCode)">
         <Package Description="TopeServer is a host for the Tope architecture." Manufacturer="$(var.ProductManufacturer)" Comments="$(var.ProductManufacturer)" InstallerVersion="300" Compressed="yes" />
         <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
         <Icon Id="StartMenuIcon.exe" SourceFile="TopeServer\bin\Release\TopeServer.exe" />
         <MajorUpgrade  DowngradeErrorMessage="A later version of $(var.ProductTitle) is already installed. Setup will now exit."/> 
         <Property Id="TopeServerFullPath" Value="[#RELEASE]TopeServer.exe" />
+        <Icon Id="icon.ico" SourceFile="TopeServer\tope_server.ico"/>
+        <Property Id="ARPPRODUCTICON" Value="icon.ico" />
         
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="ProgramFilesFolder" Name="PFiles">
