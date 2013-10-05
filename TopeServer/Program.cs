@@ -37,6 +37,7 @@ namespace TopeServer
         public const String FILE_CERT_NAME                  = "TopeCert.pfx";
         public const String FILE_CERT_PASSWORD              = "TopePassword";
         public const String TOPE_CERT_NAME                  = "TopeServerCert";
+        public const String TOPE_UPDATE_URL                 = "http://aldi.al/index.php/products/9-tope/3-tope-server";
 
         public const String INI_VAR_DEFAULT                 = "default";
         public const String INI_VAR_URL_BOUND               = "url_bound";
@@ -46,6 +47,7 @@ namespace TopeServer
         public const String INI_VAR_DB_CREATED              = "db_created";
         public const String INI_VAR_SEC_ONLY_ACCTUAL_USER   = "only_actual_user";
         public const String INI_VAR_G_SHOW_POPUP            = "show_popup_msg";
+        public const String INI_VAR_UPDATE_URL              = "update_url";
 
         public const String TRUE                            = "true";
         public const String FALSE                           = "false";
@@ -133,6 +135,7 @@ namespace TopeServer
                 propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_DEFAULT, TRUE);
                 propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_SECURITY, INI_VAR_PWD_PROTECTED, TRUE);
                 propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_G_SHOW_POPUP, TRUE);
+                propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_UPDATE_URL, TOPE_UPDATE_URL);
             }
         }
 

@@ -22,6 +22,9 @@ namespace TopeServer
         NotifyIcon toolbarNotifyIcon;
         ContextMenu mainToolbarIconMenu;
         MenuItem exit;
+
+        MenuItem updates;
+
         MenuItem ipAddress;
 
         MenuItem generalMenu;
@@ -64,6 +67,7 @@ namespace TopeServer
             mainToolbarIconMenu = new ContextMenu();
             toolbarNotifyIcon.ContextMenu = this.mainToolbarIconMenu;
             exit = new MenuItem();
+            updates = new MenuItem();
             ipAddress = new MenuItem();
 
             generalMenu = new MenuItem();
@@ -82,12 +86,14 @@ namespace TopeServer
             justThisUser = new MenuItem();
             passwordProtectedUser = new MenuItem();
 
-            mainToolbarIconMenu.MenuItems.AddRange(new MenuItem[] { securityMenu, generalMenu, ipAddress, exit });
+            mainToolbarIconMenu.MenuItems.AddRange(new MenuItem[] { updates, securityMenu, generalMenu, ipAddress, exit });
             
             //exit.Index = 0;
             exit.Text = "Exit";
             exit.Click += new System.EventHandler(this.exit_Click);
 
+            updates.Text = "Check Updates";
+            updates.Click += new System.EventHandler(this.updates_Click);
 
             ipAddress.Text = NetworkUtils.getIpAddress() + ":" + hostPort;
             ipAddress.Enabled = false;
@@ -111,6 +117,12 @@ namespace TopeServer
 
             toolbarNotifyIcon.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
             
+        }
+
+        private void updates_Click(object sender, EventArgs e)
+        {
+            String updateUrl = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_GENERAL, Program.INI_VAR_UPDATE_URL);
+            ProgCommandExecutor.openBrowserWithUrl(updateUrl);
         }
 
         public void showIcon(String msg = "")

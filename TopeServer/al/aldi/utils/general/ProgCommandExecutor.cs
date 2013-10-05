@@ -14,7 +14,10 @@ namespace TopeServer.al.aldi.utils.general
             Process process = Process.Start(url);
             try
             {
-                Process.GetProcessById(process.Id);
+                if (null != process)
+                {
+                    Process.GetProcessById(process.Id);
+                }
             }
             catch (ArgumentException)
             {
