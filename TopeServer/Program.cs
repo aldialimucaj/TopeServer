@@ -133,7 +133,7 @@ namespace TopeServer
                 propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_DEFAULT, TRUE);
                 propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_HOST_PORT, Convert.ToString(FIREWALL_RULE_PORT));
                 propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_DEFAULT, TRUE);
-                propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_SECURITY, INI_VAR_PWD_PROTECTED, TRUE);
+                propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_SECURITY, INI_VAR_PWD_PROTECTED, FALSE);
                 propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_G_SHOW_POPUP, TRUE);
                 propertiesFile.IniWriteValue(IniFileUtil.INI_SECTION_GENERAL, INI_VAR_UPDATE_URL, TOPE_UPDATE_URL);
             }
