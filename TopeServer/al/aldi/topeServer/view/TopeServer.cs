@@ -40,7 +40,6 @@ namespace TopeServer
 
         public TopeServer()
         {
-            initVariables();
             InitViews();
 
             var container = TinyIoCContainer.Current;
@@ -216,6 +215,9 @@ namespace TopeServer
 
         private void TopeServer_Load(object sender, EventArgs e)
         {
+            // initialize the variables form TopeServer.ini file
+            initVariables();
+
             if (!NetworkUtils.checkPort(Program.FIREWALL_RULE_NAME, hostPort))
             {
                 NetworkUtils.openPort(Program.FIREWALL_RULE_NAME, Program.FIREWALL_RULE_DESC, hostPort);
