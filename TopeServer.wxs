@@ -69,6 +69,9 @@
                             <File Id="SQLITE.INTEROP.x64.DLL" Name="SQLite.Interop.dll" Source="TopeServer\bin\Release\x64\SQLite.Interop.dll" />
                         </Component>
                     </Directory>
+                    <Component Id="TOPESERVER.INI" Guid="79E91FD5-11F9-4B44-BA06-F33527D3DAFD">
+                        <File Id="TOPESERVER.INI" Name="TopeServer.ini" Source="TopeServer\TopeServer.ini" />
+                    </Component>					
                     <Component Id="TOPESERVER.EXE.CONFIG" Guid="06AB8C08-C427-4872-9D23-7EF5742A5D72">
                         <File Id="TOPESERVER.EXE.CONFIG" Name="TopeServer.exe.config" Source="TopeServer\bin\Release\TopeServer.exe.config" />
                     </Component>
@@ -102,6 +105,7 @@
             <ComponentRef Id="SYSTEM.DATA.SQLITE.LINQ.DLL" />
             <ComponentRef Id="SQLITE.INTEROP.x86.DLL" />
             <ComponentRef Id="SQLITE.INTEROP.x64.DLL" />
+			<ComponentRef Id="TOPESERVER.INI" />
             <ComponentRef Id="TOPESERVER.EXE.CONFIG" />
             <ComponentRef Id="TOPESERVER.EXE" />
             <ComponentRef Id="StartMenuShortcuts" />
