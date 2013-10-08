@@ -40,8 +40,6 @@ namespace TopeServer
 
         public TopeServer()
         {
-            InitViews();
-
             var container = TinyIoCContainer.Current;
             container.Register<IMessageDeliverer>(this);
         }
@@ -213,10 +211,14 @@ namespace TopeServer
             MessageBox.Show("Dobule Click - Still to be implemented");
         }
 
+        // <Start>
+        // Starting point for View when it get loaded
         private void TopeServer_Load(object sender, EventArgs e)
         {
             // initialize the variables form TopeServer.ini file
             initVariables();
+            
+            InitViews();
 
             if (!NetworkUtils.checkPort(Program.FIREWALL_RULE_NAME, hostPort))
             {
