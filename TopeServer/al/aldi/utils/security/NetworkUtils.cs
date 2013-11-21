@@ -158,7 +158,7 @@ namespace TopeServer.al.aldi.utils.security
             string macAddresses = string.Empty;
 
             foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces().ToList().FindAll
-                (n => (!n.Description.ToLower().Contains("virtual") || !n.Description.ToLower().Contains("vm")) && ((n.OperationalStatus == OperationalStatus.Up))))
+                (n => (!n.Description.ToLower().Contains("virtual") && !n.Description.ToLower().Contains("vm")) && ((n.OperationalStatus == OperationalStatus.Up))))
             {
                 macAddresses = string.Join(":", nic.GetPhysicalAddress().GetAddressBytes().Select(b => b.ToString("X2")));
                 break;
