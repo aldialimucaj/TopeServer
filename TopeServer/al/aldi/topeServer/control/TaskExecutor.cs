@@ -73,10 +73,12 @@ namespace TopeServer.al.aldi.topeServer.control
                     var exeSuccess = d(request);
 
                     response.success = exeSuccess.success;
+                    
                     if (response.success)
-                    {
                         response.message = "Task executed successfully";
-                    }
+                    else
+                        response.message = exeSuccess.message;
+
                     response.payload = exeSuccess.payload;
                 }
                 catch (Exception e)
@@ -105,7 +107,7 @@ namespace TopeServer.al.aldi.topeServer.control
 
         private bool isItWorthWaiting()
         {
-            return !(timeToWait != 0 || timeToExecute != null);
+            return !(timeToWait != 0 || (timeToExecute != null) && timeToExecute != new DateTime());
         }
     }
 

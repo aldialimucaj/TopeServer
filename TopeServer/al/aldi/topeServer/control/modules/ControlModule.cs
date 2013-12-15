@@ -51,6 +51,7 @@ namespace TopeServer
 
                     showMsg(ta.method);
                     TopeRequest request = ModuleUtils.validate(this);
+                    request.nancyRequest = this.Request;
                     try
                     {
                         taskManager.addRequest(request);

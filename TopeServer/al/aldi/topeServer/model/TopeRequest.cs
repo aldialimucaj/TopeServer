@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Nancy;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -37,6 +38,8 @@ namespace TopeServer.al.aldi.topeServer.model
         public String message { get; set; }
         [JsonProperty()]
         public DateTime date { get; set; }
+        [NotMapped]
+        public Request nancyRequest { get; set; }
         [JsonProperty()]
         public DateTime timeToExecute { get; set; }
         [JsonProperty()]

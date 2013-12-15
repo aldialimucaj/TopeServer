@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Nancy;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -77,6 +79,38 @@ namespace TopeServer.al.aldi.topeServer.control.executors
             TopeResponse topeResponse = new TopeResponse();
             topeResponse.success = ProgCommandExecutor.appInputSimulation(request.arg0);
             return topeResponse;
+        }
+
+        public static TopeResponse uploadFile(TopeRequest request)
+        {
+            TopeResponse topeResponse = new TopeResponse();
+            topeResponse.success = request.nancyRequest.Files.Count() != 0;
+            HttpFile file = request.nancyRequest.Files.FirstOrDefault();
+            if (topeResponse.success)
+            {
+                try
+                {
+                    String destination = IOUtils.GetUserHomeFolder() + "\\" + file.Name;
+                    if (File.Exists(destination) && !Boolean.Parse(request.arg0))
+                    {
+                        topeResponse.success = false;
+                        topeResponse.message = file.Name + " Exists";
+                    }
+                    else
+                    {
+                        Stream output = File.OpenWrite(destination);
+                        IOUtils.CopyStream(file.Value, output);
+                        topeResponse.success = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    TopeLogger.Log(e.Message);
+                    topeResponse.success = false;
+                }
+            }
+            return topeResponse;
+
         }
     }
 }

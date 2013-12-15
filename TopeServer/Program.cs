@@ -33,11 +33,12 @@ namespace TopeServer
 
         public const String FIREWALL_RULE_NAME              = "TopeClient Firewall Rule";
         public const String FIREWALL_RULE_DESC              = "TopeClient Firewall Rule";
+        public const String FOLDER_NAME_UPLOAD              = "Tope";
         public const String FILE_INI_GENERAL                = "/TopeServer.ini";
         public const String FILE_CERT_NAME                  = "TopeCert.pfx";
         public const String FILE_CERT_PASSWORD              = "TopePassword";
         public const String TOPE_CERT_NAME                  = "TopeServerCert";
-        public const String TOPE_UPDATE_URL                 = "http://aldi.al/index.php/products/9-tope/3-tope-server";
+        public const String TOPE_UPDATE_URL                 = "http://aldi.al/TopeServer/";
 
         public const String INI_VAR_DEFAULT                 = "default";
         public const String INI_VAR_URL_BOUND               = "url_bound";
