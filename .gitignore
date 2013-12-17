@@ -1,0 +1,4 @@
+*.wix*
+*.log
+*.suo
+TopeServer/
