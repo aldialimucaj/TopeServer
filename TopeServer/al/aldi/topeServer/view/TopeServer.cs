@@ -13,6 +13,7 @@ using Nancy.Hosting.Self;
 using TopeServer.al.aldi.topeServer.view;
 using Nancy.TinyIoc;
 using TopeServer.al.aldi.utils.general;
+using System.Diagnostics;
 
 namespace TopeServer
 {
@@ -29,6 +30,7 @@ namespace TopeServer
 
         MenuItem generalMenu;
         MenuItem showPopupMsg;
+        MenuItem openUploadFolder;
 
         MenuItem securityMenu;
         MenuItem initSecurity;
@@ -72,13 +74,17 @@ namespace TopeServer
             generalMenu = new MenuItem();
             generalMenu.Text = "General";
             showPopupMsg = new MenuItem();
+            openUploadFolder = new MenuItem();
 
             showPopupMsg.Text = "Show Popup Messages";
             showPopupMsg.Click += new System.EventHandler(this.showPopupMsg_Click);
             String showPopupMsgChecked = propertiesFile.IniReadValue(IniFileUtil.INI_SECTION_GENERAL, Program.INI_VAR_G_SHOW_POPUP);
             showPopupMsg.Checked = showPopupMsgChecked.Equals(Program.TRUE);
 
-            generalMenu.MenuItems.AddRange(new MenuItem[] { showPopupMsg });
+            openUploadFolder.Text = "Open Upload Folder";
+            openUploadFolder.Click += new System.EventHandler((s, e) => { Process.Start(IOUtils.GetUserHomeFolder()); });
+
+            generalMenu.MenuItems.AddRange(new MenuItem[] { showPopupMsg, openUploadFolder });
             
             securityMenu = new MenuItem();
             initSecurity = new MenuItem();

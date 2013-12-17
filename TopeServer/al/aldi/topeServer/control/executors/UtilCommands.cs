@@ -91,7 +91,7 @@ namespace TopeServer.al.aldi.topeServer.control.executors
                 try
                 {
                     String destination = IOUtils.GetUserHomeFolder() + "\\" + file.Name;
-                    if (File.Exists(destination) && !Boolean.Parse(request.arg0))
+                    if (File.Exists(destination) && (!String.IsNullOrEmpty(request.arg0) && !Boolean.Parse(request.arg0)))
                     {
                         topeResponse.success = false;
                         topeResponse.message = file.Name + " Exists";
