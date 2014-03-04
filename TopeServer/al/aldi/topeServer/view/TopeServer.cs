@@ -241,11 +241,13 @@ namespace TopeServer
             {
                 nancy.Start();
                 showPopup("Tope Server started", NetworkUtils.getIpAddress() + ":" + hostPort);
+                TopeLogger.Log("Tope Server started on " + NetworkUtils.getIpAddress() + ":" + hostPort);
                 /* init the messangers */
             }
             catch (System.Net.HttpListenerException excp1)
             {
                 MessageBox.Show("Server cound not be started. Port in use!\n"+excp1.Message);
+                TopeLogger.Log("Server cound not be started. Port in use!\n" + excp1.Message);
             }
         }
 

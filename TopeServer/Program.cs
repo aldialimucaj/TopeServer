@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace TopeServer
 {
     class Program
     {
+        public const String LOG_TAG = "Tope Sever";
+        public const String LOG_APP = "Application";
 
         /* Port switching for debugging purposes */
 #if DEBUG
@@ -63,8 +66,17 @@ namespace TopeServer
         {
             if (WIDNOWS_FORM)
             {
-                Application.Run(ts);
-                ts.showIcon();
+                try
+                {
+                    Application.Run(ts);
+                    ts.showIcon();
+                    TopeLogger.Log("Tope Server started successfully");
+                }
+                catch (Exception e)
+                {
+                    TopeLogger.Error(e.StackTrace);
+                }
+                
             }
             else
             {
@@ -198,11 +210,25 @@ namespace TopeServer
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                if (!EventLog.SourceExists(LOG_TAG))
+                {
+                    EventLog.CreateEventSource(LOG_TAG, LOG_APP);
+                }
 
                 Program p = new Program();
-                p.readParameters();
-                p.startTaskManager();
-                p.startServer();
+                try
+                {
+                    p.readParameters();
+                    TopeLogger.Log("Starting parameters loaded successfully");
+                    p.startTaskManager();
+                    TopeLogger.Log("Task Manager started successfully");
+                    p.startServer();
+                    TopeLogger.Log("Server stopping...");
+                }
+                catch (Exception e)
+                {
+                    TopeLogger.Error(e.StackTrace);
+                }
             }
             else
             {

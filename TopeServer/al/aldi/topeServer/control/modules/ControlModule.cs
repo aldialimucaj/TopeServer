@@ -19,6 +19,7 @@ using System.Reflection;
 using System.Linq.Expressions;
 using TopeServer.al.aldi.topeServer.model.responses;
 using TopeServer.al.aldi.utils.general;
+using System.Diagnostics;
 
 namespace TopeServer
 {
@@ -27,7 +28,7 @@ namespace TopeServer
         public const String MODULE_NAME = "Tope Server";
         public IMessageDeliverer deliverer;
         IniFileUtil propertiesFile = new IniFileUtil(ProgramAdministration.getProgramPath() + Program.FILE_INI_GENERAL);
-               
+
         public ControlModule()
         {
             autoInitCommands();
@@ -38,7 +39,7 @@ namespace TopeServer
             setDeliverer(mdl);
         }
 
-        
+
 
         private void autoInitCommands()
         {
@@ -52,37 +53,35 @@ namespace TopeServer
                     showMsg(ta.method);
                     TopeRequest request = ModuleUtils.validate(this);
                     request.nancyRequest = this.Request;
+                    TopeResponseNegotiator nego = null;
                     try
                     {
                         taskManager.addRequest(request);
-                    }
-                    catch (Exception e)
-                    {
-                        TopeLogger.Log(e.StackTrace);
-                    }
+                        TopeLogger.Log(request.method + " Request added to the task manager");
 
-                    /* starting execution */
-                    ITaskExecutor taskExecutor = new TaskExecutor();
-                    Type t = Type.GetType(ta.module);
-                    MethodInfo method = t.GetMethod(ta.method, BindingFlags.Static | BindingFlags.Public);
-                    var input = Expression.Parameter(typeof(TopeRequest), "input");
-                    Func<TopeRequest, TopeResponse> result = Expression.Lambda<Func<TopeRequest, TopeResponse>>(Expression.Call(method, input), input).Compile();
-                    var topeRes = taskExecutor.Execute(result, request);
-                    /* execution finished */
+                        /* starting execution */
+                        ITaskExecutor taskExecutor = new TaskExecutor();
+                        Type t = Type.GetType(ta.module);
+                        MethodInfo method = t.GetMethod(ta.method, BindingFlags.Static | BindingFlags.Public);
+                        var input = Expression.Parameter(typeof(TopeRequest), "input");
+                        Func<TopeRequest, TopeResponse> result = Expression.Lambda<Func<TopeRequest, TopeResponse>>(Expression.Call(method, input), input).Compile();
+                        var topeRes = taskExecutor.Execute(result, request);
+                        /* execution finished */
 
-                    /* updating the request */
-                    request.success = topeRes.isSuccessful();
-                    request.executed++;
-                    try
-                    {
+                        /* updating the request */
+                        request.success = topeRes.isSuccessful();
+                        TopeLogger.Log(request.method + " Request executed with success: " + request.success);
+                        request.executed++;
+
                         taskManager.updateRequest(request);
+                        TopeLogger.Log(request.method + " Request updated in task manager");
+                        nego = new TopeResponseNegotiator(Negotiate, topeRes);
                     }
                     catch (Exception e)
                     {
-                        TopeLogger.Log(e.StackTrace);
+                        TopeLogger.Error(e.StackTrace);
                     }
 
-                    TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                     return nego.Response;
                 };
             }
@@ -115,7 +114,7 @@ namespace TopeServer
             /* ****************************** */
 
             /* ************ INPUT ************ */
-            
+
             Get["/os/lockInput"] = Post["/os/lockInput"] = _ => // lock screen
             {
                 showMsg("Lock Input");
@@ -173,7 +172,7 @@ namespace TopeServer
                 TopeTestResponse.TestClassWithStringMessage payload = new TopeTestResponse.TestClassWithStringMessage();
                 payload.testMessage = "master of generics";
                 topeRes.setPayload(payload);
-                
+
                 TopeResponseNegotiator nego = new TopeResponseNegotiator(Negotiate, topeRes);
                 return nego.Response;
 
@@ -202,7 +201,7 @@ namespace TopeServer
         public TopeResponse returnTrue(TopeRequest request)
         {
             TopeResponse topeResponse = new TopeResponse();
-            showMsg("TestMsg: "+request.message);
+            showMsg("TestMsg: " + request.message);
             topeResponse.success = true;
             return topeResponse;
         }
