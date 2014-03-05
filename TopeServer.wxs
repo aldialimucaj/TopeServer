@@ -10,22 +10,18 @@
     <?define UpgradeCode = "611EFDF4-B339-49A0-AE1F-D1172B3878BC" ?>
     <?define ProductTitle = "Tope Server" ?>
     <?define ProductName = "TopeServer" ?>
-    <?define ProductManufacturer = "Aldi Alimucaj" ?>    
-    <?define VersionMin="0.0.1" ?> 
+    <?define ProductManufacturer = "Aldi Alimucaj" ?>
+    <?define VersionMin="0.0.1" ?>
     <?define VersionMax="1.0.0" ?>
-    
-    
-        
     <Product Id="*" Name="$(var.ProductTitle)" Language="1033" Version="!(bind.FileVersion.TOPESERVER.EXE)" Manufacturer="$(var.ProductManufacturer)" UpgradeCode="$(var.UpgradeCode)">
         <Package Description="TopeServer is a host for the Tope architecture." Manufacturer="$(var.ProductManufacturer)" Comments="$(var.ProductManufacturer)" InstallerVersion="300" Compressed="yes" />
         <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
         <Icon Id="StartMenuIcon.exe" SourceFile="TopeServer\bin\Release\TopeServer.exe" />
-        <MajorUpgrade  DowngradeErrorMessage="A later version of $(var.ProductTitle) is already installed. Setup will now exit."/> 
+        <MajorUpgrade DowngradeErrorMessage="A later version of $(var.ProductTitle) is already installed. Setup will now exit." />
         <Property Id="TopeServerFullPath" Value="[#RELEASE]TopeServer.exe" />
-        <Icon Id="icon.ico" SourceFile="TopeServer\tope_server.ico"/>
+        <Icon Id="icon.ico" SourceFile="TopeServer\tope_server.ico" />
         <Property Id="ARPPRODUCTICON" Value="icon.ico" />
         <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
-        
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="ProgramFilesFolder" Name="PFiles">
                 <Directory Id="RELEASE" Name="TopeServer">
@@ -56,6 +52,9 @@
                     <Component Id="SYSTEM.DATA.SQLITE.DLL" DiskId="1" Guid="110D5EF6-27BA-409A-A091-BFE785A58F2F">
                         <File Id="SYSTEM.DATA.SQLITE.DLL" Name="System.Data.SQLite.dll" Source="TopeServer\bin\Release\System.Data.SQLite.dll" />
                     </Component>
+                    <Component Id="SYSTEM.DATA.SQLITE.EF6.DLL" DiskId="1" Guid="EB5A9FAB-FC78-4339-B0C0-D26677BC477D">
+                        <File Id="SYSTEM.DATA.SQLITE.EF6.DLL" Name="System.Data.SQLite.EF6.dll" Source="TopeServer\bin\Release\System.Data.SQLite.EF6.dll" />
+                    </Component>
                     <Component Id="SYSTEM.DATA.SQLITE.LINQ.DLL" DiskId="1" Guid="27416614-0B4A-4690-B7D7-B855AFC2AECF">
                         <File Id="SYSTEM.DATA.SQLITE.LINQ.DLL" Name="System.Data.SQLite.Linq.dll" Source="TopeServer\bin\Release\System.Data.SQLite.Linq.dll" />
                     </Component>
@@ -71,7 +70,7 @@
                     </Directory>
                     <Component Id="TOPESERVER.INI" Guid="79E91FD5-11F9-4B44-BA06-F33527D3DAFD">
                         <File Id="TOPESERVER.INI" Name="TopeServer.ini" Source="TopeServer\TopeServer.ini" />
-                    </Component>					
+                    </Component>
                     <Component Id="TOPESERVER.EXE.CONFIG" Guid="06AB8C08-C427-4872-9D23-7EF5742A5D72">
                         <File Id="TOPESERVER.EXE.CONFIG" Name="TopeServer.exe.config" Source="TopeServer\bin\Release\TopeServer.exe.config" />
                     </Component>
@@ -102,49 +101,30 @@
             <ComponentRef Id="ENTITYFRAMEWORK.DLL" />
             <ComponentRef Id="ENTITYFRAMEWORK.XML" />
             <ComponentRef Id="SYSTEM.DATA.SQLITE.DLL" />
+            <ComponentRef Id="SYSTEM.DATA.SQLITE.EF6.DLL" />
             <ComponentRef Id="SYSTEM.DATA.SQLITE.LINQ.DLL" />
             <ComponentRef Id="SQLITE.INTEROP.x86.DLL" />
             <ComponentRef Id="SQLITE.INTEROP.x64.DLL" />
-			<ComponentRef Id="TOPESERVER.INI" />
+            <ComponentRef Id="TOPESERVER.INI" />
             <ComponentRef Id="TOPESERVER.EXE.CONFIG" />
             <ComponentRef Id="TOPESERVER.EXE" />
             <ComponentRef Id="StartMenuShortcuts" />
         </Feature>
-        
         <UI>
             <UIRef Id="WixUI_Minimal" />
             <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
         </UI>
-        
         <Property Id="WixShellExecTarget" Value="[RELEASE]TopeServer.exe" />
         <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
-        
         <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Tope Server" />
-        <PropertyRef Id="NETFRAMEWORK40FULL"/>
-        <PropertyRef Id="NETFRAMEWORK45"/>
+        <PropertyRef Id="NETFRAMEWORK40FULL" />
+        <PropertyRef Id="NETFRAMEWORK45" />
         <Condition Message="This application requires .NET Framework 4.0 or higher">Installed OR NETFRAMEWORK40FULL OR NETFRAMEWORK45</Condition>
-        
-        
-        <CustomAction Id="CreateScheduledTask" 
-            Return="check"
-            Directory="RELEASE"
-            ExeCommand="&quot;[SystemFolder]SCHTASKS.EXE&quot; /CREATE /F /SC onlogon /TN &quot;Tope Task&quot; /RL highest /TR &quot;&#92;&quot;[RELEASE]TopeServer.exe&#92;&quot;&quot; /RU [%USERDOMAIN]\[LogonUser]" 
-            Impersonate="no"
-            Execute="deferred"
-            />
-        <CustomAction Id="DeleteUpdateTask" 
-            Return="asyncNoWait"
-            Directory="RELEASE"
-            ExeCommand="&quot;[SystemFolder]SCHTASKS.EXE&quot; /Delete /F /TN &quot;Tope Task&quot;" 
-            Impersonate="no"
-            Execute="deferred"
-            />
-        
+        <CustomAction Id="CreateScheduledTask" Return="check" Directory="RELEASE" ExeCommand="&quot;[SystemFolder]SCHTASKS.EXE&quot; /CREATE /F /SC onlogon /TN &quot;Tope Task&quot; /RL highest /TR &quot;\&quot;[RELEASE]TopeServer.exe\&quot;&quot; /RU [%USERDOMAIN]\[LogonUser]" Impersonate="no" Execute="deferred" />
+        <CustomAction Id="DeleteUpdateTask" Return="asyncNoWait" Directory="RELEASE" ExeCommand="&quot;[SystemFolder]SCHTASKS.EXE&quot; /Delete /F /TN &quot;Tope Task&quot;" Impersonate="no" Execute="deferred" />
         <InstallExecuteSequence>
             <Custom Action="CreateScheduledTask" After="InstallFiles">NOT Installed</Custom>
             <Custom Action="DeleteUpdateTask" Before="RemoveFiles">Installed</Custom>
         </InstallExecuteSequence>
-
     </Product>
-    
 </Wix>
